@@ -1,0 +1,121 @@
+{% extends "layout_.twig.html" %}
+
+{% block content %}
+
+    <div class="container" style="margin-top:65px;">
+    		
+<div class="col-md-8">
+
+		
+
+		{% if invalidEmail == true %}
+	    	<div class="alert alert-danger bs-alert-old-docs">
+		 		 El correo escogido ya está en uso. ¿Has olvidado tu contraseña? Haz click <a href="#">aquí</a>
+			</div>
+			{% endif %}
+
+
+	<div class="panel panel-default panel-body">
+	    <h2>¿Eres nuevo en Sorteos?</h2>
+	    Registrate:
+	    <div class="col-sm-offset-2">
+	    	
+	    <form class="form-horizontal" role="form"  action="{{ path('register') }}" method="post">
+	    	<div class="row">
+		  		<div class="form-group">
+		    		<label for="inputUsuario" class="col-sm-3  control-label">Usuario</label>
+		    		<div class="col-sm-4">
+		      			<input type="text" class="form-control" id="inputUsuario" placeholder="Usuario" name = "nick" required>
+		    		</div>
+		  		</div>
+	  		</div>
+	  		<div class="row">
+	  			<div class="form-group">
+				    <label for="inputEmail" class="col-sm-3 control-label">Email</label>
+				    <div class="col-sm-4">
+				      <input type="email" class="form-control" id="inputEmail" name="email" required>
+				    </div>
+			  	</div>
+  			</div>
+		  <div class="row">
+			  <div class="form-group">
+			    <label for="inputPassword" class="col-sm-3 control-label">Contraseña</label>
+			    <div class="col-sm-4">
+			      <input type="password" class="form-control" id="inputPassword" name="password" required>
+			    </div>
+			  </div>
+		  </div>
+		  <div class="row">
+			  <div class="form-group">
+			    <label for="inputRepeatPassword" class="col-sm-3 control-label">Repetir contraseña</label>
+			    <div class="col-sm-4">
+			      <input type="password" equalto="#inputPassword" class="form-control" id="inputRepeatPassword" required>
+			    </div>
+			  </div>
+		  </div>
+		  <div class="row">
+			  <div class="form-group">
+			    <div class="col-md-7">
+			      <button type="submit" class="btn btn-primary btn-block">Registrate</button>
+			    </div>
+			  </div>
+		  </div>
+		</form>
+	</div>
+	</div>
+</div>
+<div class="col-md-4">
+{% if last_username is defined and error is defined and error == 'Bad credentials' %}
+	    <div class="alert alert-danger bs-alert-old-docs">
+		 	{{last_username}}<br>
+		 	{{error}}
+		</div>
+		{% endif %}
+	<div class="panel panel-default panel-body">
+	    <h2>Si ya tienes cuenta</h2>
+	    	Identificate:
+	    	<div class="col-sm-offset-1">
+	    	<form class="form-horizontal" role="form" action="{{ path('login_check') }}" method="post">
+		  		<div class="row">
+		  			<div class="form-group">
+					    <label for="inputEmail" class="col-sm-4 control-label">Email</label>
+					    <div class="col-sm-7">
+					      <input type="email" class="form-control" name="email" required>
+					    </div>
+				  	</div>
+	  			</div>
+				<div class="row">
+				  <div class="form-group">
+					    <label for="inputPassword" class="col-sm-4 control-label">Contraseña</label>
+					    <div class="col-sm-7">
+					      <input type="password" class="form-control" name="password" required>
+					    </div>
+					  </div>
+  			  	</div>
+
+  			  	<div class="row">
+				  	<div class="form-group">
+				  		<div class="col-sm-7">
+					    	<input type="checkbox" name="remember_me"> Recuerdame
+					    </div>
+					</div>
+  			  	</div>
+
+				<div class="row">
+					  <div class="form-group">
+					    <div class="col-md-11">
+					      <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+					    </div>
+					  </div>
+				</div>
+			</form>
+	</div>
+	</div>
+</div>
+		
+
+
+
+
+    </div><!--/.container-->
+{% endblock %}

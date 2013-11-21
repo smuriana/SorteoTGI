@@ -1,0 +1,36 @@
+{% extends "layout_.twig.html" %}
+
+{% block content %}
+<div class="container">
+<div class="col-md-12 row" style="margin-top:65px;">
+
+  {% for i in 0..7 %}
+
+  <div class="col-sm-6 col-md-3 panel">
+    <div class="thumbnail">
+    	<div class="panel-body">
+
+      		<img src="{{ app.request.basepath }}{{ ruffle.getPicture1 }}" alt="..." style="width: 200px; height: auto; border:2px solid gray;">
+          <div class="progress progress-striped active">
+            
+            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {% if ruffle.getBallots < 11 %}{{ ruffle.getSoldBallots * 10 }}{% else %}{{ ruffle.getSoldBallots }}{% endif %}%">
+              <span>Quedan {{ ruffle.getBallots-ruffle.getSoldBallots }} papeletas</span>
+            </div>
+          </div>
+ 
+        <h3>{{ ruffle.getTitle }}</h3>
+        <p>{{ ruffle.getShortDescription }}</p>
+        <p><a href="{{ path('descripcion') }}" class="btn btn-primary" role="button">Quiero saber más</a> </p>
+        </div>  
+      
+        <div class="panel-footer">
+        <span class="glyphicon glyphicon-time" style="margin-right:20%;"></span>Quedan {{ ruffle.getFinalDate|date("d") - "now"|date()  }} dias
+        
+        </div>
+      
+    </div>
+  </div>
+
+  {% endfor %}
+
+{% endblock %}
