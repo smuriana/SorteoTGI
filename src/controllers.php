@@ -83,6 +83,26 @@ $app->get('/login', function (Request $request) use ($app) {
 ->bind('login')
 ;
 
+$app->get('/perfil', function(Request $request) use($app){
+
+	
+	$user = $app['security']->getToken()->getUser();
+    
+    return $app['twig']->render('profile.twig.html', array(
+    	'name' => $user->getName(),
+    	'email'=> $user->getUsername()
+    	));
+
+})
+->bind('perfil')
+;
+
+$app->get('/hola', function(Request $request) use ($app){
+	return new Response("hola :)");
+})
+->bind('hola')
+;
+
 $app->post('/register', function(Request $request) use ($app){
 
 	$sql = "SELECT * FROM user WHERE username = ?";
