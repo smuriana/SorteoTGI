@@ -20,11 +20,11 @@
  
         <h3>{{ ruffle.getTitle }}</h3>
         <p>{{ ruffle.getShortDescription }}</p>
-        <p><a href="{{ path('descripcion') }}" class="btn btn-primary" role="button">Quiero saber más</a> </p>
+        <p><a href="{{ path('descripcion', {'id': ruffle.getId, 'title': ruffle.getTitle}) }}" class="btn btn-primary" role="button">Quiero saber más</a> </p>
         </div>  
       
         <div class="panel-footer">
-        <span class="glyphicon glyphicon-time" style="margin-right:20%;"></span>Quedan {{ ruffle.getFinalDate|date("d") - "now"|date()  }} dias
+        <span class="glyphicon glyphicon-time" style="margin-right:20%;"></span>Quedan {{ ruffle.getFinalDate|date("d/m/y") - "now"|date("d/m/y")  }} dias
         
         </div>
       

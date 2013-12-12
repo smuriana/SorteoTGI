@@ -43,18 +43,23 @@ $app->get('/index', function() use ($app){
 ->bind('index')
 ;
 
-$app->get('/descripcion', function() use ($app){
+$app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 
 	$user = $app['security']->getToken()->getUser();
-
+	$sql = "SELECT * FROM ruffle WHERE id = ".$id;//PELIGRO de seguridad!!! 
+	
+    $ruffles = $app['db']->fetchAll($sql);
+    $myRuffle = new Ruffle($ruffles[0]["id"], $ruffles[0]["create_date"], $ruffles[0]["user_id"], $ruffles[0]["short_description"], $ruffles[0]["description"], $ruffles[0]["status"],$ruffles[0]["bill"], $ruffles[0]["guarantee"], $ruffles[0]["init_date"], $ruffles[0]["final_date"], $ruffles[0]["ballots"], $ruffles[0]["price"], $ruffles[0]["picture1"], $ruffles[0]["picture2"], $ruffles[0]["picture3"], $ruffles[0]["tags"],$ruffles[0]["sold_ballots"],$ruffles[0]["title"]);
 	if(!is_object($user)){
 		return $app['twig']->render('descripcionSorteo.twig.html', array(
-		'name' => null
+		'name' => null,
+		'ruffle' => $myRuffle
 		));
 	}
 
 	return $app['twig']->render('descripcionSorteo.twig.html', array(
-		'name' => $user->getName()
+		'name' => $user->getName(),
+		'ruffle' => $myRuffle
 		));
 })
 ->bind('descripcion')
