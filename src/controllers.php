@@ -63,6 +63,14 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 ->bind('descripcion')
 ;
 
+$app->post('/buyTicket', function(Request $request) use($app){
+
+	$user = $app['security']->getToken()->getUser();
+	$app['db']->insert('ballot', array('id_user' => $user->getID(), 'id_ruffle' => $request->get('RuffleID'), 'number' => $request->get('number')));
+	return $app->redirect('index');
+})
+->bind('buyTicket');
+
 $app->get('/login', function (Request $request) use ($app) {
 
 	$user = $app['security']->getToken()->getUser();

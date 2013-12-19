@@ -78,7 +78,7 @@
 				  </table>
 				</div>
 
-								<button type="button" class="btn btn-success btn-block">Comprar ticket</button>
+								<button type="button" class="demo-confirm btn btn-success btn-block" id="buy" disabled>Comprar ticket</button>
 
 								<p class="text-muted"></p>
 				<span id="noSeconds" class="countdown"></span>
@@ -88,18 +88,25 @@
 		</div>
 	</div>
 </div>
+
+<form style="display: hidden" action="{{ path('buyTicket') }}" method="POST" id="form">
+  <input type="hidden" id="RuffleID" name="RuffleID" value="{{ruffle.getId}}"/>
+  <input type="hidden" id="number" name="number" value=""/>
+</form>
+
 <script type="text/javascript" >
-            $(document).ready(function() {        
-        $('.carousel').carousel()
-            });
+	$(document).ready(function() {        
+		$('.carousel').carousel()
+	});
 </script>  
 <script src="{{ app.request.basepath }}/js/jquery.countdown.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="{{ app.request.basepath }}/js/jquery.countdown-es.js" type="text/javascript" charset="utf-8"></script>
-  <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
+<link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
 <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex.css">
 <script src="{{ app.request.basepath }}/js/vex.js"></script>
 <script src="{{ app.request.basepath }}/js/vex.dialog.js"></script>
 <script type="text/javascript">
+
 $(function () {
 	var austDay = new Date();
 	austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
@@ -112,11 +119,9 @@ $('.demo-confirm').click(function(){
         message: '¡Estás a un sólo paso de comprar la/s papeleta/s!. ¿Quieres confirmar la compra?',
         className: 'vex-theme-default',
         callback: function(value) {
-        	$('.demo-confirm').html(value);
         	if(value==true){
-        		window.location.replace("http://stackoverflow.com");
+        		$("#form").submit();;
         	}
-            $('.demo-result-confirm').html('Callback value: <b>' + value + '</b>').show();
         }
     });
 });
@@ -133,8 +138,11 @@ $('.demo-confirm').click(function(){
 </script>
 <!-- Marcado de papeletas -->
 <script type="text/javascript">
-	$("[name='papeleta']").click(function(){  
-		$(this).toggleClass('btn-success');
+	$("[name='papeleta']").on("click",function(){  
+		$("[name='papeleta']").removeClass('btn-success');
+		$(this).addClass('btn-success');
+		$("#number").val($(this).html());
+		$("#buy").removeAttr('disabled');
 	});
 </script>
 
