@@ -182,7 +182,7 @@
 				  </table>
 				</div>
 
-								<button type="button" class="btn btn-success btn-block">Comprar ticket</button>
+								<button type="button" class="btn btn-success btn-block demo-confirm hs-brand-button">Comprar ticket</button>
 
 								<p class="text-muted"></p>
 				<span id="noSeconds" class="countdown"></span>
@@ -199,13 +199,31 @@
 </script>  
 <script src="{{ app.request.basepath }}/js/jquery.countdown.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="{{ app.request.basepath }}/js/jquery.countdown-es.js" type="text/javascript" charset="utf-8"></script>
-    </script>
-    <script type="text/javascript">
+<link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
+<link rel="stylesheet" href="{{ app.request.basepath }}/css/vex.css">
+<script src="{{ app.request.basepath }}/js/vex.js"></script>
+<script src="{{ app.request.basepath }}/js/vex.dialog.js"></script>
+<script type="text/javascript">
 $(function () {
 	var austDay = new Date();
 	austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
 	$('#year').text(austDay.getFullYear());
 	$('#noSeconds').countdown({until: austDay, format: 'dHMs'});
 });
+
+$('.demo-confirm').click(function(){
+    vex.dialog.confirm({
+        message: '¡Estás a un sólo paso de comprar la/s papeleta/s!. ¿Quieres confirmar la compra?',
+        className: 'vex-theme-default',
+        callback: function(value) {
+        	$('.demo-confirm').html(value);
+        	if(value==true){
+        		window.location.replace("http://stackoverflow.com");
+        	}
+            $('.demo-result-confirm').html('Callback value: <b>' + value + '</b>').show();
+        }
+    });
+});
+
 </script>
 {% endblock %}
