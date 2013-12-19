@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 4.0.10
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2013 a las 23:07:02
--- Versión del servidor: 5.5.32
--- Versión de PHP: 5.4.19
+-- Tiempo de generación: 19-12-2013 a las 18:19:16
+-- Versión del servidor: 5.6.14
+-- Versión de PHP: 5.5.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,29 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sorteos_db`
 --
-CREATE DATABASE IF NOT EXISTS `sorteos_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `sorteos_db`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ballot`
+--
+
+CREATE TABLE IF NOT EXISTS `ballot` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_ruffle` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `ballot`
+--
+
+INSERT INTO `ballot` (`id`, `id_user`, `id_ruffle`, `number`) VALUES
+(0, 28, 1, 1),
+(1, 28, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -33,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `ruffle` (
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
   `description` varchar(10000) NOT NULL,
+  `short_description` varchar(160) NOT NULL,
   `status` float NOT NULL,
   `bill` tinyint(1) NOT NULL,
   `guarantee` tinyint(1) NOT NULL,
@@ -53,8 +75,8 @@ CREATE TABLE IF NOT EXISTS `ruffle` (
 -- Volcado de datos para la tabla `ruffle`
 --
 
-INSERT INTO `ruffle` (`id`, `create_date`, `user_id`, `description`, `status`, `bill`, `guarantee`, `init_date`, `final_date`, `ballots`, `price`, `picture1`, `picture2`, `picture3`, `tags`, `sold_ballots`, `title`) VALUES
-(1, '2013-11-20 19:30:21', 28, 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.\r\n\r\nLo vendo por haber adquirido el nuevo nexus 5', 9, 0, 0, '2013-11-20 23:00:00', '2013-11-26 23:00:00', 100, 300, '/img/nexus1.jpg', '/img/nexus1.jpg', '/img/nexus1.jpg', 'nexus 4, móvil, smartphone', 42, 'Sorteo Nexus 4');
+INSERT INTO `ruffle` (`id`, `create_date`, `user_id`, `description`, `short_description`, `status`, `bill`, `guarantee`, `init_date`, `final_date`, `ballots`, `price`, `picture1`, `picture2`, `picture3`, `tags`, `sold_ballots`, `title`) VALUES
+(1, '2013-11-20 19:30:21', 28, 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.\n\nLo vendo por haber adquirido el nuevo nexus 5', 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.', 9, 0, 0, '2013-11-20 23:00:00', '2013-11-26 23:00:00', 100, 300, '/img/nexus1.jpg', '/img/nexus1.jpg', '/img/nexus1.jpg', 'nexus 4, móvil, smartphone', 42, 'Sorteo Nexus 4');
 
 -- --------------------------------------------------------
 

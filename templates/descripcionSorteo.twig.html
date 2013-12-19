@@ -60,129 +60,25 @@
 <div class="table-responsive" style="padding-top:10px; widht:100%;">
 				  <table class="table">
 					<tr>
-						<td><span class="tabla btn btn-danger disabled">0</span></td>
-						<td><span class="tabla btn btn-danger disabled">1</span></td>    
-						<td><span class="tabla btn btn-danger disabled">2</span></td>    
-						<td><span class="tabla btn btn-danger disabled">3</span></td>    
-						<td><span class="tabla btn btn-danger disabled">4</span></td>    
-						<td><span class="tabla btn btn-danger disabled">5</span></td>    
-						<td><span class="tabla btn btn-danger disabled">6</span></td>    
-						<td><span class="tabla btn btn-danger disabled">7</span></td>    
-						<td><span class="tabla btn btn-danger disabled">8</span></td>
-						<td><span class="tabla btn btn-danger disabled">9</span></td>
+					{% set arrayBallots = ruffle.getArrayBallots %}
+
+				  	{% for i in 0..ruffle.getBallots-1 %}
+						{% if (i % 10)==0 %}
+							</tr>
+							<tr>
+				  		{% endif %}
+				  		{% if i in arrayBallots %}
+				  			<td><span class="tabla btn btn-danger disabled">{{ i }}</span></td>
+				  		{% else %}
+				  			<td><span name="papeleta" class="tabla btn btn-primary">{{ i }}</span></td>
+				  		{% endif %}
+				    {% endfor %}
 					</tr>
-					<tr>
-						<td><span class="tabla btn btn-danger disabled">10</span></td>	
-						<td><span class="tabla btn btn-danger disabled">11</span></td>	    
-						<td><span class="tabla btn btn-success">12</span></td>	    
-						<td><span class="tabla btn btn-success">13</span></td>	    
-						<td><span class="tabla btn btn-success">14</span></td>	    
-						<td><span class="tabla btn btn-success">15</span></td>	    
-						<td><span class="tabla btn btn-success">16</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">17</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">18</span></td>	
-						<td><span class="tabla btn btn-danger disabled">19</span></td>	
-					</tr>
-					<tr>
-						<td><span class="tabla btn btn-danger disabled">20</span></td>	
-						<td><span class="tabla btn btn-danger disabled">21</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">22</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">23</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">24</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">25</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">26</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">27</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">28</span></td>	
-						<td><span class="tabla btn btn-danger disabled">29</span></td>	
-					</tr>
-					<tr>
-						<td><span class="tabla btn btn-danger disabled">30</span></td>	
-						<td><span class="tabla btn btn-danger disabled">31</span></td>	    
-						<td><span class="tabla btn btn-primary">32</span></td>	    
-						<td><span class="tabla btn btn-primary">33</span></td>	    
-						<td><span class="tabla btn btn-primary">34</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">35</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">36</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">37</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">38</span></td>	
-						<td><span class="tabla btn btn-danger disabled">39</span></td>	
-					</tr>
-					<tr>
-						<td><span class="tabla btn btn-primary">40</span></td>	
-						<td><span class="tabla btn btn-primary">41</span></td>	    
-						<td><span class="tabla btn btn-primary">42</span></td>	    
-						<td><span class="tabla btn btn-primary">43</span></td>	    
-						<td><span class="tabla btn btn-primary">44</span></td>	    
-						<td><span class="tabla btn btn-primary">45</span></td>	    
-						<td><span class="tabla btn btn-primary">46</span></td>	    
-						<td><span class="tabla btn btn-primary">47</span></td>	    
-						<td><span class="tabla btn btn-primary">48</span></td>	
-						<td><span class="tabla btn btn-primary">49</span></td>	
-					</tr>
-					<tr>
-						<td><span class="tabla btn btn-danger disabled">50</span></td>	
-						<td><span class="tabla btn btn-danger disabled">51</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">52</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">53</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">54</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">55</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">56</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">57</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">58</span></td>	
-						<td><span class="tabla btn btn-danger disabled">59</span></td>	
-					</tr>
-					<tr>
-						<td><span class="tabla btn btn-primary">60</span></td>	
-						<td><span class="tabla btn btn-primary">61</span></td>	    
-						<td><span class="tabla btn btn-primary">62</span></td>	    
-						<td><span class="tabla btn btn-primary">63</span></td>	    
-						<td><span class="tabla btn btn-primary">64</span></td>	    
-						<td><span class="tabla btn btn-primary">65</span></td>	    
-						<td><span class="tabla btn btn-primary">66</span></td>	    
-						<td><span class="tabla btn btn-primary">67</span></td>	    
-						<td><span class="tabla btn btn-primary">68</span></td>	
-						<td><span class="tabla btn btn-primary">69</span></td>	
-					</tr>
-					<tr>
-						<td><span class="tabla btn btn-danger disabled">70</span></td>	
-						<td><span class="tabla btn btn-danger disabled">71</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">72</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">73</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">74</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">75</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">76</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">77</span></td>	    
-						<td><span class="tabla btn btn-danger disabled">78</span></td>	
-						<td><span class="tabla btn btn-danger disabled">79</span></td>	
-					</tr>
-					<tr>
-						<td><span class="tabla btn btn-primary">80</span></td>	
-						<td><span class="tabla btn btn-primary">81</span></td>	    
-						<td><span class="tabla btn btn-primary">82</span></td>	    
-						<td><span class="tabla btn btn-primary">83</span></td>	    
-						<td><span class="tabla btn btn-primary">84</span></td>	    
-						<td><span class="tabla btn btn-primary">85</span></td>	    
-						<td><span class="tabla btn btn-primary">86</span></td>	    
-						<td><span class="tabla btn btn-primary">87</span></td>	    
-						<td><span class="tabla btn btn-primary">88</span></td>	
-						<td><span class="tabla btn btn-primary">89</span></td>	
-					</tr>
-					<tr>
-						<td><span class="tabla btn btn-primary">90</span></td>	
-						<td><span class="tabla btn btn-primary">91</span></td>	    
-						<td><span class="tabla btn btn-primary">92</span></td>	    
-						<td><span class="tabla btn btn-primary">93</span></td>	    
-						<td><span class="tabla btn btn-primary">94</span></td>	    
-						<td><span class="tabla btn btn-primary">95</span></td>	    
-						<td><span class="tabla btn btn-primary">96</span></td>	    
-						<td><span class="tabla btn btn-primary">97</span></td>	    
-						<td><span class="tabla btn btn-primary">98</span></td>	
-						<td><span class="tabla btn btn-primary">99</span></td>	
-					</tr>
+					
 				  </table>
 				</div>
 
-								<button type="button" class="btn btn-success btn-block demo-confirm hs-brand-button">Comprar ticket</button>
+								<button type="button" class="btn btn-success btn-block">Comprar ticket</button>
 
 								<p class="text-muted"></p>
 				<span id="noSeconds" class="countdown"></span>
@@ -199,7 +95,7 @@
 </script>  
 <script src="{{ app.request.basepath }}/js/jquery.countdown.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="{{ app.request.basepath }}/js/jquery.countdown-es.js" type="text/javascript" charset="utf-8"></script>
-<link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
+  <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
 <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex.css">
 <script src="{{ app.request.basepath }}/js/vex.js"></script>
 <script src="{{ app.request.basepath }}/js/vex.dialog.js"></script>
@@ -226,4 +122,20 @@ $('.demo-confirm').click(function(){
 });
 
 </script>
+<!-- Tiempo restante -->
+<script type="text/javascript">
+	$(function () {
+		var austDay = new Date();
+		austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
+		$('#year').text(austDay.getFullYear());
+		$('#noSeconds').countdown({until: austDay, format: 'dHMs'});
+	});
+</script>
+<!-- Marcado de papeletas -->
+<script type="text/javascript">
+	$("[name='papeleta']").click(function(){  
+		$(this).toggleClass('btn-success');
+	});
+</script>
+
 {% endblock %}
