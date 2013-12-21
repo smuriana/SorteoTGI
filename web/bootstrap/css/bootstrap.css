@@ -309,7 +309,7 @@ body {
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
-  background: url("/sorteosLogin/web/img/fondo.jpg") repeat scroll 0% 0% transparent;
+  background: url("../../img/fondo.jpg") repeat scroll 0% 0% transparent;
 }
 
 input,

@@ -1,29 +1,41 @@
 {% extends "layout_.twig.html" %}
 
 {% block content %}
-<div class="container" style="margin-top:65px;">
+<div class="container" style="margin-top:50px;padding-top:15px;background-color:rgba(255,255,255,0.5);">
 	<div class="row">
 		<div class="col-md-8">
 			<h1>{{ ruffle.getTitle }}</h1>
 			<div id="carousel-descripcion-sorteo" class="carousel slide">
 				<!-- Indicators -->
 				<ol class="carousel-indicators">
+				{% if ruffle.getPicture1 is not empty %}
 				<li data-target="#carousel-descripcion-sorteo" data-slide-to="0" class="active"></li>
+				{% endif %}
+				{% if ruffle.getPicture2 is not empty %}
 				<li data-target="#carousel-descripcion-sorteo" data-slide-to="1"></li>
+				{% endif %}
+				{% if ruffle.getPicture3 is not empty %}
 				<li data-target="#carousel-descripcion-sorteo" data-slide-to="2"></li>
+				{% endif %}
 				</ol>
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner">
+				{% if ruffle.getPicture1 is not empty %}
 				<div class="item active">
-				  <img src="{{ app.request.basepath }}/img/nexus1.jpg" alt="">
+				  <img src="{{ app.request.basepath }}{{ruffle.getPicture1}}" alt="">
 				</div>
+				{% endif %}
+				{% if ruffle.getPicture2 is not empty %}
 				<div class="item">
-				  <img src="{{ app.request.basepath }}/img/nexus1.jpg" alt="">
+				  <img src="{{ app.request.basepath }}{{ruffle.getPicture2}}" alt="">
 				</div>
+				{% endif %}
+				{% if ruffle.getPicture3 is not empty %}
 				<div class="item">
-				  <img src="{{ app.request.basepath }}/img/nexus1.jpg" alt="">
+				  <img src="{{ app.request.basepath }}{{ruffle.getPicture3}}" alt="">
 				</div>
+				{% endif %}
 				
 				
 				</div>

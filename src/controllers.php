@@ -17,10 +17,16 @@ $app->get('/', function () use ($app) {
 $app->get('/index', function() use ($app){
 
 	$user = $app['security']->getToken()->getUser();
-
-	$sql = "SELECT * FROM ruffle WHERE id = 1";
+	// Devuelve todos los sorteos comenzados y los guarda en un array los sortos inicializados
+	$hoy = date("Y-m-d H:i:s");
+	$sql = "SELECT id FROM ruffle WHERE final_date > '".$hoy."' AND init_date < '".$hoy."'";
     $ruffles = $app['db']->fetchAll($sql);
-
+    
+    $allRuffles= array();
+    foreach ($ruffles as $sorteo) {
+    	$allRuffles[]=new Ruffle($sorteo['id'], $app['db']);
+    }
+    // <----------------------------------->
     //return new Response();
 
     //$myRuffle = new Ruffle($ruffles[0]["id"], $ruffles[0]["create_date"], $ruffles[0]["user_id"], $ruffles[0]["short_description"], $ruffles[0]["description"], $ruffles[0]["status"],$ruffles[0]["bill"], $ruffles[0]["guarantee"], $ruffles[0]["init_date"], $ruffles[0]["final_date"], $ruffles[0]["ballots"], $ruffles[0]["price"], $ruffles[0]["picture1"], $ruffles[0]["picture2"], $ruffles[0]["picture3"], $ruffles[0]["tags"],$ruffles[0]["sold_ballots"],$ruffles[0]["title"]);
@@ -30,14 +36,14 @@ $app->get('/index', function() use ($app){
 		return $app['twig']->render('index.twig.html', array(
 			'debug' => true,
 		'name' => null,
-		'ruffle' => $myRuffle
+		'ruffles' => $allRuffles
 		));
 	}
 
 	return $app['twig']->render('index.twig.html', array(
 		'debug' => true,
 		'name' => $user->getName(),
-		'ruffle' => $myRuffle
+		'ruffles' => $allRuffles
 		));
 })
 ->bind('index')
@@ -116,7 +122,7 @@ $app->get('/hola', function(Request $request) use ($app){
 
 $app->post('/register', function(Request $request) use ($app){
 
-	$sql = "SELECT * FROM user WHERE username = ?";
+	$sql = "SELECT * FROM user WHERE email = ?";
     $res = $app['db']->fetchAll($sql, array($request->get('email')));
     if(count($res) === 1){
     	return $app['twig']->render('login.twig.html', array('invalidEmail' => true));

@@ -51,8 +51,8 @@ final class Ruffle
         $this->id = $ruffles[0]["id"];
         $this->create_date = $ruffles[0]["create_date"];
         $this->user_id = $ruffles[0]["user_id"];
-        $this->description = $ruffles[0]["short_description"];
-        $this->short_description = $ruffles[0]["description"];
+        $this->description = $ruffles[0]["description"];
+        $this->short_description = $ruffles[0]["short_description"];
         $this->status = $ruffles[0]["status"];
         $this->bill = $ruffles[0]["bill"];
         $this->guarantee = $ruffles[0]["guarantee"];
@@ -224,10 +224,6 @@ final class Ruffle
     
         $array = $this->conexion->fetchAll($sql);
         $numeros = array();
-        for ($i=0; $i < sizeof($array); $i++) { 
-            #$numeros[]=$array[$i]->;
-            # code...
-        }
         foreach ($array as $arr)
         {
             $numeros[]=$arr['number'];
