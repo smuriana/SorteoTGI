@@ -1,0 +1,89 @@
+{%extends "layout_.twig.html"%}
+
+{% block content %}
+<form action="#" style="display: hidden" method="GET" id="nuevoSorteo"></form>
+<div class="container" style="margin-top:65px;">
+    <div class="row">
+    	<div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="panel panel-default" id="step1" style="position: absolute; top: 0; left: 0; visibility: visible;">
+            	<h1 style="padding-left:auto">¡Paso 1!</h1>
+            </div>
+            <div class="panel panel-default" id="step2" style="position: absolute; top: 0; left: 0; visibility: hidden;">
+            	<h1 style="padding-left:auto">¡Paso 2!</h1>
+            </div>
+            <div class="panel panel-default" id="step3" style="position: absolute; top: 0; left: 0; visibility: hidden;">
+            	<h1 style="padding-left:auto">¡Paso 3!</h1>
+            </div>
+            <div class="panel panel-default" id="step4" style="position: absolute; top: 0; left: 0; visibility: hidden;">
+            	<h1 style="padding-left:auto">¡Paso 4!</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:8em;">
+    	<div class="col-md-1"></div>
+    	<div class="col-md-10">
+            	<button type="button" class="btn btn-success" onclick="previousStep()" id="previousStep" style="float:left; visibility:hidden;">Anterior</button>
+            	<button type="button" class="btn btn-success" onclick="nextStep()" id="nextStep" style="float:right;">Siguiente</button>
+    	</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	
+	function nextStep()
+	{
+		if($("#step1").css("visibility")=="visible"){
+			$('#step1').fadeOut("fast", function(){
+        		$('#step2').fadeIn("fast");
+    		});
+			document.getElementById('step1').style.visibility="hidden";
+			document.getElementById('step2').style.visibility="visible";
+			document.getElementById('previousStep').style.visibility="visible";
+		}else if($("#step2").css("visibility")=="visible"){
+			$('#step2').fadeOut("fast", function(){
+        		$('#step3').fadeIn("fast");
+    		});
+			document.getElementById('step2').style.visibility="hidden";
+			document.getElementById('step3').style.visibility="visible";
+		}else if($("#step3").css("visibility")=="visible"){
+			$('#step3').fadeOut("fast", function(){
+        		$('#step4').fadeIn("fast");
+    		});
+			document.getElementById('step3').style.visibility="hidden";
+			document.getElementById('step4').style.visibility="visible";
+			document.getElementById('nextStep').innerHTML="Finalizar";
+		}else{
+			document.getElementById('nextStep').setAttribute('type', 'submit');
+			document.getElementById('nextStep').setAttribute('form', 'nuevoSorteo');
+		}
+	}
+
+	function previousStep()
+	{
+		if($("#step2").css("visibility")=="visible"){
+			$('#step2').fadeOut("fast", function(){
+        		$('#step1').fadeIn("fast");
+    		});
+			document.getElementById('step2').style.visibility="hidden";
+			document.getElementById('step1').style.visibility="visible";
+			document.getElementById('previousStep').style.visibility="hidden";
+		}else if($("#step3").css("visibility")=="visible"){
+			$('#step3').fadeOut("fast", function(){
+        		$('#step2').fadeIn("fast");
+    		});
+			document.getElementById('step3').style.visibility="hidden";
+			document.getElementById('step2').style.visibility="visible";
+		}else if($("#step4").css("visibility")=="visible"){
+			$('#step4').fadeOut("fast", function(){
+        		$('#step3').fadeIn("fast");
+    		});
+			document.getElementById('step4').style.visibility="hidden";
+			document.getElementById('step3').style.visibility="visible";
+			document.getElementById('nextStep').innerHTML="Siguiente";
+		}
+	}
+
+</script>
+
+{% endblock %}

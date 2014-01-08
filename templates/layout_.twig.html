@@ -44,12 +44,30 @@
             <li>
               <a href="../css">Sorteos Terminados</a>
             </li>
+            <li>
+              <a href="{{path('nuevoSorteo')}}">Sortea algo</a>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-              <li>
-                <a href="../components"></a>
-              </li>
+              <li class="dropdown dropdown-large">
+                <a href="{%if notifications|length == 0%}{{ app.url_generator.generate('index') }}{% else %}#{% endif %}" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-bell"></span>  <span class="badge">{{notifications|length}}</span></a>
+
+                <ul class="dropdown-menu dropdown-menu-large row">
+                  <li class="col-sm-12">
+                    <ul>
+                      <li class="dropdown-header">Notificaciones</li>
+                      {%for notification in notifications%}
+                      <li><a href="{{ app.request.basepath }}{{notification.url}}">{{notification.text}} | {{notification.time}}</a></li>
+                      {%endfor%}
+                      <div style="width:60%;margin:0 auto;">
+                      <button style="width:auto;margin:0 auto;" class="btn btn-info" onclick="location.href='{{app.request.basepath}}/login';">Ver más</button></div>
+                    </ul>
+                  </li>
+                </ul>
+
+                
+            </li>
               <li>
                 <a style="padding:4px 0px" href="{{path('perfil')}}"><img class="img-circle" src="{{ app.request.basepath }}/img/Alien1.bmp" alt="Imagen de perfil" style="width: 3em; height: 3em; border:2px solid gray;"><span style="padding:11px">{% if is_granted('IS_AUTHENTICATED_FULLY') %}  Perfil de {{name}} {% else %} Perfil {% endif %}</span></a>
               </li>

@@ -94,6 +94,7 @@
 
 								<p class="text-muted"></p>
 				<span id="noSeconds" class="countdown"></span>
+				{{debug}}
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</div>
 
@@ -101,9 +102,11 @@
 	</div>
 </div>
 
+
 <form style="display: hidden" action="{{ path('buyTicket') }}" method="POST" id="form">
   <input type="hidden" id="RuffleID" name="RuffleID" value="{{ruffle.getId}}"/>
   <input type="hidden" id="number" name="number" value=""/>
+  <input type="hidden" id="RuffleName" name="name" value="{{ruffle.getTitle}}"/>
 </form>
 
 <script type="text/javascript" >

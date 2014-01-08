@@ -34,14 +34,18 @@ $app->get('/index', function() use ($app){
     
 	if(!is_object($user)){
 		return $app['twig']->render('index.twig.html', array(
-			'debug' => true,
+		'notifications' => null,
+		'debug' => true,
 		'name' => null,
 		'ruffles' => $allRuffles
 		));
 	}
 
+	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sql);
+	
 	return $app['twig']->render('index.twig.html', array(
-		'debug' => true,
+		'notifications' => $notifications,
 		'name' => $user->getName(),
 		'ruffles' => $allRuffles
 		));
@@ -54,16 +58,34 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 	$user = $app['security']->getToken()->getUser();
 	
     $myRuffle = new Ruffle($id,$app['db']);//Esto no creemos que este demasiado bien
+
+    $sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sql);
+
 	if(!is_object($user)){
 		return $app['twig']->render('descripcionSorteo.twig.html', array(
+		'notifications' => null,
 		'name' => null,
 		'ruffle' => $myRuffle
 		));
 	}
 
+	$app['db']->update('notification',array(	
+			'visible' => false
+		),
+		array(
+			'id_user'	=> $user->getId(),
+			'url'	 	=> '/descripcion/'.$id.'/'.$title
+		));
+
+	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sql);
+
 	return $app['twig']->render('descripcionSorteo.twig.html', array(
+		'notifications' => $notifications,
 		'name' => $user->getName(),
-		'ruffle' => $myRuffle
+		'ruffle' => $myRuffle,
+		'debug' => $user->getId().'/descripcion/'.$id.'/'.$title
 		));
 })
 ->bind('descripcion')
@@ -73,6 +95,7 @@ $app->post('/buyTicket', function(Request $request) use($app){
 
 	$user = $app['security']->getToken()->getUser();
 	$app['db']->insert('ballot', array('id_user' => $user->getID(), 'id_ruffle' => $request->get('RuffleID'), 'number' => $request->get('number')));
+	$app['db']->insert('notification', array('id_user' => $user->getID(), 'url' => '/descripcion/'.$request->get('RuffleID').'/'.$request->get('name'), 'text' => 'Has comprado la papeleta número '.$request->get('number').' para el sorteo de '.$request->get('name'), 'visible' => true));
 	return $app->redirect('index');
 })
 ->bind('buyTicket');
@@ -90,34 +113,49 @@ $app->get('/login', function (Request $request) use ($app) {
     		));
 	}
     
-    return $app['twig']->render('login.twig.html', array(
-    	'invalidEmail' => false,
-    	'error' => $app['security.last_error']($request),
-    	'last_username' => $app['session']->get('_security.last_username'),
-    	'name' => $user->getName()
-    	));
+    return $app->redirect('perfil');
 })
 ->bind('login')
+;
+
+$app->get('/nuevoSorteo', function(Request $request) use ($app){
+	$user = $app['security']->getToken()->getUser();
+
+    $sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sql);
+
+
+	if(!is_object($user)){
+		return $app['twig']->render('nuevoSorteo.twig.html', array(
+		'notifications' => null,
+		'name' => null
+		));
+	}
+
+	return $app['twig']->render('nuevoSorteo.twig.html', array(
+		'notifications' => $notifications,
+		'name' => $user->getName(),
+		));
+})
+->bind('nuevoSorteo')
 ;
 
 $app->get('/perfil', function(Request $request) use($app){
 
 	
 	$user = $app['security']->getToken()->getUser();
+
+	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sql);
     
     return $app['twig']->render('profile.twig.html', array(
+    	'notifications' => $notifications,
     	'name' => $user->getName(),
     	'email'=> $user->getUsername()
     	));
 
 })
 ->bind('perfil')
-;
-
-$app->get('/hola', function(Request $request) use ($app){
-	return new Response("hola :)");
-})
-->bind('hola')
 ;
 
 $app->post('/register', function(Request $request) use ($app){
