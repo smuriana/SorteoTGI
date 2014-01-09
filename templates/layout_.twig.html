@@ -38,13 +38,13 @@
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
           <ul class="nav navbar-nav">
-            <li class="active">
-              <a href="../getting-started">Sorteos disponibles</a>
+            <li {% if menu_selected|default('index') == 'index' %} class="active"{% endif %}>
+              <a href="{{path('index')}}">Sorteos disponibles</a>
             </li>
-            <li>
-              <a href="../css">Sorteos Terminados</a>
+            <li {% if menu_selected == 'sorteosTerminados' %} class="active"{% endif %}>
+              <a href="{{path('sorteosTerminados')}}">Sorteos Terminados</a>
             </li>
-            <li>
+            <li {% if menu_selected == 'nuevoSorteo' %} class="active"{% endif %}>
               <a href="{{path('nuevoSorteo')}}">Sortea algo</a>
             </li>
           </ul>
@@ -68,7 +68,7 @@
 
                 
             </li>
-              <li>
+              <li {% if menu_selected == 'perfil' %} class="active"{% endif %}>
                 <a style="padding:4px 0px" href="{{path('perfil')}}"><img class="img-circle" src="{{ app.request.basepath }}/img/Alien1.bmp" alt="Imagen de perfil" style="width: 3em; height: 3em; border:2px solid gray;"><span style="padding:11px">{% if is_granted('IS_AUTHENTICATED_FULLY') %}  Perfil de {{name}} {% else %} Perfil {% endif %}</span></a>
               </li>
               <li>
@@ -115,8 +115,16 @@
           </ul>
       </div>
     </header>
-
-
+  <script type="text/javascript">
+    $(function() {
+   $("li").click(function() {
+      // remove classes from all
+      $("li").removeClass("active");
+      // add class to the one we clicked
+      $(this).addClass("active");
+   });
+});
+    </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

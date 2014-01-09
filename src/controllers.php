@@ -37,7 +37,8 @@ $app->get('/index', function() use ($app){
 		'notifications' => null,
 		'debug' => true,
 		'name' => null,
-		'ruffles' => $allRuffles
+		'ruffles' => $allRuffles,
+		'menu_selected' => 'index'
 		));
 	}
 
@@ -47,7 +48,8 @@ $app->get('/index', function() use ($app){
 	return $app['twig']->render('index.twig.html', array(
 		'notifications' => $notifications,
 		'name' => $user->getName(),
-		'ruffles' => $allRuffles
+		'ruffles' => $allRuffles,
+		'menu_selected' => 'index'
 		));
 })
 ->bind('index')
@@ -128,16 +130,53 @@ $app->get('/nuevoSorteo', function(Request $request) use ($app){
 	if(!is_object($user)){
 		return $app['twig']->render('nuevoSorteo.twig.html', array(
 		'notifications' => null,
-		'name' => null
+		'name' => null,
+		'menu_selected' => 'nuevoSorteo'
 		));
 	}
 
 	return $app['twig']->render('nuevoSorteo.twig.html', array(
 		'notifications' => $notifications,
 		'name' => $user->getName(),
+		'menu_selected' => 'nuevoSorteo'
 		));
 })
 ->bind('nuevoSorteo')
+;
+$app->get('/sorteosTerminados', function(Request $request) use ($app){
+$user = $app['security']->getToken()->getUser();
+	// Devuelve todos los sorteos comenzados y los guarda en un array los sortos inicializados
+	$hoy = date("Y-m-d H:i:s");
+	$sql = "SELECT id FROM ruffle WHERE final_date < '".$hoy."'";
+    $ruffles = $app['db']->fetchAll($sql);
+    
+    $allRuffles= array();
+    foreach ($ruffles as $sorteo) {
+    	$allRuffles[]=new Ruffle($sorteo['id'], $app['db']);
+    }
+    $myRuffle = new Ruffle(1, $app['db']);
+    
+	if(!is_object($user)){
+		return $app['twig']->render('index.twig.html', array(
+		'notifications' => null,
+		'debug' => true,
+		'name' => null,
+		'ruffles' => $allRuffles,
+		'menu_selected' => 'sorteosTerminados'
+		));
+	}
+
+	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sql);
+	
+	return $app['twig']->render('index.twig.html', array(
+		'notifications' => $notifications,
+		'name' => $user->getName(),
+		'ruffles' => $allRuffles,
+		'menu_selected' => 'sorteosTerminados'
+		));
+})
+->bind('sorteosTerminados')
 ;
 
 $app->get('/perfil', function(Request $request) use($app){
@@ -151,7 +190,8 @@ $app->get('/perfil', function(Request $request) use($app){
     return $app['twig']->render('profile.twig.html', array(
     	'notifications' => $notifications,
     	'name' => $user->getName(),
-    	'email'=> $user->getUsername()
+    	'email'=> $user->getUsername(),
+    	'menu_selected' => 'perfil'
     	));
 
 })
