@@ -65,6 +65,7 @@ $app['security.firewalls'] = array(
 $app['security.access_rules'] = array(
 	array('^/$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
 	array('^/index', 'IS_AUTHENTICATED_ANONYMOUSLY'),
+  array('^/sorteosTerminados', 'IS_AUTHENTICATED_ANONYMOUSLY'),
 	array('^/register', 'IS_AUTHENTICATED_ANONYMOUSLY'),
 	array('^/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'),
     array('^/admin', 'ROLE_ADMIN'),

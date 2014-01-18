@@ -75,6 +75,9 @@
                 <a href="{{path('logout')}}"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesi&oacute;n</a>
               </li>
             {%else%}
+             <li {% if menu_selected == 'sorteosTerminados' %} class="active"{% endif %}>
+                <a href="{{path('login')}}">Registrate</a>
+              </li>
               <li class="dropdown">
                 <a class="dropdown-toggle" href="#" data-toggle="dropdown">Entrar <strong class="caret"></strong></a>
                 <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
