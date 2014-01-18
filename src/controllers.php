@@ -61,8 +61,6 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 	
     $myRuffle = new Ruffle($id,$app['db']);//Esto no creemos que este demasiado bien
 
-    $sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sql);
 
 	if(!is_object($user)){
 		return $app['twig']->render('descripcionSorteo.twig.html', array(
@@ -72,7 +70,7 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		'menu_selected' => 'null'
 		));
 	}
-
+	
 	$app['db']->update('notification',array(	
 			'visible' => false
 		),

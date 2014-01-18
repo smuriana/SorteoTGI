@@ -50,7 +50,7 @@
 				</div>
 
 			<div class="panel panel-default panel-body"> {{ ruffle.getDescription }} </div>
-				  
+			{% include 'rating.twig.html' %}
 		</div>
 			
   
@@ -59,7 +59,11 @@
 			<div class="panel panel-default panel-body">
 				<div class="row">
 					<span class="btn-lg label label-success pull-right" style="padding:10px">Quedan {{ruffle.getBallots-ruffle.getSoldBallots}} tickets</span>
+					{%  if  (date(ruffle.getFinalDate) < date()) %}
+					<span class="btn-lg label label-primary pull-right" style="padding:10px"> Finalizado </span>
+					{% else %}
 					<span class="btn-lg label label-primary pull-right" style="padding:10px">{{ ruffle.getFinalDate|date("d/m/y") - "now"|date("d/m/y")  }} dias para finalizar</span>
+					{% endif %}
 				</div>
 
 				<h2><strong>{{ ruffle.getPrice / ruffle.getBallots }} €</strong></h2>
@@ -73,7 +77,19 @@
 				  <table class="table">
 					<tr>
 					{% set arrayBallots = ruffle.getArrayBallots %}
-
+					{%  if  (date(ruffle.getFinalDate) < date()) %}
+						{% for i in 0..ruffle.getBallots-1 %}
+							{% if (i % 10)==0 %}
+								</tr>
+								<tr>
+					  		{% endif %}
+					  		{% if i in arrayBallots %}
+					  			<td><span class="tabla btn btn-danger disabled">{{ i }}</span></td>
+					  		{% else %}
+					  			<td><span name="papeleta" class="tabla btn btn-primary disabled">{{ i }}</span></td>
+					  		{% endif %}
+					    {% endfor %}
+					{% else %}
 				  	{% for i in 0..ruffle.getBallots-1 %}
 						{% if (i % 10)==0 %}
 							</tr>
@@ -85,6 +101,7 @@
 				  			<td><span name="papeleta" class="tabla btn btn-primary">{{ i }}</span></td>
 				  		{% endif %}
 				    {% endfor %}
+				    {% endif %}
 					</tr>
 					
 				  </table>
@@ -93,8 +110,12 @@
 								<button type="button" class="demo-confirm btn btn-success btn-block" id="buy" disabled>Comprar ticket</button>
 
 								<p class="text-muted"></p>
+				{%  if  (date(ruffle.getFinalDate) < date()) %}
+				<h2>Sorteo terminado</h2>
+				{% else %}
 				<span id="noSeconds" class="countdown"></span>
-				{{debug}}
+				{% endif %}
+
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</div>
 
