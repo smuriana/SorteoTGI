@@ -1,0 +1,1 @@
+C:\xampp2\php\php.exe C:\xampp2\htdocs\sorteosLogin\cron.php

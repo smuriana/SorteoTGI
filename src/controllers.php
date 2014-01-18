@@ -68,7 +68,8 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		return $app['twig']->render('descripcionSorteo.twig.html', array(
 		'notifications' => null,
 		'name' => null,
-		'ruffle' => $myRuffle
+		'ruffle' => $myRuffle,
+		'menu_selected' => 'null'
 		));
 	}
 
@@ -87,7 +88,8 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		'notifications' => $notifications,
 		'name' => $user->getName(),
 		'ruffle' => $myRuffle,
-		'debug' => $user->getId().'/descripcion/'.$id.'/'.$title
+		'debug' => $user->getId().'/descripcion/'.$id.'/'.$title,
+		'menu_selected' => 'null'
 		));
 })
 ->bind('descripcion')
@@ -102,7 +104,7 @@ $app->post('/buyTicket', function(Request $request) use($app){
 })
 ->bind('buyTicket');
 
-$app->get('/login', function (Request $request) use ($app) {
+$app->match('/login', function (Request $request) use ($app) {
 
 	$user = $app['security']->getToken()->getUser();
 
@@ -110,13 +112,15 @@ $app->get('/login', function (Request $request) use ($app) {
 		return $app['twig']->render('login.twig.html', array(
 			'invalidEmail' => false,
 			'error' => $app['security.last_error']($request),
-			'last_username' => $app['session']->get('_security.last_username'),
-			'name' => null
+			'last_username' => $app['session']->get('_security.last_username'),	
+			'name' => null,
+			'menu_selected' => 'null'
     		));
 	}
     
     return $app->redirect('perfil');
 })
+->method('GET|POST')
 ->bind('login')
 ;
 

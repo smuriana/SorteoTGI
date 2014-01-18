@@ -75,7 +75,7 @@
 	    <h2>Si ya tienes cuenta</h2>
 	    	Identificate:
 	    	<div class="col-sm-offset-1">
-	    	<form class="form-horizontal" role="form" action="{{ path('login_check') }}" method="post">
+	    	<form class="form-horizontal" role="form" action="{{ path('login_check') }}" method="post" id="formLogin">
 		  		<div class="row">
 		  			<div class="form-group">
 					    <label for="inputEmail" class="col-sm-4 control-label">Email</label>
@@ -104,7 +104,7 @@
 				<div class="row">
 					  <div class="form-group">
 					    <div class="col-md-11">
-					      <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+					      <button name="login" type="submit" class="btn btn-primary btn-block" value="Entrar">Entrar</button>
 					    </div>
 					  </div>
 				</div>
