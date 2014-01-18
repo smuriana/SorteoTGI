@@ -1695,14 +1695,9 @@ th {
   border-bottom-width: 2px;
 }
 
-.table-striped > tbody > tr:nth-child(odd) > td,
-.table-striped > tbody > tr:nth-child(odd) > th {
-  background-color: #f9f9f9;
-}
-
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
-  background-color: #f5f5f5;
+  background-color: #38ABD9;
 }
 
 table col[class*="col-"] {
@@ -7122,4 +7117,31 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+.custab{
+    border: 3px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    }
+.tabla{
+  background-color: #fcfeff;
+}
+tr.enlace{
+  cursor: pointer;
+}
+tr.enlace:hover{
+  background-color: #38ABD9 !important;
+}
+table>tr.enlace:hover{
+  background-color: #38ABD9 !important;
+}
+
+.table-striped > tbody > tr:nth-child(odd){
+  background-color: #dddddd;
 }
