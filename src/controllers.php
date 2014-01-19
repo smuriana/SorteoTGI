@@ -132,6 +132,7 @@ $app->get('/admin/refused/{id}', function($id) use($app){
 $app->get('/admin/cancel/{id}', function($id) use ($app){
 
 	$app['db']->executeUpdate('UPDATE ruffle SET visible = 4 WHERE id = ?', array($id));
+	$app['db']->executeUpdate('UPDATE ballot SET status = 1 WHERE id_ruffle = ?', array($id));
 
 	return $app->redirect('../../admin');
 })
@@ -140,9 +141,9 @@ $app->get('/admin/cancel/{id}', function($id) use ($app){
 
 $app->get('/admin/reintegrar/{idUser}/{idSorteo}', function($idUser, $idSorteo) use ($app){
 
-	$app['db']->executeUpdate('UPDATE ballot SET status = 2 WHERE id_user = ? AND id_sorteo = ?', array($idUser, $idSorteo));
+	$app['db']->executeUpdate('UPDATE ballot SET status = 2 WHERE id_user = ? AND id_ruffle = ?', array($idUser, $idSorteo));
 
-	return $app->redirect('../../admin');
+	return $app->redirect('../../../admin');
 })
 ->bind('reintegrar')
 ;
@@ -174,7 +175,7 @@ $app->get('/admin', function(Request $request) use ($app){
 	$sqlPapeletas = "SELECT SUM(sold_ballots) as numPapeletas FROM ruffle";
     $papeletas = $app['db']->fetchAssoc($sqlPapeletas);
 
-    $sqlPapeletasReintegrar = "SELECT user.id, user.nick, ruffle.id as id_ruffle, ruffle.title, COUNT(*) as cantidad FROM ballot, ruffle, user WHERE ballot.id_ruffle = ruffle.id AND ruffle.visible = 4 AND ballot.id_user = user.id GROUP BY(user.nick);";
+    $sqlPapeletasReintegrar = "SELECT user.id, user.nick, ruffle.id as id_ruffle, ruffle.title, COUNT(*) as cantidad FROM ballot, ruffle, user WHERE ballot.id_ruffle = ruffle.id AND ruffle.visible = 4 AND ballot.id_user = user.id AND ballot.status = 1 GROUP BY(user.nick);";
     $papeletasReintegrar = $app['db']->fetchAll($sqlPapeletasReintegrar);
 
     $sqlNumUsuarios = "SELECT COUNT(id) as cantidad FROM user";

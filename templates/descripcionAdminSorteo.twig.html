@@ -5,6 +5,6 @@
 		<button onclick="document.location = '{{app.request.basepath}}/admin/validate/{{ruffle.id}}/{{ruffle.title}}'" class="btn btn-lg btn-primary" style="float:right;margin-left:1em;">Validar</button>
 		<button onclick="document.location = '{{app.request.basepath}}/admin/refused/{{ruffle.id}}'" class="btn btn-lg btn-danger" style="float:right;margin-left:1em;">Rechazar</button>
 	{% else %}
-		<button class="btn btn-lg btn-danger" style="float:right;margin-left:1em;">Cancelar</button>
+		<button onclick="document.location = '{{app.request.basepath}}/admin/cancel/{{ruffle.id}}'" class="btn btn-lg btn-danger" style="float:right;margin-left:1em;">Cancelar</button>
 	{% endif %}
 {% endblock %}
