@@ -25,7 +25,7 @@ class UserProvider implements UserProviderInterface
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $email));
         }
  
-        return new User($user['email'], $user['password'], explode(',', $user['roles']), true, true, true, true, $user['sexo'], $user['rango'], $user['nombre'], $user['apellidos'], $user['direccion'], $user['cp'], $user['provincia'], $user['localidad'], $user['id']);
+        return new User($user['email'],$user['nick'], $user['password'], explode(',', $user['roles']), true, true, true, true, $user['sexo'], $user['rango'], $user['nombre'], $user['apellidos'], $user['direccion'], $user['cp'], $user['provincia'], $user['localidad'], $user['id'], $user['picture']);
     }
  
     public function refreshUser(UserInterface $user)

@@ -47,7 +47,7 @@ $app->get('/index', function() use ($app){
 	
 	return $app['twig']->render('index.twig.html', array(
 		'notifications' => $notifications,
-		'name' => $user->getName(),
+		'user' => $user,
 		'ruffles' => $allRuffles,
 		'menu_selected' => 'index'
 		));
@@ -84,7 +84,7 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 
 	return $app['twig']->render('descripcionSorteo.twig.html', array(
 		'notifications' => $notifications,
-		'name' => $user->getName(),
+		'user' => $user,
 		'ruffle' => $myRuffle,
 		'menu_selected' => 'null'
 		));
@@ -103,7 +103,7 @@ $app->get('/admin/descripcion/{id}/{title}', function($id, $title) use($app){
 
 	return $app['twig']->render('descripcionAdminSorteo.twig.html', array(
 		'notifications' => $notifications,
-		'name' => $user->getName(),
+		'user' => $user,
 		'ruffle' => $myRuffle,
 		'menu_selected' => 'null'
 		));
@@ -187,7 +187,7 @@ $app->get('/admin', function(Request $request) use ($app){
 		'sorteosTerminados' => $sorteosTerminados,
 		'sorteosDisponibles' => $sorteosDisponibles,
 		'usuarios' => $usuarios,
-		'name' => $user->getName(),
+		'user' => $user,
 		'fecha' => $fecha,
 		'recaudacion' => $recaudacion,
 		'papeletas' => $papeletas,
@@ -235,16 +235,16 @@ $app->get('/nuevoSorteo', function(Request $request) use ($app){
 
 
 	if(!is_object($user)){
-		return $app['twig']->render('nuevoSorteo.twig.html', array(
+		return $app['twig']->render('sorteoNuevo.twig.html', array(
 		'notifications' => null,
 		'name' => null,
 		'menu_selected' => 'nuevoSorteo'
 		));
 	}
 
-	return $app['twig']->render('nuevoSorteo.twig.html', array(
+	return $app['twig']->render('sorteoNuevo.twig.html', array(
 		'notifications' => $notifications,
-		'name' => $user->getName(),
+		'user' => $user,
 		'menu_selected' => 'nuevoSorteo'
 		));
 })
@@ -278,7 +278,7 @@ $user = $app['security']->getToken()->getUser();
 	
 	return $app['twig']->render('index.twig.html', array(
 		'notifications' => $notifications,
-		'name' => $user->getName(),
+		'user' => $user,
 		'ruffles' => $allRuffles,
 		'menu_selected' => 'sorteosTerminados'
 		));
@@ -296,7 +296,7 @@ $app->get('/perfil', function(Request $request) use($app){
     
     return $app['twig']->render('profile.twig.html', array(
     	'notifications' => $notifications,
-    	'name' => $user->getName(),
+    	'user' => $user,
     	'email'=> $user->getUsername(),
     	'menu_selected' => 'perfil'
     	));
@@ -336,7 +336,7 @@ $app->get('/perfil/{nick}', function($nick) use($app){
 
     return $app['twig']->render('perfilPublico.twig.html', array(
     	'notifications' => $notifications,
-    	'name' => $user->getName(),
+    	'user' => $user,
     	'email'=> $user->getUsername(),
     	'menu_selected' => 'perfil',
 

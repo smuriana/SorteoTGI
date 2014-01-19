@@ -9,7 +9,7 @@
 			<div class="col-md-2">
 			<h2><img class="img-circle" src="{{ app.request.basepath }}/img/foto.jpg" alt="Imagen de perfil" style="width: 6em; height: 6em; border:2px solid gray;"></h2>
 			</div>
-			<div class="col-md-10"><h2 style="padding-top: 1em;"> Perfil de {{name}}<small> {{email}}</small></h2></div>
+			<div class="col-md-10"><h2 style="padding-top: 1em;"> Perfil de {{user.getNick}}<small> {{user.getUsername}}</small></h2></div>
 	</div>
 
 	<div class="row" style="margin-top:5em;">
@@ -25,8 +25,6 @@
 						    <li><a href="#" id="realizados">Realizados por m&iacute;</a></li>
 						    <li class="divider"></li>
 						    <li><a href="#" id="participaciones">En los que participo</a></li>
-						    <li class="divider"></li>
-						    <li><a href="#" id="curso">En curso</a></li>
 					    </ul>
 					</button>
 
