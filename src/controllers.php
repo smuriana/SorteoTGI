@@ -70,7 +70,7 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		'menu_selected' => 'null'
 		));
 	}
-	
+
 	$app['db']->update('notification',array(	
 			'visible' => false
 		),
@@ -86,13 +86,95 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		'notifications' => $notifications,
 		'name' => $user->getName(),
 		'ruffle' => $myRuffle,
-		'debug' => $user->getId().'/descripcion/'.$id.'/'.$title,
 		'menu_selected' => 'null'
 		));
 })
 ->bind('descripcion')
 ;
 
+$app->get('/admin/descripcion/{id}/{title}', function($id, $title) use($app){
+
+	$user = $app['security']->getToken()->getUser();
+	
+    $myRuffle = new Ruffle($id,$app['db']);//Esto no creemos que este demasiado bien
+
+	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sql);
+
+	return $app['twig']->render('descripcionAdminSorteo.twig.html', array(
+		'notifications' => $notifications,
+		'name' => $user->getName(),
+		'ruffle' => $myRuffle,
+		'menu_selected' => 'null'
+		));
+})
+->bind('descripcionAdmin')
+;
+
+$app->get('/admin/validate/{id}/{title}', function($id, $title) use($app){
+	
+    $usuarios = $app['db']->executeUpdate('UPDATE ruffle SET visible = 1 WHERE id = ?', array($id));
+
+	return $app->redirect('../../../descripcion/'.$id.'/'.$title);    
+})
+->bind('validate')
+;
+
+$app->get('/admin/refused/{id}', function($id) use($app){
+	
+    $usuarios = $app['db']->executeUpdate('UPDATE ruffle SET visible = 3 WHERE id = ?', array($id));
+
+	return $app->redirect('../../admin');    
+})
+->bind('validate')
+;
+
+$app->get('/admin', function(Request $request) use ($app){
+	$user = $app['security']->getToken()->getUser();
+
+	$sqlNotifications = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sqlNotifications);
+    
+    $sqlSorteosPorValidar = "SELECT ruffle.id, ruffle.title, ruffle.price, user.nick FROM ruffle, user WHERE ruffle.visible = 0 AND ruffle.user_id=user.id";
+    $sorteosPorValidar = $app['db']->fetchAll($sqlSorteosPorValidar);
+    
+    $sqlSorteosTerminados = "SELECT ruffle.id, ruffle.title, ruffle.price, user.nick FROM ruffle, user WHERE ruffle.visible = 2 AND ruffle.user_id=user.id";
+    $sorteosTerminados = $app['db']->fetchAll($sqlSorteosTerminados);
+    
+    $sqlSorteosDisponibles = "SELECT ruffle.id, ruffle.title, ruffle.price, user.nick FROM ruffle, user WHERE ruffle.visible = 1 AND ruffle.user_id=user.id";
+    $sorteosDisponibles = $app['db']->fetchAll($sqlSorteosDisponibles);
+    
+    $sqlUsuarios = "SELECT nick, registerDate, roles FROM user ORDER BY roles DESC";
+    $usuarios = $app['db']->fetchAll($sqlUsuarios);
+    
+    $sqlFecha = "SELECT final_date FROM ruffle WHERE visible = 1 ORDER BY final_date DESC";
+    $fecha = $app['db']->fetchAssoc($sqlFecha);
+    
+	$sqlRecaudado = "SELECT SUM(sold_ballots*(price/ballots)) as cantidad FROM ruffle";
+    $recaudacion = $app['db']->fetchAssoc($sqlRecaudado);
+
+	$sqlPapeletas = "SELECT SUM(sold_ballots) as numPapeletas FROM ruffle";
+    $papeletas = $app['db']->fetchAssoc($sqlPapeletas);
+
+    $sqlNumUsuarios = "SELECT COUNT(id) as cantidad FROM user";
+    $numUsuarios = $app['db']->fetchAssoc($sqlNumUsuarios);
+    
+	return $app['twig']->render('dashboardAdmin.twig.html', array(
+		'notifications' => $notifications,
+		'sorteosPorValidar' => $sorteosPorValidar,
+		'sorteosTerminados' => $sorteosTerminados,
+		'sorteosDisponibles' => $sorteosDisponibles,
+		'usuarios' => $usuarios,
+		'name' => $user->getName(),
+		'fecha' => $fecha,
+		'recaudacion' => $recaudacion,
+		'papeletas' => $papeletas,
+		'numUsuarios' => $numUsuarios,
+		'menu_selected' => 'admin'
+		));
+})
+->bind('admin')
+;
 $app->post('/buyTicket', function(Request $request) use($app){
 
 	$user = $app['security']->getToken()->getUser();
@@ -211,7 +293,7 @@ $app->post('/register', function(Request $request) use ($app){
 
 	$encoder = new MessageDigestPasswordEncoder();
 	$encodePass = $encoder->encodePassword($request->get('password'), '');
-	$app['db']->insert('user', array('username' => $request->get('email'), 'password' => $encodePass, 'nick' => $request->get('nick'), 'roles' => 'ROLE_USER'));
+	$app['db']->insert('user', array('email' => $request->get('email'), 'password' => $encodePass, 'nick' => $request->get('nick'), 'roles' => 'ROLE_USER'));
 
 	$params = array(
 		'email' => $request->get('email'),

@@ -59,16 +59,19 @@
                       <li class="dropdown-header">Notificaciones</li>
                       {%for notification in notifications%}
                       <li><a href="{{ app.request.basepath }}{{notification.url}}">{{notification.text}} | {{notification.time}}</a></li>
+                      {%else%}
+                      No tiene notificaciones nuevas
                       {%endfor%}
+
                       <div style="width:60%;margin:0 auto;">
-                      <button style="width:auto;margin:0 auto;" class="btn btn-info" onclick="location.href='{{app.request.basepath}}/login';">Ver más</button></div>
+                      <button style="width:auto;margin:0 auto;" class="btn btn-info" onclick="location.href='{{app.request.basepath}}/login';">Ver antiguas</button></div>
                     </ul>
                   </li>
                 </ul>
 
                 {% if is_granted('ROLE_ADMIN') %}
                   <li>
-                  <a href="{{path('login')}}">Administración</a>
+                  <a href="{{path('admin')}}">Administración</a>
                   </li>
                 {% endif %}
             </li>

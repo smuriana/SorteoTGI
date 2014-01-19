@@ -1,37 +1,18 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-     <link href="{{ app.request.basepath }}/css/main.css" rel="stylesheet" type="text/css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="{{ app.request.basepath }}/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <script>
-    $('tr').click(function() {
-        document.location = $(this).attr('href');
-    });
-    </script>
-</head>
-<body>
-<div class="container">
-   <div class="row col-md-12 col-md-offset-2 custyle">
-   <div class="col-md-5">
-    <table class="table tabla table-striped custab">
+    <table class="table tablaAdmin table-striped custab" >
     <thead>
         <tr>
-            <th>Usuario</th>
-            <th>Sorteo</th>
-            <th>Precio</th>
+            <th>{{Columna1}}</th>
+            <th>{{Columna2}}</th>
+            <th>{{Columna3}}</th>
         </tr>
     </thead>
-    {% for i in 0..10 %}
-        {% include 'fila.twig.html' %}
-    {% endfor %}
-    </table>
-    </div>
-    </div>
-    </div>
-</body>
-</html>
+    <tbody>
     
+    
+    {% for dato in Datos %}
+        {% include Tipo with {'Dato':dato} %}
+    {% else %}
+        <tr><th></th><th>No hay resultados</th><th></th></tr>
+    {% endfor %}
+    </tbody>
+    </table>

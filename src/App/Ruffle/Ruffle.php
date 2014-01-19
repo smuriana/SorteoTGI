@@ -39,6 +39,7 @@ final class Ruffle
     private $sold_ballots;
     private $title;
     private $conexion;
+    private $visible;
 
     public function __construct($id, $conexion)
     {
@@ -66,6 +67,7 @@ final class Ruffle
         $this->tags = $ruffles[0]["tags"];
         $this->sold_ballots = $ruffles[0]["sold_ballots"];
         $this->title = $ruffles[0]["title"];
+        $this->visible = $ruffles[0]["visible"];
         $this->conexion=$conexion;
     }
 
@@ -213,6 +215,14 @@ final class Ruffle
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVisible()
+    {
+        return $this->visible;
     }
 
     /**
