@@ -1,12 +1,12 @@
 <div class="col-sm-4 col-md-4">
     <div class="thumbnail">
     	<div class="panel-body">
-        <h3>{{ ruffle.getTitle }}</h3>
-      		<img src="{{ app.request.basepath }}{{ ruffle.getPicture1 }}" alt="..." style="width: 100%; max-height: 225px; border:2px solid gray;">
+        <h3>{{ ficha.title }}</h3>
+      		<img src="{{ app.request.basepath }}{{ ficha.picture1 }}" alt="..." style="width: 100%; max-height: 225px; border:2px solid gray;">
           {% if menu_selected == 'index' %}
           <div class="progress progress-striped active">
-            <span>Quedan {{ ruffle.getBallots-ruffle.getSoldBallots }} papeletas</span>
-            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {% if ruffle.getBallots < 11 %}{{ ruffle.getSoldBallots * 10 }}{% else %}{{ ruffle.getSoldBallots }}{% endif %}%">
+            <span>Quedan {{ ficha.Ballots-ficha.SoldBallots }} papeletas</span>
+            <div class="progress-bar progress-bar-success" role="progressbar" style="width: {% if ficha.ballots < 11 %}{{ ficha.sold_ballots * 10 }}{% else %}{{ ficha.sold_ballots }}{% endif %}%">
               
           </div>
           {% else %}
@@ -17,12 +17,12 @@
           </div>
  
         
-        <p>{{ ruffle.getShortDescription }}</p>
-        <p><a href="{{ path('descripcion', {'id': ruffle.getId, 'title': ruffle.getTitle}) }}" class="btn btn-primary" role="button">Quiero saber más</a> </p>
+        <p>{{ ficha.short_description }}</p>
+        <p><a href="{{ path('descripcion', {'id': ficha.id, 'title': ficha.title}) }}" class="btn btn-primary" role="button">Quiero saber más</a> </p>
         </div>  
       
         <div class="panel-footer">
-        <span class="glyphicon glyphicon-time" style="margin-right:20%;"></span>{% if menu_selected == 'index' %} Quedan {{ ruffle.getFinalDate|date("d/m/y") - "now"|date("d/m/y")  }} dias 
+        <span class="glyphicon glyphicon-time" style="margin-right:20%;"></span>{% if menu_selected == 'index' %} Quedan {{ ficha.final_date|date("d/m/y") - "now"|date("d/m/y")  }} dias 
         {% else %}
         El sorteo ha finalizado
         {% endif %}

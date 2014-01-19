@@ -311,13 +311,46 @@ $app->get('/perfil/{nick}', function($nick) use($app){
 
 	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
     $notifications = $app['db']->fetchAll($sql);
+
+    $id = $app['db']->fetchAssoc('SELECT id from user WHERE nick = ?', array($nick));
     
+    $ruffles = $app['db']->fetchAll('SELECT ruffle.title, ruffle.ballots, ruffle.sold_ballots, ruffle.short_description, ruffle.final_date, ruffle.picture1, ruffle.id FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($nick));
+
+    $usuario = $app['db']->fetchAssoc('SELECT user.nick, user.picture, user.rango FROM user WHERE user.nick = ?', array($nick));
+
+    $valoracionMedia = $app['db']->fetchAssoc('SELECT AVG(general) as media FROM opinion WHERE id_user = ?', array($id['id']));
+
+    $totalValoraciones = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ?', array($id['id']));
+
+    $totalValoraciones5 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 5', array($id['id']));
+
+    $totalValoraciones4 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 4', array($id['id']));
+
+    $totalValoraciones3 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 3', array($id['id']));
+
+    $totalValoraciones2 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 2', array($id['id']));
+
+    $totalValoraciones1 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 1', array($id['id']));
+
+    $opiniones = $app['db']->fetchAll('SELECT user.picture, user.nick, opinion.comentario FROM user, opinion WHERE user.id = opinion.id_user_opina AND opinion.id_user = ?', array($id['id']));
 
     return $app['twig']->render('perfilPublico.twig.html', array(
     	'notifications' => $notifications,
     	'name' => $user->getName(),
     	'email'=> $user->getUsername(),
-    	'menu_selected' => 'perfil'
+    	'menu_selected' => 'perfil',
+
+    	'fichas' => $ruffles,
+    	'user' => $usuario,
+    	'valoracionMedia' => $valoracionMedia,
+    	'totalValoraciones' => $totalValoraciones,
+    	'totalValoraciones5' => $totalValoraciones5,
+    	'totalValoraciones5' => $totalValoraciones4,
+    	'totalValoraciones5' => $totalValoraciones3,
+    	'totalValoraciones5' => $totalValoraciones2,
+    	'totalValoraciones5' => $totalValoraciones1,
+    	'opiniones' => $opiniones,
+
     	));
 
 })
