@@ -59,6 +59,13 @@
 							{% include 'table.twig.html' with {'Tipo':'filaUsuario.twig.html','Columna1':'Usuario', 'Columna2':'Fecha registro', 'Columna3':'Status','Datos':usuarios} %}
 						</div>
 					</div>
+					<div class="col-md-6">
+					  	<div class="panel panel-default containerTable">
+							<div class="panel-heading"><h3>Papeletas por reintegrar</h3></div>
+
+							{% include 'table.twig.html' with {'Tipo':'filaPapeletasReintegradas.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Nº de papeletas','Columna4':'Acción','Datos':papeletasReintegrar} %}
+						</div>
+					</div>
 				</div>
 			</div>
 						

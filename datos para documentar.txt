@@ -1,0 +1,2 @@
+-----------------Sorteos-----------------
+- El campo visible puede tener 4 estados (0:por validar 1:validado 2:terminado 3:rechazado 4:cancelado) la diferencia entre rechazado y cancelado es que si no estaba validado se rechaza y no se publica, sin embargo si estaba validado solo se puede cancelar lo que conlleva el reintegro del dinero de las papeletas vendidas)

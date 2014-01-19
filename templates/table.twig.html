@@ -1,9 +1,16 @@
+    {% if 'papeletasReintegradas' in Tipo %}
+    <table class="table table-striped custab" >
+    {% else %}
     <table class="table tablaAdmin table-striped custab" >
+    {% endif %}
     <thead>
         <tr>
             <th>{{Columna1}}</th>
             <th>{{Columna2}}</th>
             <th>{{Columna3}}</th>
+            {% if 'papeletasReintegradas' in Tipo %}
+            <th>{{Columna4}}</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
