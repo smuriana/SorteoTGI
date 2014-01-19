@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-01-2014 a las 13:23:41
+-- Tiempo de generación: 19-01-2014 a las 18:49:47
 -- Versión del servidor: 5.5.32
 -- Versión de PHP: 5.4.19
 
@@ -166,6 +166,8 @@ CREATE TABLE IF NOT EXISTS `opinion` (
   `estado_producto` int(11) NOT NULL,
   `calidad_precio` int(11) NOT NULL,
   `general` int(11) NOT NULL,
+  `id_user_opina` int(11) NOT NULL,
+  `comentario` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -242,6 +244,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `provincia` varchar(100) DEFAULT NULL,
   `localidad` varchar(100) NOT NULL,
   `registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `picture` varchar(300) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nick` (`nick`),
   UNIQUE KEY `id` (`id`),
@@ -252,11 +255,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `password`, `roles`, `nick`, `rango`, `sexo`, `nombre`, `apellidos`, `direccion`, `cp`, `provincia`, `localidad`, `registerDate`) VALUES
-(28, 'admin@admin.com', 'nhDr7OyKlXQju+Ge/WKGrPQ9lPBSUFfpK+B1xqx/+8zLZqRNX0+5G1zBQklXUFy86lCpkAofsExlXiorUcKSNQ==', 'ROLE_USER,ROLE_ADMIN', 'admin', 10, 1, 'Manuel', 'Pancorbo Pestaña', 'Molino, 13', '23640', 'Jaén', 'Torre del Campo', '2014-01-18 18:03:52'),
-(29, 'sergio@gmail.com', 'DVW9Uk/9AUnG7zqtOXMnofH860FKgwzoIv1A/n3VmpaLD3RMgHydHj3sPy+aGQ7pMIJz0wY6hdiGHNVhUDh4xQ==', 'ROLE_USER', 'muriana', 0, 0, NULL, NULL, NULL, NULL, '', '', '2014-01-18 18:03:52'),
-(30, 'sergio@sergio.com', 'lRrOl/vg7pWwIyo8Rc+dJ3k6ui9kDPccWMwE4QoxoJ69ProA9zQ9gaz6oaHON4B6uLCk0zhMSj/kmXMfHOLkaw==', 'ROLE_USER', 'sergio', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2014-01-19 10:25:47'),
-(31, 'manuel@manuel.com', 'TPOXMBpuI2aahUNWCOBI9J+NlhNFtCGI+yoADy9bNK41hLU4BUbGP1cloq/dZqo/Wj9d9VdNsrPiHkazAv/3xQ==', 'ROLE_USER', 'manuel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2014-01-19 10:27:05');
+INSERT INTO `user` (`id`, `email`, `password`, `roles`, `nick`, `rango`, `sexo`, `nombre`, `apellidos`, `direccion`, `cp`, `provincia`, `localidad`, `registerDate`, `picture`) VALUES
+(28, 'admin@admin.com', 'nhDr7OyKlXQju+Ge/WKGrPQ9lPBSUFfpK+B1xqx/+8zLZqRNX0+5G1zBQklXUFy86lCpkAofsExlXiorUcKSNQ==', 'ROLE_USER,ROLE_ADMIN', 'admin', 10, 1, 'Manuel', 'Pancorbo Pestaña', 'Molino, 13', '23640', 'Jaén', 'Torre del Campo', '2014-01-18 18:03:52', 'http://www.tontuna.com/wp-content/uploads/2012/10/cara-o-perfil.jpg'),
+(29, 'sergio@gmail.com', 'DVW9Uk/9AUnG7zqtOXMnofH860FKgwzoIv1A/n3VmpaLD3RMgHydHj3sPy+aGQ7pMIJz0wY6hdiGHNVhUDh4xQ==', 'ROLE_USER', 'muriana', 5, 0, NULL, NULL, NULL, NULL, '', '', '2014-01-18 18:03:52', 'http://www.tontuna.com/wp-content/uploads/2012/10/cara-o-perfil.jpg'),
+(30, 'sergio@sergio.com', 'lRrOl/vg7pWwIyo8Rc+dJ3k6ui9kDPccWMwE4QoxoJ69ProA9zQ9gaz6oaHON4B6uLCk0zhMSj/kmXMfHOLkaw==', 'ROLE_USER', 'sergio', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2014-01-19 10:25:47', 'http://www.tontuna.com/wp-content/uploads/2012/10/cara-o-perfil.jpg'),
+(31, 'manuel@manuel.com', 'TPOXMBpuI2aahUNWCOBI9J+NlhNFtCGI+yoADy9bNK41hLU4BUbGP1cloq/dZqo/Wj9d9VdNsrPiHkazAv/3xQ==', 'ROLE_USER', 'manuel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2014-01-19 10:27:05', 'http://www.tontuna.com/wp-content/uploads/2012/10/cara-o-perfil.jpg');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
