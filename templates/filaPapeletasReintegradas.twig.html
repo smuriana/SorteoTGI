@@ -2,5 +2,5 @@
     <td>{{Dato.nick}}</td>
     <td>{{Dato.title}}</td>
     <td>{{Dato.cantidad}}</td>
-    <td><button class="btn btn-xs btn-success">Reintegrar</button></td>
+    <td><a href="{{ app.request.basepath }}/admin/reintegrar/{{Dato.id}}/{{Dato.id_ruffle}}"><button class="btn btn-xs btn-success">Reintegrar</button></a></td>
 </tr>
