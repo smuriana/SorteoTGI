@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-01-2014 a las 11:42:49
--- Versión del servidor: 5.6.14
--- Versión de PHP: 5.5.6
+-- Tiempo de generación: 19-01-2014 a las 13:23:41
+-- Versión del servidor: 5.5.32
+-- Versión de PHP: 5.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sorteos_db`
 --
+CREATE DATABASE IF NOT EXISTS `sorteos_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `sorteos_db`;
 
 DELIMITER $$
 --
@@ -70,6 +72,7 @@ CREATE TABLE IF NOT EXISTS `ballot` (
   `id_user` int(11) NOT NULL,
   `id_ruffle` int(11) NOT NULL,
   `number` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
@@ -78,27 +81,27 @@ CREATE TABLE IF NOT EXISTS `ballot` (
 -- Volcado de datos para la tabla `ballot`
 --
 
-INSERT INTO `ballot` (`id`, `id_user`, `id_ruffle`, `number`) VALUES
-(1, 28, 1, 3),
-(2, 28, 2, 63),
-(3, 28, 3, 44),
-(4, 28, 3, 14),
-(5, 28, 3, 40),
-(6, 28, 2, 42),
-(7, 28, 3, 34),
-(8, 28, 2, 33),
-(9, 28, 3, 15),
-(10, 28, 2, 22),
-(11, 28, 2, 4),
-(12, 28, 2, 37),
-(13, 28, 2, 0),
-(14, 28, 2, 34),
-(15, 28, 2, 12),
-(16, 28, 2, 31),
-(17, 28, 2, 2),
-(18, 28, 2, 5),
-(19, 28, 1, 83),
-(20, 28, 2, 71);
+INSERT INTO `ballot` (`id`, `id_user`, `id_ruffle`, `number`, `status`) VALUES
+(1, 28, 1, 3, 0),
+(2, 28, 2, 63, 2),
+(3, 28, 3, 44, 0),
+(4, 28, 3, 14, 0),
+(5, 28, 3, 40, 0),
+(6, 28, 2, 42, 2),
+(7, 28, 3, 34, 0),
+(8, 28, 2, 33, 2),
+(9, 28, 3, 15, 0),
+(10, 28, 2, 22, 2),
+(11, 28, 2, 4, 2),
+(12, 28, 2, 37, 2),
+(13, 28, 2, 0, 2),
+(14, 28, 2, 34, 2),
+(15, 28, 2, 12, 2),
+(16, 28, 2, 31, 2),
+(17, 28, 2, 2, 2),
+(18, 28, 2, 5, 2),
+(19, 28, 1, 83, 0),
+(20, 28, 2, 71, 2);
 
 --
 -- Disparadores `ballot`
@@ -146,7 +149,25 @@ INSERT INTO `notification` (`id`, `id_user`, `url`, `text`, `visible`, `time`, `
 (38, 28, '/descripcion/2/Audi A4', 'Lo siento, pero ha perdido, eres un Gañan!', 0, '2014-01-18 11:27:54', 'Sorteo terminado', ''),
 (39, 28, '/descripcion/2/Audi A4', 'Lo siento, pero ha perdido, eres un Gañan!', 0, '2014-01-18 11:27:54', 'Sorteo terminado', ''),
 (40, 28, '/descripcion/1/Sorteo Nexus 4', 'Has comprado la papeleta número 83 para el sorteo de Sorteo Nexus 4', 0, '2014-01-18 12:25:46', '', NULL),
-(41, 28, '/descripcion/2/Audi A4', 'Has comprado la papeleta número 71 para el sorteo de Audi A4', 1, '2014-01-18 20:07:41', '', NULL);
+(41, 28, '/descripcion/2/Audi A4', 'Has comprado la papeleta número 71 para el sorteo de Audi A4', 0, '2014-01-18 20:07:41', '', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `opinion`
+--
+
+CREATE TABLE IF NOT EXISTS `opinion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `id_ruffle` int(11) NOT NULL,
+  `rapidez` int(11) NOT NULL,
+  `trato` int(11) NOT NULL,
+  `estado_producto` int(11) NOT NULL,
+  `calidad_precio` int(11) NOT NULL,
+  `general` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -183,8 +204,8 @@ CREATE TABLE IF NOT EXISTS `ruffle` (
 --
 
 INSERT INTO `ruffle` (`id`, `create_date`, `user_id`, `description`, `short_description`, `status`, `bill`, `guarantee`, `init_date`, `final_date`, `ballots`, `price`, `picture1`, `picture2`, `picture3`, `tags`, `sold_ballots`, `title`, `winnerNumber`, `visible`) VALUES
-(1, '2013-11-20 19:30:21', 28, 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.\n\nLo vendo por haber adquirido el nuevo nexus 5', 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.', 9, 0, 0, '2013-11-20 23:00:00', '2014-01-16 23:00:00', 100, 300, '/img/nexus1.jpg', '/img/nexus2.jpg', '/img/nexus1.jpg', 'nexus 4, móvil, smartphone', 44, 'Sorteo Nexus 4', 319589, 2),
-(2, '2013-12-21 01:30:40', 29, 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km, 6900 eur., El coche esta en perfecto estado , mejor verlo y probarlo , tiene todo al día , libro de revisiones sellado en la casa audi . con todas las facturas , correas de distribución , filtros , pastillas ect...\r\nLo vendo por aumento de familia , acepto prueba mecánica , el coche esta como nuevo a tenido un mantenimiento excelente y siempre se le a echado diésel ultimate .\r\nTodos lo extras ESP,ordenador de abordo , doble clima ect...', 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km. El coche esta en perfecto estado', 1, 1, 0, '2013-12-20 23:00:00', '2014-01-27 23:00:00', 100, 6900, '/img/audi1.jpg', '/img/audi2.jpg', '', '', 16, 'Audi A4', 0, 3),
+(1, '2013-11-20 19:30:21', 28, 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.\n\nLo vendo por haber adquirido el nuevo nexus 5', 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.', 9, 0, 0, '2013-11-20 23:00:00', '2014-01-16 23:00:00', 100, 300, '/img/nexus1.jpg', '/img/nexus2.jpg', '/img/nexus1.jpg', 'nexus 4, móvil, smartphone', 44, 'Sorteo Nexus 4', 319589, 0),
+(2, '2013-12-21 01:30:40', 29, 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km, 6900 eur., El coche esta en perfecto estado , mejor verlo y probarlo , tiene todo al día , libro de revisiones sellado en la casa audi . con todas las facturas , correas de distribución , filtros , pastillas ect...\r\nLo vendo por aumento de familia , acepto prueba mecánica , el coche esta como nuevo a tenido un mantenimiento excelente y siempre se le a echado diésel ultimate .\r\nTodos lo extras ESP,ordenador de abordo , doble clima ect...', 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km. El coche esta en perfecto estado', 1, 1, 0, '2013-12-20 23:00:00', '2014-01-27 23:00:00', 100, 6900, '/img/audi1.jpg', '/img/audi2.jpg', '', '', 16, 'Audi A4', 0, 4),
 (3, '2013-12-21 01:36:15', 28, 'El nuevo IPHONE 5S, es el modelo de 16 GB precintado y en color BLANCO Y PLATA. Lo tengo en mi poder y se envia al dia siguiente del sorteo directamente al ganador. ', 'Precintado + 16 GB + Libre + Plateado y Blanquito!', 1, 1, 1, '2013-12-20 23:00:00', '2013-12-30 23:00:00', 100, 700, '/img/iphone1.jpg', '/img/iphone2.jpg', '', '', 8, 'Iphone 5S de 16GB Libre', NULL, 3),
 (4, '2013-12-21 01:30:40', 29, 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km, 6900 eur., El coche esta en perfecto estado , mejor verlo y probarlo , tiene todo al día , libro de revisiones sellado en la casa audi . con todas las facturas , correas de distribución , filtros , pastillas ect...\r\nLo vendo por aumento de familia , acepto prueba mecánica , el coche esta como nuevo a tenido un mantenimiento excelente y siempre se le a echado diésel ultimate .\r\nTodos lo extras ESP,ordenador de abordo , doble clima ect...', 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km. El coche esta en perfecto estado', 1, 1, 0, '2013-12-20 23:00:00', '2013-12-27 23:00:00', 100, 6900, '/img/audi1.jpg', '/img/audi2.jpg', '', '', 3, 'Audi A4', NULL, 3);
 
