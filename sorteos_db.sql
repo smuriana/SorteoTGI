@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-01-2014 a las 12:50:18
+-- Tiempo de generación: 19-01-2014 a las 11:42:49
 -- Versión del servidor: 5.6.14
 -- Versión de PHP: 5.5.6
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `ballot` (
   `number` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Volcado de datos para la tabla `ballot`
@@ -96,7 +96,9 @@ INSERT INTO `ballot` (`id`, `id_user`, `id_ruffle`, `number`) VALUES
 (15, 28, 2, 12),
 (16, 28, 2, 31),
 (17, 28, 2, 2),
-(18, 28, 2, 5);
+(18, 28, 2, 5),
+(19, 28, 1, 83),
+(20, 28, 2, 71);
 
 --
 -- Disparadores `ballot`
@@ -124,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `title` varchar(200) NOT NULL,
   `image` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
 
 --
 -- Volcado de datos para la tabla `notification`
@@ -142,7 +144,9 @@ INSERT INTO `notification` (`id`, `id_user`, `url`, `text`, `visible`, `time`, `
 (36, 28, '/descripcion/2/Audi A4', 'Lo siento, pero ha perdido, eres un Gañan!', 0, '2014-01-18 11:27:54', 'Sorteo terminado', ''),
 (37, 28, '/descripcion/2/Audi A4', 'Lo siento, pero ha perdido, eres un Gañan!', 0, '2014-01-18 11:27:54', 'Sorteo terminado', ''),
 (38, 28, '/descripcion/2/Audi A4', 'Lo siento, pero ha perdido, eres un Gañan!', 0, '2014-01-18 11:27:54', 'Sorteo terminado', ''),
-(39, 28, '/descripcion/2/Audi A4', 'Lo siento, pero ha perdido, eres un Gañan!', 0, '2014-01-18 11:27:54', 'Sorteo terminado', '');
+(39, 28, '/descripcion/2/Audi A4', 'Lo siento, pero ha perdido, eres un Gañan!', 0, '2014-01-18 11:27:54', 'Sorteo terminado', ''),
+(40, 28, '/descripcion/1/Sorteo Nexus 4', 'Has comprado la papeleta número 83 para el sorteo de Sorteo Nexus 4', 0, '2014-01-18 12:25:46', '', NULL),
+(41, 28, '/descripcion/2/Audi A4', 'Has comprado la papeleta número 71 para el sorteo de Audi A4', 1, '2014-01-18 20:07:41', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -170,6 +174,7 @@ CREATE TABLE IF NOT EXISTS `ruffle` (
   `sold_ballots` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   `winnerNumber` int(11) DEFAULT NULL,
+  `visible` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
@@ -177,11 +182,11 @@ CREATE TABLE IF NOT EXISTS `ruffle` (
 -- Volcado de datos para la tabla `ruffle`
 --
 
-INSERT INTO `ruffle` (`id`, `create_date`, `user_id`, `description`, `short_description`, `status`, `bill`, `guarantee`, `init_date`, `final_date`, `ballots`, `price`, `picture1`, `picture2`, `picture3`, `tags`, `sold_ballots`, `title`, `winnerNumber`) VALUES
-(1, '2013-11-20 19:30:21', 28, 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.\n\nLo vendo por haber adquirido el nuevo nexus 5', 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.', 9, 0, 0, '2013-11-20 23:00:00', '2014-01-16 23:00:00', 100, 300, '/img/nexus1.jpg', '/img/nexus2.jpg', '/img/nexus1.jpg', 'nexus 4, móvil, smartphone', 43, 'Sorteo Nexus 4', 319589),
-(2, '2013-12-21 01:30:40', 29, 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km, 6900 eur., El coche esta en perfecto estado , mejor verlo y probarlo , tiene todo al día , libro de revisiones sellado en la casa audi . con todas las facturas , correas de distribución , filtros , pastillas ect...\r\nLo vendo por aumento de familia , acepto prueba mecánica , el coche esta como nuevo a tenido un mantenimiento excelente y siempre se le a echado diésel ultimate .\r\nTodos lo extras ESP,ordenador de abordo , doble clima ect...', 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km. El coche esta en perfecto estado', 1, 1, 0, '2013-12-20 23:00:00', '2014-01-27 23:00:00', 100, 6900, '/img/audi1.jpg', '/img/audi2.jpg', '', '', 15, 'Audi A4', 0),
-(3, '2013-12-21 01:36:15', 28, 'El nuevo IPHONE 5S, es el modelo de 16 GB precintado y en color BLANCO Y PLATA. Lo tengo en mi poder y se envia al dia siguiente del sorteo directamente al ganador. ', 'Precintado + 16 GB + Libre + Plateado y Blanquito!', 1, 1, 1, '2013-12-20 23:00:00', '2013-12-30 23:00:00', 100, 700, '/img/iphone1.jpg', '/img/iphone2.jpg', '', '', 8, 'Iphone 5S de 16GB Libre', NULL),
-(4, '2013-12-21 01:30:40', 29, 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km, 6900 eur., El coche esta en perfecto estado , mejor verlo y probarlo , tiene todo al día , libro de revisiones sellado en la casa audi . con todas las facturas , correas de distribución , filtros , pastillas ect...\r\nLo vendo por aumento de familia , acepto prueba mecánica , el coche esta como nuevo a tenido un mantenimiento excelente y siempre se le a echado diésel ultimate .\r\nTodos lo extras ESP,ordenador de abordo , doble clima ect...', 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km. El coche esta en perfecto estado', 1, 1, 0, '2013-12-20 23:00:00', '2013-12-27 23:00:00', 100, 6900, '/img/audi1.jpg', '/img/audi2.jpg', '', '', 3, 'Audi A4', NULL);
+INSERT INTO `ruffle` (`id`, `create_date`, `user_id`, `description`, `short_description`, `status`, `bill`, `guarantee`, `init_date`, `final_date`, `ballots`, `price`, `picture1`, `picture2`, `picture3`, `tags`, `sold_ballots`, `title`, `winnerNumber`, `visible`) VALUES
+(1, '2013-11-20 19:30:21', 28, 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.\n\nLo vendo por haber adquirido el nuevo nexus 5', 'Nexus 4 en perfecto estado. Uso diario de 4 meses. Con funda y protector desde el primer día.', 9, 0, 0, '2013-11-20 23:00:00', '2014-01-16 23:00:00', 100, 300, '/img/nexus1.jpg', '/img/nexus2.jpg', '/img/nexus1.jpg', 'nexus 4, móvil, smartphone', 44, 'Sorteo Nexus 4', 319589, 2),
+(2, '2013-12-21 01:30:40', 29, 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km, 6900 eur., El coche esta en perfecto estado , mejor verlo y probarlo , tiene todo al día , libro de revisiones sellado en la casa audi . con todas las facturas , correas de distribución , filtros , pastillas ect...\r\nLo vendo por aumento de familia , acepto prueba mecánica , el coche esta como nuevo a tenido un mantenimiento excelente y siempre se le a echado diésel ultimate .\r\nTodos lo extras ESP,ordenador de abordo , doble clima ect...', 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km. El coche esta en perfecto estado', 1, 1, 0, '2013-12-20 23:00:00', '2014-01-27 23:00:00', 100, 6900, '/img/audi1.jpg', '/img/audi2.jpg', '', '', 16, 'Audi A4', 0, 3),
+(3, '2013-12-21 01:36:15', 28, 'El nuevo IPHONE 5S, es el modelo de 16 GB precintado y en color BLANCO Y PLATA. Lo tengo en mi poder y se envia al dia siguiente del sorteo directamente al ganador. ', 'Precintado + 16 GB + Libre + Plateado y Blanquito!', 1, 1, 1, '2013-12-20 23:00:00', '2013-12-30 23:00:00', 100, 700, '/img/iphone1.jpg', '/img/iphone2.jpg', '', '', 8, 'Iphone 5S de 16GB Libre', NULL, 3),
+(4, '2013-12-21 01:30:40', 29, 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km, 6900 eur., El coche esta en perfecto estado , mejor verlo y probarlo , tiene todo al día , libro de revisiones sellado en la casa audi . con todas las facturas , correas de distribución , filtros , pastillas ect...\r\nLo vendo por aumento de familia , acepto prueba mecánica , el coche esta como nuevo a tenido un mantenimiento excelente y siempre se le a echado diésel ultimate .\r\nTodos lo extras ESP,ordenador de abordo , doble clima ect...', 'AUDI A4 1.9 TDI, verde, año 2004, 160000 km. El coche esta en perfecto estado', 1, 1, 0, '2013-12-20 23:00:00', '2013-12-27 23:00:00', 100, 6900, '/img/audi1.jpg', '/img/audi2.jpg', '', '', 3, 'Audi A4', NULL, 3);
 
 --
 -- Disparadores `ruffle`
@@ -215,19 +220,22 @@ CREATE TABLE IF NOT EXISTS `user` (
   `cp` varchar(5) DEFAULT NULL,
   `provincia` varchar(100) DEFAULT NULL,
   `localidad` varchar(100) NOT NULL,
+  `registerDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nick` (`nick`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `password`, `roles`, `nick`, `rango`, `sexo`, `nombre`, `apellidos`, `direccion`, `cp`, `provincia`, `localidad`) VALUES
-(28, 'admin@admin.com', 'nhDr7OyKlXQju+Ge/WKGrPQ9lPBSUFfpK+B1xqx/+8zLZqRNX0+5G1zBQklXUFy86lCpkAofsExlXiorUcKSNQ==', 'ROLE_USER', 'admin', 10, 1, 'Manuel', 'Pancorbo Pestaña', 'Molino, 13', '23640', 'Jaén', 'Torre del Campo'),
-(29, 'sergio@gmail.com', 'DVW9Uk/9AUnG7zqtOXMnofH860FKgwzoIv1A/n3VmpaLD3RMgHydHj3sPy+aGQ7pMIJz0wY6hdiGHNVhUDh4xQ==', 'ROLE_USER', 'muriana', 0, 0, NULL, NULL, NULL, NULL, '', '');
+INSERT INTO `user` (`id`, `email`, `password`, `roles`, `nick`, `rango`, `sexo`, `nombre`, `apellidos`, `direccion`, `cp`, `provincia`, `localidad`, `registerDate`) VALUES
+(28, 'admin@admin.com', 'nhDr7OyKlXQju+Ge/WKGrPQ9lPBSUFfpK+B1xqx/+8zLZqRNX0+5G1zBQklXUFy86lCpkAofsExlXiorUcKSNQ==', 'ROLE_USER,ROLE_ADMIN', 'admin', 10, 1, 'Manuel', 'Pancorbo Pestaña', 'Molino, 13', '23640', 'Jaén', 'Torre del Campo', '2014-01-18 18:03:52'),
+(29, 'sergio@gmail.com', 'DVW9Uk/9AUnG7zqtOXMnofH860FKgwzoIv1A/n3VmpaLD3RMgHydHj3sPy+aGQ7pMIJz0wY6hdiGHNVhUDh4xQ==', 'ROLE_USER', 'muriana', 0, 0, NULL, NULL, NULL, NULL, '', '', '2014-01-18 18:03:52'),
+(30, 'sergio@sergio.com', 'lRrOl/vg7pWwIyo8Rc+dJ3k6ui9kDPccWMwE4QoxoJ69ProA9zQ9gaz6oaHON4B6uLCk0zhMSj/kmXMfHOLkaw==', 'ROLE_USER', 'sergio', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2014-01-19 10:25:47'),
+(31, 'manuel@manuel.com', 'TPOXMBpuI2aahUNWCOBI9J+NlhNFtCGI+yoADy9bNK41hLU4BUbGP1cloq/dZqo/Wj9d9VdNsrPiHkazAv/3xQ==', 'ROLE_USER', 'manuel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2014-01-19 10:27:05');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
