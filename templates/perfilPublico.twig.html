@@ -1,0 +1,22 @@
+{% extends "layout_.twig.html" %}
+
+{% block content %}
+<div class="container" style="margin-top:50px; padding-top:15px; background-color: rgba(255,255,255,0.5);">
+	<div class="row" style="margin-top:-13px">
+		{% include "ratingHeader.twig.html" %}
+	</div>
+	<div class="row">
+		{% include "opinionCarrusel.twig.html" %}
+			
+	</div>
+<div class="row">
+		<div class="well well-sm">
+			{% for ficha in fichas %}
+				{% include "fichaSorteo.twig.html" %}
+			{% else %}
+				<h3>Aún no ha publicado ningún sorteo</h3>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}

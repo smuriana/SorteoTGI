@@ -3,3 +3,11 @@
 
 -----------------PAPELETAS---------------
 -El campo status puede tener 3 estados (0:pagada 1:cancelada 2:reintegrado importe)
+-----------------VALORACIONES---------------
+- Comentario (No mas de 160 caracteres)
+Los siguietnes campos estan acotados de 0 a 5
+ - rapidez 
+ - trato
+ - estado del producto
+ - calidad/precio
+ - general (esta es una valoración general) 

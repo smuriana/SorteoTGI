@@ -305,6 +305,25 @@ $app->get('/perfil', function(Request $request) use($app){
 ->bind('perfil')
 ;
 
+$app->get('/perfil/{nick}', function($nick) use($app){
+
+	$user = $app['security']->getToken()->getUser();
+
+	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+    $notifications = $app['db']->fetchAll($sql);
+    
+
+    return $app['twig']->render('perfilPublico.twig.html', array(
+    	'notifications' => $notifications,
+    	'name' => $user->getName(),
+    	'email'=> $user->getUsername(),
+    	'menu_selected' => 'perfil'
+    	));
+
+})
+->bind('perfilPublico')
+;
+
 $app->post('/register', function(Request $request) use ($app){
 
 	$sql = "SELECT * FROM user WHERE email = ?";
