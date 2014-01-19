@@ -7119,17 +7119,10 @@ td.visible-print {
   }
 }
 .custab{
-    border: 3px solid #ccc;
-    padding: 5px;
-    margin: 5% 0;
-    box-shadow: 3px 3px 2px #ccc;
-    transition: 0.5s;
     }
 .custab:hover{
-    box-shadow: 3px 3px 0px transparent;
-    transition: 0.5s;
     }
-.tabla{
+.tablaAdmin{
   background-color: #fcfeff;
 }
 tr.enlace{
@@ -7144,4 +7137,7 @@ table>tr.enlace:hover{
 
 .table-striped > tbody > tr:nth-child(odd){
   background-color: #dddddd;
+}
+.containerTable{
+  box-shadow: 3px 3px 2px #ccc;
 }
