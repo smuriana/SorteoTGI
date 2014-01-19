@@ -17,10 +17,48 @@
 			<h3 class="fs-subtitle">Dinos que quieres vender y explicanos brevemente sus características</h3>
 			<input type="text" name="title" placeholder="Titulo" required/>
 			<input type="text" name="description" placeholder="Breve descripción (Máximo 160 caracteres)" maxlength="160" required/>
-			<input type="text" name="photo1" placeholder="URL de la foto" required/>
-			<input type="text" name="photo2" placeholder="URL de la foto" required/>
-			<input type="text" name="photo3" placeholder="URL de la foto" required/>
-			<input type="button" name="next" class="next action-button" value="Siguiente" />
+			<input type="text" name="photo1" placeholder="URL de la foto" onchange="cambiaFoto(this,1)" required/>
+			<input type="text" name="photo2" placeholder="URL de la foto" onchange="cambiaFoto(this,2)" required/>
+			<input type="text" name="photo3" placeholder="URL de la foto" onchange="cambiaFoto(this,3)" required/>
+			<div id="carousel-example-generic" class="carousel slide col-md-offset-1 col-md-10" data-ride="carousel">
+		    <!-- Indicators -->
+		    <ol class="carousel-indicators">
+		    	<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+		    	<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+		    	<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+		  	</ol>
+
+		  	<!-- Wrapper for slides -->
+		  	<div class="carousel-inner">
+		    	<div class="item active">
+		      		<img src="http://sommelierexpress.com/wp-content/themes/juiced/img/thumbnail-default.jpg" alt="Primera imagen" id="img1">
+		      		<div class="carousel-caption">
+		        		<h3>Primera imagen</h3>
+		      		</div>
+		    	</div>
+		    	<div class="item">
+		      		<img src="http://sommelierexpress.com/wp-content/themes/juiced/img/thumbnail-default.jpg" alt="Segunda imagen" id="img2">
+		      		<div class="carousel-caption">
+		        		<h3>Segunda imagen</h3>
+		      		</div>
+		    	</div>
+		    	<div class="item">
+		      		<img src="http://sommelierexpress.com/wp-content/themes/juiced/img/thumbnail-default.jpg" alt="Tercera imagen" id="img3">
+		      		<div class="carousel-caption">
+		        		<h3>Tercera imagen</h3>
+		      		</div>
+		    	</div>
+		  	</div>
+
+		  	<!-- Controls -->
+		  	<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+		    	<span class="glyphicon glyphicon-chevron-left"></span>
+		 	</a>
+		  	<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+		    	<span class="glyphicon glyphicon-chevron-right"></span>
+		  	</a>
+			</div>
+				<input type="button" name="next" class="next action-button" value="Siguiente" />
 		</fieldset>
 		<fieldset>
 			<h2 class="fs-title">¿Cuanto quieres?</h2>
@@ -133,5 +171,17 @@ $(".previous").click(function(){
 $(".submit").click(function(){
 	return false;
 })
+function cambiaFoto(element,number){
+	if(number == 1){
+		document.getElementById('img1').src = element.value;		
+	}
+	if(number == 2){
+		document.getElementById('img2').src = element.value;		
+	}
+	if(number == 3){
+		document.getElementById('img3').src = element.value;		
+	}
+}
+
 </script>
 {% endblock %}

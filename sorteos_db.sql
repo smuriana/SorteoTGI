@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-01-2014 a las 18:49:47
+-- Tiempo de generación: 20-01-2014 a las 00:15:31
 -- Versión del servidor: 5.5.32
 -- Versión de PHP: 5.4.19
 
@@ -169,7 +169,15 @@ CREATE TABLE IF NOT EXISTS `opinion` (
   `id_user_opina` int(11) NOT NULL,
   `comentario` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `opinion`
+--
+
+INSERT INTO `opinion` (`id`, `id_user`, `id_ruffle`, `rapidez`, `trato`, `estado_producto`, `calidad_precio`, `general`, `id_user_opina`, `comentario`) VALUES
+(1, 29, 4, 3, 2, 1, 1, 2, 28, 'Este tío es un impresentable, el muy bajo me ha tangao'),
+(2, 29, 4, 2, 2, 2, 2, 1, 28, 'dame mi audiiiiiiiiiiiiiiii');
 
 -- --------------------------------------------------------
 
