@@ -52,15 +52,15 @@
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                 {% endfor %}
                             {% else %}
-                                {% if valoracion.media < 1 %}
+                                {% if valoracionMedia.media < 1 %}
                                     <span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span>
-                                {% elseif valoracion.media < 2 %}
+                                {% elseif valoracionMedia.media < 2 %}
                                     <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span>
-                                {% elseif valoracion.media < 3 %}
+                                {% elseif valoracionMedia.media < 3 %}
                                     <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span>
-                                {% elseif valoracion.media < 4 %}
+                                {% elseif valoracionMedia.media < 4 %}
                                     <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><span class="glyphicon glyphicon-star-empty"></span>
-                                {% elseif valoracion.media < 5 %}
+                                {% elseif valoracionMedia.media < 5 %}
                                     <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span>
                                 {% else %}
                                     <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span>
@@ -93,7 +93,7 @@
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
                                         aria-valuemin="0" aria-valuemax="100" style="{%if totalValoraciones.total == 0 %} width: 0%{% else %} width: {{totalValoraciones4.total/totalValoraciones.total*100}}%{% endif %}">
-                                        <span class="sr-only">{%if totalValoraciones.total == 0 %}0{% else %}{{totalValoraciones5.total/totalValoraciones.total*100}}{% endif %}%</span>
+                                        <span class="sr-only">{%if totalValoraciones.total == 0 %}0{% else %}{{totalValoraciones4.total/totalValoraciones.total*100}}{% endif %}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -103,9 +103,9 @@
                             </div>
                             <div class="col-xs-8 col-md-9">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
                                         aria-valuemin="0" aria-valuemax="100" style="{%if totalValoraciones.total == 0 %} width: 0%{% else %} width: {{totalValoraciones3.total/totalValoraciones.total*100}}%{% endif %}">
-                                        <span class="sr-only">{%if totalValoraciones.total == 0 %}0{% else %}{{totalValoraciones5.total/totalValoraciones.total*100}}{% endif %}%</span>
+                                        <span class="sr-only">{%if totalValoraciones.total == 0 %}0{% else %}{{totalValoraciones3.total/totalValoraciones.total*100}}{% endif %}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -115,9 +115,9 @@
                             </div>
                             <div class="col-xs-8 col-md-9">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"
                                         aria-valuemin="0" aria-valuemax="100" style="{%if totalValoraciones.total == 0 %} width: 0%{% else %} width: {{totalValoraciones2.total/totalValoraciones.total*100}}%{% endif %}">
-                                        <span class="sr-only">{%if totalValoraciones.total == 0 %}0{% else %}{{totalValoraciones5.total/totalValoraciones.total*100}}{% endif %}%</span>
+                                        <span class="sr-only">{%if totalValoraciones.total == 0 %}0{% else %}{{totalValoraciones2.total/totalValoraciones.total*100}}{% endif %}%</span>
                                     </div>
                                 </div>
                             </div>
@@ -127,9 +127,9 @@
                             </div>
                             <div class="col-xs-8 col-md-9">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20"
                                         aria-valuemin="0" aria-valuemax="100" style="{%if totalValoraciones.total == 0 %} width: 0%{% else %} width: {{totalValoraciones1.total/totalValoraciones.total*100}}%{% endif %}">
-                                        <span class="sr-only">{%if totalValoraciones.total == 0 %}0{% else %}{{totalValoraciones5.total/totalValoraciones.total*100}}{% endif %}%</span>
+                                        <span class="sr-only">{%if totalValoraciones.total == 0 %}0{% else %}{{totalValoraciones1.total/totalValoraciones.total*100}}{% endif %}%</span>
                                     </div>
                                 </div>
                             </div>

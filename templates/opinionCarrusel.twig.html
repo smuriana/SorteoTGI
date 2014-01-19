@@ -5,9 +5,12 @@ $(document).ready(function() {
   $('#quote-carousel').carousel({
     pause: true,
     interval: 4000,
+    wrap: false,
   });
 });
 </script>
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
     <div class='col-md-offset-2 col-md-8 text-center'>
     <h2>Lo que opinan de Manuel</h2>
@@ -17,13 +20,14 @@ $(document).ready(function() {
     <div class='col-md-offset-2 col-md-8'>
       <div class="carousel slide" data-ride="carousel" id="quote-carousel">
         <!-- Bottom Carousel Indicators -->
-        
         {% if opiniones|length > 0 %}
           <ol class="carousel-indicators">
           <li data-target="#quote-carousel" data-slide-to="0" class="active"></li>
-          {% for i in 1..opiniones|length %}
-            <li data-target="#quote-carousel" data-slide-to="{{i}}"></li>
-          {% endfor %}   
+          {% if opiniones|length > 1 %}
+            {% for i in 1..opiniones|length - 1 %}
+              <li data-target="#quote-carousel" data-slide-to="{{i}}"></li>
+            {% endfor %}   
+          {% endif %}
           </ol>
         {% endif %}
 
@@ -33,16 +37,22 @@ $(document).ready(function() {
         
         
           <!-- Quotes-->
-          {% for opinion in opiniones %}
-            {% include 'quote.twig.html' with {'quote':opinion} %}
-          {% else %}
-            <h4 class="text-center">Nadie ha opinado aún</h4>
-          {% endfor %}
-        
-        <!-- Carousel Buttons Next/Prev -->
-        {% if opiniones|length > 0 %}
-          <a data-slide="prev" href="#quote-carousel" class="left carousel-control"><span class="icon-prev"></span></a>
-          <a data-slide="next" href="#quote-carousel" class="right carousel-control"><span class="icon-next"></span></a>
+          {% if opiniones|length > 0 %}
+            {% include 'quote.twig.html' with {'quote':opiniones[0], 'class':'item active'} %}
+          {% if opiniones|length > 1 %}
+            {% for i in 1..opiniones|length -1 %}
+              {% include 'quote.twig.html' with {'quote':opiniones[i], 'class':'item'} %}
+            {% endfor %}   
+          {% endif %}
+        {% else %}
+          <h4 class="text-center">Nadie ha opinado aún</h4>
         {% endif %}
-      </div>                          
+        </div> 
+        <!-- Carousel Buttons Next/Prev -->
+        {% if opiniones|length > 1 %}
+          <a data-slide="prev" href="#quote-carousel" class="left carousel-control"><i class="fa fa-chevron-left"></i></a>
+          <a data-slide="next" href="#quote-carousel" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
+        {% endif %}
+                               
     </div>
+  </div>

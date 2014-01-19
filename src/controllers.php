@@ -345,10 +345,10 @@ $app->get('/perfil/{nick}', function($nick) use($app){
     	'valoracionMedia' => $valoracionMedia,
     	'totalValoraciones' => $totalValoraciones,
     	'totalValoraciones5' => $totalValoraciones5,
-    	'totalValoraciones5' => $totalValoraciones4,
-    	'totalValoraciones5' => $totalValoraciones3,
-    	'totalValoraciones5' => $totalValoraciones2,
-    	'totalValoraciones5' => $totalValoraciones1,
+    	'totalValoraciones4' => $totalValoraciones4,
+    	'totalValoraciones3' => $totalValoraciones3,
+    	'totalValoraciones2' => $totalValoraciones2,
+    	'totalValoraciones1' => $totalValoraciones1,
     	'opiniones' => $opiniones,
 
     	));
