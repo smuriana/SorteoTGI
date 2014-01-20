@@ -40,29 +40,34 @@
 			    <div class="page-header">
 			      <h1 id="informacion-personal">Información personal</h1>
 			    </div>
-				{% include 'perfilInfoPersonal.twig.html' %}
+				{% include "perfilInfoPersonal.twig.html" %}
 		            <!-- Opiniones
 		  ================================================== -->
 			<div class="page-header">
-		      <h1 id="informacion-personal">Opiniones</h1>
+		      <h1 id="opiniones">Opiniones</h1>
 		    </div>
-			{% include 'perfilInfoPersonal.twig.html' %}
+			{% include "opinionCarrusel.twig.html" %}
 		    		<!-- Sorteos
 		  ================================================== -->
 			<div class="page-header">
 		      <h1 id="sorteos">Sorteos</h1>
 		    </div>
-			{% include 'perfilInfoPersonal.twig.html' %}
 		            <!-- Sorteos realizados por mi
 		  ================================================== -->
 			<div class="page-header">
-		      <h2 id="sorteos-mios">Sorteos realizados por mi</h2>
+		      <h3 id="sorteos-mios">Realizados por mi</h3>
 		    </div>
-			{% include 'perfilInfoPersonal.twig.html' %}
+		    <div class="row" style="margin-top:2%">
+				{% for ficha in fichas %}
+					{% include "fichaSorteo.twig.html" with {'ficha':ficha} %}
+				{% else %}
+					<center><h3>Aún no ha publicado ningún sorteo</h3></center>
+				{% endfor %}
+			</div>
 		            <!-- Sorteos en los que participo
 		  ================================================== -->
 			<div class="page-header">
-		      <h2 id="sorteos-participo">Sorteos en los que participo</h2>
+		      <h3 id="sorteos-participo">En los que participo</h3>
 		    </div>
 			{% include 'perfilInfoPersonal.twig.html' %}
 

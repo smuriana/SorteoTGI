@@ -31,57 +31,30 @@ $app->get('/bbdd/{numTuplas}/{tabla}', function($numTuplas, $tabla) use ($app){
 		if (($handle = fopen("../usuarios.csv", "r")) !== FALSE) {
 		    while (($dato = fgetcsv($handle, 1000, ",")) !== FALSE AND ($i < $numTuplas)) {
 
-	       		$usuarioActual = 'usu'.($punteroId+$i);
-			    $array = array(
-					"email" => $usuarioActual."@".$usuarioActual.'.com',
-					"password" => $encoder->encodePassword($usuarioActual, ''),
-					"roles" => "ROLE_USER",
-					"nick" => $dato[0],
-					"rango" => rand(0, 5),
-					"sexo" => str_replace(array('female','male'), array('0','1'), $dato[1]),
-					"nombre" => $dato[2],
-					"apellidos" => $dato[3],
-					"direccion" => $dato[4],
-					"cp" => $dato[5],
-					"provincia" => $dato[6],
-					"localidad" => $dato[7],
-					"registerDate" => date("Y:M:D h:m:s"),
+		       		$usuarioActual = 'usu'.($punteroId+$i);
+				    $array = array(
+						"email" => $usuarioActual."@".$usuarioActual.'.com',
+						"password" => $encoder->encodePassword($usuarioActual, ''),
+						"roles" => "ROLE_USER",
+						"nick" => $dato[0],
+						"rango" => rand(0, 5),
+						"sexo" => str_replace(array('female','male'), array('0','1'), $dato[1]),
+						"nombre" => $dato[2],
+						"apellidos" => $dato[3],
+						"direccion" => $dato[4],
+						"cp" => $dato[5],
+						"provincia" => $dato[6],
+						"localidad" => $dato[7],
+						"registerDate" => date("Y:M:D h:m:s"),
 
-				);
-		    
-				#$email							$usuarioActual."@".$usuarioActual.'com';
-				#$rol							"ROLE_USER";
-				#$nick							$dato[0];
-				#$rango							rand(0, 5);
-				#$sexo							str_replace(array('female','male'), array('0','1'), $dato[1]);
-				#$nombre							$dato[2];
-				#$apellidos						$dato[3];
-				#$direccion						$dato[4];
-				#$cp								$dato[5];
-				#$provincia						$dato[6];
-				#$localidad						$dato[7];
-				#$registerDate					date("Y:M:D h:m:s");
-				#$pass= $encoder->encodePassword($usuarioActual, '');
-
-
-			    print_r($app['db']->insert('user', $array));
-
-		        $i++;
+					);
+				    print_r($app['db']->insert('user', $array));
+			        $i++;
 		    }
 		    fclose($handle);
 		}
-
-
-			
-
-		#$sql = "INSERT INTO ".$tabla." (email, password, roles, nick, rango, sexo, nombre, apellidos, direccion, cp, provincia, localidad, registerDate) VALUES ()";
-		
-		
-
 	}
 	
-
-
 	$user = $app['security']->getToken()->getUser();
 	// Devuelve todos los sorteos comenzados y los guarda en un array los sortos inicializados
 	$hoy = date("Y-m-d H:i:s");
@@ -421,10 +394,9 @@ $app->get('/perfil', function(Request $request) use($app){
 	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
     $notifications = $app['db']->fetchAll($sql);
     
-    $ruffles = $app['db']->fetchAll('SELECT ruffle.title, ruffle.ballots, ruffle.sold_ballots, ruffle.short_description, ruffle.final_date, ruffle.picture1, ruffle.id FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($user->getNick()));
+    $sorteosCreados = $app['db']->fetchAll('SELECT ruffle.title, ruffle.ballots, ruffle.sold_ballots, ruffle.short_description, ruffle.final_date, ruffle.picture1, ruffle.id FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($user->getNick()));
 
-
-    $usuario = $app['db']->fetchAssoc('SELECT user.nick, user.picture, user.rango FROM user WHERE user.nick = ?', array($user->getNick()));
+    $usuario = $app['db']->fetchAssoc('SELECT * FROM user WHERE user.nick = ?', array($user->getNick()));
 
     $valoracionMedia = $app['db']->fetchAssoc('SELECT AVG(general) as media FROM opinion WHERE id_user = ?', array($user->getId()));
 
@@ -448,7 +420,7 @@ $app->get('/perfil', function(Request $request) use($app){
     	'user' => $user,
     	'email'=> $user->getUsername(),
     	'menu_selected' => 'perfil',
-    	'fichas' => $ruffles,
+    	'fichas' => $sorteosCreados,
     	'valoracionMedia' => $valoracionMedia,
     	'totalValoraciones' => $totalValoraciones,
     	'totalValoraciones5' => $totalValoraciones5,
