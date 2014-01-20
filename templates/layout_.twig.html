@@ -76,7 +76,7 @@
                 {% endif %}
             </li>
               <li {% if menu_selected == 'perfil' %} class="active"{% endif %}>
-                <a style="padding:4px 0px" href="{{path('perfil')}}"><img class="img-circle" src="{{ app.request.basepath }}/img/Alien1.bmp" alt="Imagen de perfil" style="width: 3em; height: 3em; border:2px solid gray;"><span style="padding:11px">{% if is_granted('IS_AUTHENTICATED_FULLY') %}  Perfil de {{user.nick}} {% else %} Perfil {% endif %}</span></a>
+                <a style="padding:4px 0px" href="{{path('perfil')}}"><img class="img-circle" src="{{user.picture}}" alt="Imagen de perfil" style="width: 3em; height: 3em; border:2px solid gray;"><span style="padding:11px">{% if is_granted('IS_AUTHENTICATED_FULLY') %}  Perfil de {{user.nick}} {% else %} Perfil {% endif %}</span></a>
               </li>
               <li>
                 <a href="{{path('logout')}}"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesi&oacute;n</a>

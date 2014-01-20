@@ -151,6 +151,24 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 	$user = $app['security']->getToken()->getUser();
 	
     $myRuffle = new Ruffle($id,$app['db']);//Esto no creemos que este demasiado bien
+    
+    $userSorteo = $app['db']->fetchAssoc('SELECT user.* FROM user, ruffle WHERE user.id = ruffle.user_id AND ruffle.id = ?', array($id));
+
+    $valoracionMedia = $app['db']->fetchAssoc('SELECT AVG(general) as media FROM opinion WHERE id_user = ?', array($userSorteo['id']));
+
+    $totalValoraciones = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ?', array($userSorteo['id']));
+
+    $totalValoraciones5 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 5', array($userSorteo['id']));
+
+    $totalValoraciones4 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 4', array($userSorteo['id']));
+
+    $totalValoraciones3 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 3', array($userSorteo['id']));
+
+    $totalValoraciones2 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 2', array($userSorteo['id']));
+
+    $totalValoraciones1 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 1', array($userSorteo['id']));
+
+    $opiniones = $app['db']->fetchAll('SELECT user.picture, user.nick, opinion.comentario FROM user, opinion WHERE user.id = opinion.id_user_opina AND opinion.id_user = ?', array($userSorteo['id']));
 
 
 	if(!is_object($user)){
@@ -158,6 +176,15 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		'notifications' => null,
 		'name' => null,
 		'ruffle' => $myRuffle,
+		'userSorteo' => $userSorteo,
+		'valoracionMedia' => $valoracionMedia,
+    	'totalValoraciones' => $totalValoraciones,
+    	'totalValoraciones5' => $totalValoraciones5,
+    	'totalValoraciones4' => $totalValoraciones4,
+    	'totalValoraciones3' => $totalValoraciones3,
+    	'totalValoraciones2' => $totalValoraciones2,
+    	'totalValoraciones1' => $totalValoraciones1,
+    	'opiniones' => $opiniones,
 		'menu_selected' => 'null'
 		));
 	}
@@ -177,6 +204,15 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		'notifications' => $notifications,
 		'user' => $user,
 		'ruffle' => $myRuffle,
+		'userSorteo' => $userSorteo,
+		'valoracionMedia' => $valoracionMedia,
+    	'totalValoraciones' => $totalValoraciones,
+    	'totalValoraciones5' => $totalValoraciones5,
+    	'totalValoraciones4' => $totalValoraciones4,
+    	'totalValoraciones3' => $totalValoraciones3,
+    	'totalValoraciones2' => $totalValoraciones2,
+    	'totalValoraciones1' => $totalValoraciones1,
+    	'opiniones' => $opiniones,
 		'menu_selected' => 'null'
 		));
 })

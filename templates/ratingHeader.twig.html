@@ -14,27 +14,27 @@
             <div class="well well-sm">
                 <div class="row">
                 <div class="col-xs-12 col-md-4 text-center" style="padding-top:1%;">
-                        <img class="img-circle" src="{{user.picture}}" alt="Imagen de perfil" style="width: 6em; height: 6em; border:2px solid gray;">
-                        <h3>@{{user.nick}}</h3>
-                        {% if user.rango == 0 %}
+                        <img class="img-circle" src="{{userPerfil.picture}}" alt="Imagen de perfil" style="width: 6em; height: 6em; border:2px solid gray;">
+                        <h3>@{{userPerfil.nick}}</h3>
+                        {% if userPerfil.rango == 0 %}
                             <h4>Nuevo en Sortilandia</h4>
-                        {% elseif user.rango == 1 %}
+                        {% elseif userPerfil.rango == 1 %}
                             <h4>Enterao</h4>
-                        {% elseif user.rango == 2 %}
+                        {% elseif userPerfil.rango == 2 %}
                             <h4>Asiduo de Sortilandia</h4>
-                        {% elseif user.rango == 3 %}
+                        {% elseif userPerfil.rango == 3 %}
                             <h4>Profesional de Sortilandia</h4>
-                        {% elseif user.rango == 4 %}
+                        {% elseif userPerfil.rango == 4 %}
                             <h4>Jefazo de Sortilandia</h4>
-                        {% elseif user.rango == 5 %}
+                        {% elseif userPerfil.rango == 5 %}
                             <h4>Capaz de sortear a su madre</h4>
-                        {% elseif user.rango == 6 %}
+                        {% elseif userPerfil.rango == 6 %}
                             Kenny is sick.
-                        {% elseif user.rango == 7 %}
+                        {% elseif userPerfil.rango == 7 %}
                             You killed Kenny! You bastard!!!
-                        {% elseif user.rango == 8 %}
+                        {% elseif userPerfil.rango == 8 %}
                             Kenny is sick.
-                        {% elseif user.rango == 9 %}
+                        {% elseif userPerfil.rango == 9 %}
                             You killed Kenny! You bastard!!!
                         {% endif %}
                     </div>
