@@ -2,11 +2,11 @@
   <blockquote>
     <div class="row">
       <div class="col-sm-3 text-center">
-        <img class="img-circle" src="{{quote.picture}}" style="width: 100px;height:100px;">
+        <a href="{{ app.request.basepath }}/perfil/{{quote.nick}}"><img class="img-circle" src="{{quote.picture}}" style="width: 100px;height:100px;"></a>
       </div>
       <div class="col-sm-9">
         <p>{{quote.comentario}}</p>
-        <small>{{quote.nick}}</small>
+        <a href="{{ app.request.basepath }}/perfil/{{quote.nick}}"><small>{{quote.nick}}</small></a>
       </div>
     </div>
   </blockquote>
