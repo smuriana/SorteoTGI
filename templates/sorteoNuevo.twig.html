@@ -4,7 +4,7 @@
 
 <div class="col-md-8 col-md-offset-2" style="margin-top:50px; padding-top:15px;">
 	<!-- multistep form  -->
-	<form id="msform" method="POST" >
+	<form id="msform" action="{{ path('creaSorteo') }}" method="POST" >
 		<!-- progressbar -->
 		<ul id="progressbar">
 			<li class="active">¿Que vendes?</li>
@@ -16,7 +16,7 @@
 			<h2 class="fs-title">¿Que vendes?</h2>
 			<h3 class="fs-subtitle">Dinos que quieres vender y explicanos brevemente sus características</h3>
 			<input type="text" name="title" placeholder="Titulo" required/>
-			<input type="text" name="description" placeholder="Breve descripción (Máximo 160 caracteres)" maxlength="160" required/>
+			<input type="text" name="short_description" placeholder="Breve descripción (Máximo 160 caracteres)" maxlength="160" required/>
 			<input type="text" name="photo1" placeholder="URL de la foto" onchange="cambiaFoto(this,1)" required/>
 			<input type="text" name="photo2" placeholder="URL de la foto" onchange="cambiaFoto(this,2)" required/>
 			<input type="text" name="photo3" placeholder="URL de la foto" onchange="cambiaFoto(this,3)" required/>
@@ -79,7 +79,7 @@
 		<fieldset>
 			<h2 class="fs-title">¿Algún dato más?</h2>
 			<h3 class="fs-subtitle">Estos campos no son obligatorios, pero aumentan las probabilidades de venta si los pones</h3>
-			<textarea name="address" placeholder="Descripción extendida del producto, no hay límite de caracteres"></textarea>
+			<textarea name="description" placeholder="Descripción extendida del producto, no hay límite de caracteres"></textarea>
 			<div class="row">
 				<div style="float:left; margin-left:15px;">
 					<input type="checkbox" name="bill" value="bill" style="width:auto"> Tiene factura
@@ -168,9 +168,6 @@ $(".previous").click(function(){
 	});
 });
 
-$(".submit").click(function(){
-	return false;
-})
 function cambiaFoto(element,number){
 	if(number == 1){
 		document.getElementById('img1').src = element.value;		

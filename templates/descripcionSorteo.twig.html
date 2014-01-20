@@ -24,17 +24,17 @@
 				<div class="carousel-inner">
 				{% if ruffle.getPicture1 is not empty %}
 				<div class="item active">
-				  <img src="{{ app.request.basepath }}{{ruffle.getPicture1}}" alt="">
+				  <img src="{{ruffle.getPicture1}}" alt="">
 				</div>
 				{% endif %}
 				{% if ruffle.getPicture2 is not empty %}
 				<div class="item">
-				  <img src="{{ app.request.basepath }}{{ruffle.getPicture2}}" alt="">
+				  <img src="{{ruffle.getPicture2}}" alt="">
 				</div>
 				{% endif %}
 				{% if ruffle.getPicture3 is not empty %}
 				<div class="item">
-				  <img src="{{ app.request.basepath }}{{ruffle.getPicture3}}" alt="">
+				  <img src="{{ruffle.getPicture3}}" alt="">
 				</div>
 				{% endif %}
 				

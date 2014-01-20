@@ -173,6 +173,8 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
     $notifications = $app['db']->fetchAll($sql);
 
+
+
 	return $app['twig']->render('descripcionSorteo.twig.html', array(
 		'notifications' => $notifications,
 		'user' => $user,
@@ -198,13 +200,45 @@ $app->get('/admin/descripcion/{id}/{title}', function($id, $title) use($app){
 	
     $myRuffle = new Ruffle($id,$app['db']);//Esto no creemos que este demasiado bien
 
+	$app['db']->update('notification',array(	
+			'visible' => false
+		),
+		array(
+			'id_user'	=> $user->getId(),
+			'url'	 	=> '/descripcion/'.$id.'/'.$title
+		));
+
 	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
     $notifications = $app['db']->fetchAll($sql);
 
-	return $app['twig']->render('descripcionAdminSorteo.twig.html', array(
+    $userSorteo = $app['db']->fetchAssoc('SELECT user.* FROM user, ruffle WHERE user.id = ruffle.user_id AND ruffle.id = ?', array($id));
+
+    $valoracionMedia = $app['db']->fetchAssoc('SELECT AVG(general) as media FROM opinion WHERE id_user = ?', array($userSorteo['id']));
+
+    $totalValoraciones = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ?', array($userSorteo['id']));
+
+    $totalValoraciones5 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 5', array($userSorteo['id']));
+
+    $totalValoraciones4 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 4', array($userSorteo['id']));
+
+    $totalValoraciones3 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 3', array($userSorteo['id']));
+
+    $totalValoraciones2 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 2', array($userSorteo['id']));
+
+    $totalValoraciones1 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 1', array($userSorteo['id']));
+
+	return $app['twig']->render('descripcionSorteo.twig.html', array(
 		'notifications' => $notifications,
 		'user' => $user,
 		'ruffle' => $myRuffle,
+		'userSorteo' => $userSorteo,
+		'valoracionMedia' => $valoracionMedia,
+    	'totalValoraciones' => $totalValoraciones,
+    	'totalValoraciones5' => $totalValoraciones5,
+    	'totalValoraciones4' => $totalValoraciones4,
+    	'totalValoraciones3' => $totalValoraciones3,
+    	'totalValoraciones2' => $totalValoraciones2,
+    	'totalValoraciones1' => $totalValoraciones1,
 		'menu_selected' => 'null'
 		));
 })
@@ -314,6 +348,7 @@ $app->match('/login', function (Request $request) use ($app) {
 	if(!is_object($user)){
 		return $app['twig']->render('login.twig.html', array(
 			'invalidEmail' => false,
+			'invalidNick' => false,
 			'error' => $app['security.last_error']($request),
 			'last_username' => $app['session']->get('_security.last_username'),	
 			'name' => null,
@@ -496,8 +531,15 @@ $app->post('/register', function(Request $request) use ($app){
 
 	$sql = "SELECT * FROM user WHERE email = ?";
     $res = $app['db']->fetchAll($sql, array($request->get('email')));
+
+    $res2 =$app['db']->fetchAll("SELECT * FROM user WHERE nick = ?", array($request->get('nick')));
+
+  	if(count($res2) === 1){
+  		return $app['twig']->render('login.twig.html', array('invalidEmail' => false,'menu_selected' => 'null','invalidNick' => true));
+  	}
+
     if(count($res) === 1){
-    	return $app['twig']->render('login.twig.html', array('invalidEmail' => true));
+    	return $app['twig']->render('login.twig.html', array('invalidEmail' => true,'menu_selected' => 'null','invalidNick' => false));
     }
 
 
@@ -518,6 +560,42 @@ $app->post('/register', function(Request $request) use ($app){
 
 })
 ->bind('register')
+;
+
+$app->post('/creaSorteo', function(Request $request) use ($app){
+
+	$user = $app['security']->getToken()->getUser();
+	
+	if ($request->get('bill')=='bill'){
+		$bill = 1;
+	}else{
+		$bill = 0;
+	}
+
+	if ($request->get('guarantee') == 'guarantee'){
+		$guarantee = 1;
+	}else{
+		$guarantee = 0;
+	}
+	$app['db']->insert('ruffle', array(
+		'user_id' 			=> $user->getId(),
+		'description' 		=> $request->get('description'),
+		'short_description' => $request->get('short_description'),
+		'bill' 				=> $bill,
+		'guarantee' 		=> $guarantee,
+		'init_date' 		=> $request->get('init_date'),
+		'final_date' 		=> $request->get('finish_date'),
+		'ballots'			=> $request->get('numBallots'),
+		'price'				=> $request->get('price'),
+		'picture1'			=> $request->get('photo1'),
+		'picture2'			=> $request->get('photo2'),
+		'picture3'			=> $request->get('photo3'),
+		'title'				=> $request->get('title'),
+				));
+		
+	return $app->redirect('index');
+})
+->bind('creaSorteo')
 ;
 
 $app->get('/getuser', function () use ($app){

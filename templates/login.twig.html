@@ -12,11 +12,17 @@
 	    	<div class="alert alert-danger bs-alert-old-docs">
 		 		 El correo escogido ya está en uso. ¿Has olvidado tu contraseña? Haz click <a href="#">aquí</a>
 			</div>
-			{% endif %}
+		{% endif %}
+
+		{% if invalidNick == true %}
+	    	<div class="alert alert-danger bs-alert-old-docs">
+		 		 El nombre de usuario escogido ya está en uso. ¿Eres tú? Haz click <a href="#">aquí para recuperar la contraseña</a>
+			</div>
+		{% endif %}
 
 
 	<div class="panel panel-default panel-body">
-	    <h2>¿Eres nuevo en Sorteos?</h2>
+	    <h2>¿Eres nuevo en Sortilandia?</h2>
 	    Registrate:
 	    <div class="col-sm-offset-2">
 	    	
