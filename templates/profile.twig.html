@@ -5,98 +5,70 @@
 
 <div class="container" style="margin-top:50px; padding:15px; background-color: rgba(255,255,255,0.5);">
 
+
 	<div class="row">
-			<div class="col-md-2">
-			<h2><img class="img-circle" src="{{ app.request.basepath }}/img/foto.jpg" alt="Imagen de perfil" style="width: 6em; height: 6em; border:2px solid gray;"></h2>
-			</div>
-			<div class="col-md-10"><h2 style="padding-top: 1em;"> Perfil de {{user.getNick}}<small> {{user.getUsername}}</small></h2></div>
+		{% include 'ratingHeader.twig.html' %}
 	</div>
 
-	<div class="row" style="margin-top:5em;">
-			<div class="col-md-3">
-				<div class="btn-group-vertical">
+	<div class="row">
+	    <div class="col-md-3">
+	      <div class="bs-sidebar hidden-print affix-top" role="complementary">
+	        <ul class="nav bs-sidenav">
+	          
+	            <li>
+					<a href="#informacion-personal"><span class="glyphicon glyphicon-user"></span>Información Personal</a>
+				</li>
+				<li>
+					<a href="#opiniones"><span class="glyphicon glyphicon-heart"></span>Que opinan de mi</a>
+				</li>
+				<li>
+					<a href="#sorteos">Sorteos</a>
+					 <ul class="nav">
+					    <li><a href="#sorteos-mios">Realizados por mi</a></li>
+					    <li><a href="#sorteos-participo">En los que participo</a></li>
+					  </ul>
+				</li>
 
-					<button type="button" id="personalInformation" class="btn btn-primary text-left">
-					<div class="text-left"><span class="glyphicon glyphicon-user"></span> Informaci&oacute;n personal</div></button>
-					<button type="button" id="opiniones" class="btn btn-primary text-left"><div class="text-left"><span class="glyphicon glyphicon-heart"></span> Lo que opinan sobre m&iacute;</div></button>
-					<button type="button"  class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown"><div class="text-left"><span class="glyphicon glyphicon-sort-by-attributes"></span>
-    					Mis sorteos <span class="caret"></span></div></button>
-						<ul class="dropdown-menu" role="menu">
-						    <li><a href="#" id="realizados">Realizados por m&iacute;</a></li>
-						    <li class="divider"></li>
-						    <li><a href="#" id="participaciones">En los que participo</a></li>
-					    </ul>
-					</button>
+	          
+	        </ul>
+	      </div>
+	    </div>
+	    <div class="col-md-9" role="main">
+		            <!-- Información personal
+		  ================================================== -->
+		  	<div class="bs-docs-section">
+			    <div class="page-header">
+			      <h1 id="informacion-personal">Información personal</h1>
+			    </div>
+				{% include 'perfilInfoPersonal.twig.html' %}
+		            <!-- Opiniones
+		  ================================================== -->
+			<div class="page-header">
+		      <h1 id="informacion-personal">Opiniones</h1>
+		    </div>
+			{% include 'perfilInfoPersonal.twig.html' %}
+		    		<!-- Sorteos
+		  ================================================== -->
+			<div class="page-header">
+		      <h1 id="sorteos">Sorteos</h1>
+		    </div>
+			{% include 'perfilInfoPersonal.twig.html' %}
+		            <!-- Sorteos realizados por mi
+		  ================================================== -->
+			<div class="page-header">
+		      <h2 id="sorteos-mios">Sorteos realizados por mi</h2>
+		    </div>
+			{% include 'perfilInfoPersonal.twig.html' %}
+		            <!-- Sorteos en los que participo
+		  ================================================== -->
+			<div class="page-header">
+		      <h2 id="sorteos-participo">Sorteos en los que participo</h2>
+		    </div>
+			{% include 'perfilInfoPersonal.twig.html' %}
 
-				</div>
-				
-			</div>
 
-			<div class="col-md-9 panel" id="block">
-				
-			Informacion Personal
-
-<div class="modalajax"></div>
-			</div>
-
+		  	</div>
+		</div>
 	</div>
 </div>
-
-
-<script type="text/javascript">
-
-		jQuery.ajaxSetup({
-	  beforeSend: function() {
-	     $('body').addClass('loading');
-	  },
-	  complete: function(){
-	     $('body').removeClass('loading');
-	  },
-	  success: function() {}
-	});
-
-	/*$("body").on({
-	    // When ajaxStart is fired, add 'loading' to body class
-	    ajaxStart: function() { 
-	        $(this).addClass("loading"); 
-	    },
-	    // When ajaxStop is fired, rmeove 'loading' from body class
-	    ajaxStop: function() { 
-	        $(this).removeClass("loading"); 
-	    }    
-	});*/
-		
-	$('#personalInformation').click(function(){
-		$.get('{{path('index')}}', function(datos){
-			$('#block').html("Mis datos personales");
-		});
-	});
-
-	$('#opiniones').click(function(){
-		$.get('{{path('index')}}', function(datos){
-			$('#block').html("Lo que opinan sobre mí");
-		});
-	});
-
-	$('#realizados').click(function(){
-		$.get('{{path('index')}}', function(datos){
-			$('#block').html("Sorteos realizados por mí");
-		});
-	});
-
-	$('#participaciones').click(function(){
-		$.get('{{path('index')}}', function(datos){
-			$('#block').html("Sorteos en los que participo");
-		});
-	});
-
-	$('#curso').click(function(){
-		$.get('{{path('index')}}', function(datos){
-			$('#block').html("Sorteos en curso");
-		});
-	});
-
-</script>
-
-
 {% endblock %}

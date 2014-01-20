@@ -53,14 +53,14 @@
               <li class="dropdown dropdown-large">
                 <a href="{%if notifications|length == 0%}{{ app.url_generator.generate('index') }}{% else %}#{% endif %}" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-bell"></span>  <span class="badge">{{notifications|length}}</span></a>
 
-                <ul class="dropdown-menu dropdown-menu-large row">
+                <ul class="dropdown-menu dropdown-menu-large row" style="width: 300px;">
                   <li class="col-sm-12">
                     <ul>
-                      <li class="dropdown-header">Notificaciones</li>
+                      <li class="dropdown-header"><h4>Notificaciones</h4></li>
                       {%for notification in notifications%}
                       <li><a href="{{ app.request.basepath }}{{notification.url}}">{{notification.text}} | {{notification.time}}</a></li>
                       {%else%}
-                      No tiene notificaciones nuevas
+                      <li>No tiene notificaciones nuevas</li>
                       {%endfor%}
 
                       <div style="width:60%;margin:0 auto;">
