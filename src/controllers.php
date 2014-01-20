@@ -414,6 +414,8 @@ $app->get('/perfil', function(Request $request) use($app){
 
     $opiniones = $app['db']->fetchAll('SELECT user.picture, user.nick, opinion.comentario FROM user, opinion WHERE user.id = opinion.id_user_opina AND opinion.id_user = ?', array($user->getId()));
 
+    $sorteosParticipa = $app['db']->fetchAll('SELECT ruffle.* FROM ruffle, ballot WHERE ballot.id_user = ruffle.user_id AND ruffle.user_id = ?', array($user->getId()));
+
     return $app['twig']->render('profile.twig.html', array(
     	'notifications' => $notifications,
     	'userPerfil' => $usuario,
@@ -421,6 +423,7 @@ $app->get('/perfil', function(Request $request) use($app){
     	'email'=> $user->getUsername(),
     	'menu_selected' => 'perfil',
     	'fichas' => $sorteosCreados,
+    	'sorteosParticipa' => $sorteosParticipa,
     	'valoracionMedia' => $valoracionMedia,
     	'totalValoraciones' => $totalValoraciones,
     	'totalValoraciones5' => $totalValoraciones5,

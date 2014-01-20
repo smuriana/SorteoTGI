@@ -43,7 +43,7 @@
                             {% if valoracionMedia.media is empty %}
                                 0
                             {% else %}
-                                {{ valoracionMedia.media }}
+                                {{ valoracionMedia.media |number_format(1, '.', ',')}}
                             {% endif %}
                             </h1>
                         <div class="rating">
