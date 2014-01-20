@@ -1,5 +1,5 @@
 <?php
-
+include_once('../simple_html_dom.php');
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,6 +13,7 @@ $app->get('/', function () use ($app) {
 })
 ->bind('homepage')
 ;
+
 
 
 
@@ -53,8 +54,81 @@ $app->get('/bbdd/{numTuplas}/{tabla}', function($numTuplas, $tabla) use ($app){
 		    }
 		    fclose($handle);
 		}
+		
 	}
-	
+	if($tabla=='ruffle'){
+		$NUMERO_SORTEOS=$numTuplas;
+		$NUMERO_PAGINAS=50;
+		$SORTEOS_POR_PAGINA=2;
+		$PRODUCTOS_POR_PAGINA=29;
+		$REGION="andalucia";
+		$PRECIO_MINIMO=100;
+		$PRECIO_MAXIMO=900;
+		$ORDEN="barato";
+
+		for ($i=0; $i < $NUMERO_SORTEOS/$SORTEOS_POR_PAGINA; $i++) { 
+			$pagina=rand(1,$NUMERO_PAGINAS);
+			//$url = 'http://www.milanuncios.com/anuncios-en-'.$REGION.'/?desde='.$PRECIO_MINIMO.'&hasta='.$PRECIO_MAXIMO.'&orden='.$ORDEN.'&pagina='.$pagina;
+			$url = 'http://www.milanuncios.com/anuncios-en-'.$REGION.'/?desde='.$PRECIO_MINIMO.'&hasta='.$PRECIO_MAXIMO.'&pagina='.$pagina;
+			$html = file_get_html($url);
+			$titulos= $html->find('div[class=x7] a[class=cti]');
+			$descripciones= $html->find('div[class=x7] div[class=tx]');
+			$precios= $html->find('div[class=x7] div[class=x11] div[class=pr]');
+			$aleatorio=rand(0,$PRODUCTOS_POR_PAGINA-$SORTEOS_POR_PAGINA);
+			
+			for ($j=$aleatorio; $j < $aleatorio+$SORTEOS_POR_PAGINA; $j++) { 
+				$array['title']=$titulos[$j]->plaintext;
+				//echo '<b>'.$titulos[$j]->plaintext.'</b><br>'; 
+				
+				$array['description']=$descripciones[$j]->plaintext;
+
+				$descripcionCorta= substr($descripciones[$j]->plaintext, 0, 157);
+				$indiceUltimoEspacio = strrpos($descripcionCorta," ");
+				$array['short_description']=substr($descripcionCorta, 0, $indiceUltimoEspacio);
+
+				//echo substr($descripcionCorta, 0, $indiceUltimoEspacio).'...<br>';
+				//echo $descripciones[$j]->plaintext.'<br>'; 
+				
+				$indiceEuro = strrpos($precios[$j]->plaintext,"precio");
+				$array['price']=substr($precios[$j]->plaintext, 0, $indiceEuro-1); 
+				//echo substr($precios[$j]->plaintext, 0, $indiceEuro-1).'<br>'; 
+
+				$url='http://www.milanuncios.com'.$titulos[$j]->href;
+				$html = file_get_html($url);
+				$fotos= $html->find('div[class=pagAnuFotoBox] div[class=pagAnuFoto] img');
+				array_splice($fotos, 3); //Dejamos solo 3 fotos
+				$cont=1;
+				foreach ($fotos as $foto) {
+					$array['picture'.$cont]=$foto->src;
+					//echo $foto->src.'<br>';
+					$cont++;
+				}
+
+				if(!empty($array)){
+					$fechaCreacion = date("Y-m-d h:m:s");
+					$fechaFinalizacion = date("Y-m-d h:m:s", strtotime("+1 months", strtotime($fechaCreacion)));
+					$array['init_date']=$fechaCreacion;
+					$array['final_date']=$fechaFinalizacion;
+
+					$array['ballots']=100;
+					$array['sold_ballots']=0;
+					$array['bill']=0;
+					$array['guarantee']=0;
+					
+					$sql = "SELECT id FROM user";
+					$resultado=$app['db']->fetchAll($sql);
+					$usuarioAleatorio=rand(0,count($resultado));
+					$array['user_id']=$resultado[$usuarioAleatorio]["id"];
+					print_r($app['db']->insert('ruffle', $array));
+				}
+				unset($array);
+				$array = array();
+			}
+			$html->clear();
+			unset($html);
+		}
+		    	
+	}	
 	$user = $app['security']->getToken()->getUser();
 	// Devuelve todos los sorteos comenzados y los guarda en un array los sortos inicializados
 	$hoy = date("Y-m-d H:i:s");
@@ -227,7 +301,7 @@ $app->get('/admin/descripcion/{id}/{title}', function($id, $title) use($app){
 
     $totalValoraciones1 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 1', array($userSorteo['id']));
 
-	return $app['twig']->render('descripcionSorteo.twig.html', array(
+	return $app['twig']->render('descripcionAdminSorteo.twig.html', array(
 		'notifications' => $notifications,
 		'user' => $user,
 		'ruffle' => $myRuffle,

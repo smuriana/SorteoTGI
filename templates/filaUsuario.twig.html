@@ -1,4 +1,4 @@
-<tr class="enlace" onclick="document.location = '{{app.request.basepath}}/admin/@{{Dato.nick}}'">
+<tr class="enlace" onclick="document.location = '{{app.request.basepath}}/perfil/{{Dato.nick}}'">
     <td>{{Dato.nick}}</td>
     <td>{{Dato.registerDate}}</td>
     <td>{{Dato.roles|replace({'ROLE_USER,ROLE_ADMIN':'Administrador'})|replace({'ROLE_USER':'Usuario'})}}</td>

@@ -2,15 +2,16 @@
 
 {% block content %}
 <div class="container" style="margin-top:50px; padding-top:15px; background-color: rgba(255,255,255,0.5);">
-<div class="col-md-12 row" style="margin-left: auto; margin-right: auto;">
+    <div class="col-md-12 row" style="margin-left: auto; margin-right: auto;">
 
   {% for ruffle in ruffles %}
 
   <div class="col-sm-4 col-md-4">
     <div class="thumbnail">
     	<div class="panel-body">
-        <h3>{{ ruffle.getTitle }}</h3>
-      		<img src="{{ app.request.basepath }}{{ ruffle.getPicture1 }}" alt="..." style="width: 100%; max-height: 225px; border:2px solid gray;">
+        <div style="height:50px;"><h3>{{ ruffle.getTitle }}</h3></div>
+        
+      		<img src="{{ ruffle.getPicture1 }}" alt="..." style="width: 100%; max-height: 225px; border:2px solid gray;">
           {% if menu_selected == 'index' %}
           <div class="progress progress-striped active">
             <span>Quedan {{ ruffle.getBallots-ruffle.getSoldBallots }} papeletas</span>
@@ -24,8 +25,9 @@
           {% endif %}
           </div>
  
-        
-        <p>{{ ruffle.getShortDescription }}</p>
+        <div style="height:80px;">
+          <p>{{ ruffle.getShortDescription }}</p>
+        </div>
         <p><a href="{{ path('descripcion', {'id': ruffle.getId, 'title': ruffle.getTitle}) }}" class="btn btn-primary" role="button">Quiero saber más</a> </p>
         </div>  
       
@@ -36,10 +38,13 @@
         {% endif %}
         
         </div>
-      
+      </div>
     </div>
-  </div>
+
+
 
   {% endfor %}
-
+      </div>
+  </div>
+{% include "footer.twig.html"%}
 {% endblock %}
