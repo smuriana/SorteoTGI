@@ -1,0 +1,14 @@
+<div class="well">
+
+{% for notification in notifications %}
+  	<div class="alert alert-info">
+  		<b>{{ notification.title }}</b> {{ notification.text }}
+  	</div>
+{% else %}
+	<div class="alert alert-info">
+  		<b>Sin notificaciones</b> Ahora mismo no tiene notificaciones
+  	</div>
+{% endfor %}
+
+</div>
+    
