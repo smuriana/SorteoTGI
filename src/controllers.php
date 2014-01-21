@@ -205,14 +205,40 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
     $totalValoraciones1 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 1', array($userSorteo['id']));
 
     $opiniones = $app['db']->fetchAll('SELECT user.picture, user.nick, opinion.comentario FROM user, opinion WHERE user.id = opinion.id_user_opina AND opinion.id_user = ?', array($userSorteo['id']));
+	
+	
+	// date(N) Representación numérica del día de la semana, 1 (para lunes) hasta 7 (para domingo)
+	$diaSemanal = date("N", strtotime($myRuffle->getFinalDate()));
+	
+	// De lunes a jueves es el cupon diario
+	if ($diaSemanal < 5){
+		$tipoSorteo = "N";
+	// Viernes es el cuponazo
+	}else if ($diaSemanal == 5){
+		$tipoSorteo = "V";
+	}else{
+	// Sabados y domingos es el sueldazo
+		$tipoSorteo = "D";
+	}
+	$hoy = date("Ymd", strtotime($myRuffle->getFinalDate()));
+    $urlONCE = 'http://www.juegosonce.es/wmx/dicadi/pub/premEstadistic/detalleEscrutiniocupon.cfm?fecha='.$hoy.'&tiposorteo='.$tipoSorteo;
 
+    $papeletaPremiada=substr($myRuffle->getWinnerNumber(), 3, 5);
+   
+	$papeletaPremiada = intval($papeletaPremiada);
+	
 
+    $idPremiado = $app['db']->fetchAssoc('SELECT id_user FROM ballot WHERE number = ? AND id_ruffle = ? AND status = 2', array($papeletaPremiada,$myRuffle->getID()));
+
+    $userPremiado = $app['db']->fetchAssoc('SELECT * FROM user WHERE user.id = ?', array($idPremiado['id_user']));
+   
 	if(!is_object($user)){
 		return $app['twig']->render('descripcionSorteo.twig.html', array(
 		'notifications' => null,
 		'name' => null,
 		'ruffle' => $myRuffle,
 		'userSorteo' => $userSorteo,
+		'userPremiado' => $userPremiado,
 		'valoracionMedia' => $valoracionMedia,
     	'totalValoraciones' => $totalValoraciones,
     	'totalValoraciones5' => $totalValoraciones5,
@@ -221,7 +247,8 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
     	'totalValoraciones2' => $totalValoraciones2,
     	'totalValoraciones1' => $totalValoraciones1,
     	'opiniones' => $opiniones,
-		'menu_selected' => 'null'
+		'menu_selected' => 'null',
+		'urlONCE' => $urlONCE
 		));
 	}
 
@@ -243,6 +270,7 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		'user' => $user,
 		'ruffle' => $myRuffle,
 		'userSorteo' => $userSorteo,
+		'userPremiado' => $userPremiado,
 		'valoracionMedia' => $valoracionMedia,
     	'totalValoraciones' => $totalValoraciones,
     	'totalValoraciones5' => $totalValoraciones5,
@@ -251,7 +279,8 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
     	'totalValoraciones2' => $totalValoraciones2,
     	'totalValoraciones1' => $totalValoraciones1,
     	'opiniones' => $opiniones,
-		'menu_selected' => 'null'
+		'menu_selected' => 'null',
+		'urlONCE' => $urlONCE
 		));
 })
 ->bind('descripcion')
@@ -459,7 +488,7 @@ $user = $app['security']->getToken()->getUser();
     foreach ($ruffles as $sorteo) {
     	$allRuffles[]=new Ruffle($sorteo['id'], $app['db']);
     }
-    $myRuffle = new Ruffle(1, $app['db']);
+    
     
 	if(!is_object($user)){
 		return $app['twig']->render('index.twig.html', array(
@@ -662,7 +691,11 @@ $app->post('/creaSorteo', function(Request $request) use ($app){
 ;
 
 $app->post('/mensajePrivado', function(Request $request) use ($app){
+<<<<<<< HEAD
 	return new Response("Mensaje recibido: ".$request->get('mensaje'));
+=======
+  return new Response("Mensaje recibido: ".$request->get('mensaje'));
+>>>>>>> 0d7f44c... Close: Issue #6
 })
 ->bind('mensajePrivado')
 ;

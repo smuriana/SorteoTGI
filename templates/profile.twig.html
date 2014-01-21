@@ -65,21 +65,47 @@
 			<div class="page-header row">
 		      <h3 id="sorteos-mios">Realizados por mi</h3>
 		    </div>
-		    <div class="row" style="margin-top:2%">
-				{% for ficha in fichas %}
-					{% include "fichaSorteo.twig.html" with {'ficha':ficha} %}
-				{% else %}
-					<center><h3>Aún no ha publicado ningún sorteo</h3></center>
-				{% endfor %}
+		    
+
+			{% set numRuffles = 0 %}
+  
+			{% for ficha in fichas %}
+				{% if numRuffles == 0 %}
+			    	<div class="row">
+			    {% endif %}
+			    {% set numRuffles = numRuffles + 1 %}
+
+				{% include "fichaSorteo.twig.html" with {'ficha':ficha} %}
+
+			    {% if numRuffles == 2 %}
+						{% set numRuffles = 0 %}
+						</div>
+			    {% endif %}
+			{% else %}
+				<center><h3>Aún no ha publicado ningún sorteo</h3></center>
+			{% endfor %}
+
+
 			</div>
 		            <!-- Sorteos en los que participo
 		  ================================================== -->
 			<div class="page-header row">
 		      <h3 id="sorteos-participo">En los que participo</h3>
 		    </div>
-			<div class="row" style="margin-top:2%">
+			<div class="row">
+				{% set numRuffles = 0 %}
 				{% for ficha in sorteosParticipa %}
+					{% if numRuffles == 0 %}
+			    		<div class="row">
+				    {% endif %}
+				    {% set numRuffles = numRuffles + 1 %}
+
 					{% include "fichaSorteo.twig.html" with {'ficha':ficha} %}
+
+				    {% if numRuffles == 2 %}
+							{% set numRuffles = 0 %}
+							</div>
+				    {% endif %}
 				{% else %}
 					<center><h3>Aún no ha participado en ningún sorteo</h3></center>
 				{% endfor %}

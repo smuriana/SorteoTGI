@@ -3,84 +3,72 @@
 {% block content %}
 	<div class="container" style="margin-top:50px;padding-top:15px;background-color:rgba(255,255,255,0.5);">
 		<div class="col-md-12">
-					
 			<div class="panel panel-default containerTable">
-			  <div class="panel-heading"><center><h1>Panel de administración </h1></center></div>
-				
-
-
+				<div class="panel-heading"><center><h1>Panel de administración </h1></center></div>
 			</div>
 		</div>
-			<div class="col-md-10">
-				<!-- Primera fila del panel -->
-				<div class="row">
-					<div class="col-md-6">
-						<div class="panel panel-default containerTable">
-						  <div class="panel-heading"><h3>Sorteos por validar</h3></div>
-	 						 {% include 'table.twig.html' with {'Tipo':'filaSorteo.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Precio', 'Datos':sorteosPorValidar} %}
-						</div>
+		<div class="col-md-10">
+			<!-- Primera fila del panel -->
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-default containerTable">
+					  <div class="panel-heading"><h3>Sorteos por validar</h3></div>
+ 						 {% include 'table.twig.html' with {'Tipo':'filaSorteo.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Precio', 'Datos':sorteosPorValidar} %}
 					</div>
-
-				  	<div class="col-md-6">
-					  	<div class="panel panel-default containerTable">
-							<div class="panel-heading"><h3>Sorteos disponibles</h3></div>
-
-							{% include 'table.twig.html' with {'Tipo':'filaSorteo.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Precio','Datos':sorteosDisponibles} %}
-						</div>
-				  	</div>
 				</div>
-				<!-- Segunda fila del panel -->
-				<div class="row">
-				  	<div class="col-md-6 ">
-					  	<div class="panel panel-default containerTable">
-							<div class="panel-heading"><h3>Sorteos terminados</h3></div>
+			  	<div class="col-md-6">
+				  	<div class="panel panel-default containerTable">
+						<div class="panel-heading"><h3>Sorteos disponibles</h3></div>
 
-							{% include 'table.twig.html' with {'Tipo':'filaSorteo.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Precio','Datos':sorteosTerminados} %}
-						</div>
+						{% include 'table.twig.html' with {'Tipo':'filaSorteo.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Precio','Datos':sorteosDisponibles} %}
 					</div>
-					<div class="col-md-6">
-					  	<div class="panel panel-default containerTable">
-							<div class="panel-heading"><h3>Proxima fecha sin sorteos disponibles</h3></div>
+			  	</div>
+			</div>
+			<!-- Segunda fila del panel -->
+			<div class="row">
+			  	<div class="col-md-6 ">
+				  	<div class="panel panel-default containerTable">
+						<div class="panel-heading"><h3>Sorteos terminados</h3></div>
+						{% include 'table.twig.html' with {'Tipo':'filaSorteo.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Precio','Datos':sorteosTerminados} %}
+					</div>
+				</div>
+				<div class="col-md-6">
+				  	<div class="panel panel-default containerTable">
+						<div class="panel-heading"><h3>Proxima fecha sin sorteos disponibles</h3></div>
+						<center><h1>{% if fecha is empty%}
+										¡NO HAY SORTEOS ACTUALMENTE!
+									{% else %}
+										{{fecha.final_date|date("d/m/Y")}}
+									{% endif %}</h1></center> 
+					</div>
+				</div>
+			</div>
+			<!-- Tercera fila del panel -->
+			<div class="row">
+				<div class="col-md-6">
+				  	<div class="panel panel-default containerTable">
+						<div class="panel-heading"><h3>Usuarios</h3></div>
+						{% include 'table.twig.html' with {'Tipo':'filaUsuario.twig.html','Columna1':'Usuario', 'Columna2':'Fecha registro', 'Columna3':'Status','Datos':usuarios} %}
+					</div>
+				</div>
+				<div class="col-md-6">
+				  	<div class="panel panel-default containerTable">
+						<div class="panel-heading"><h3>Papeletas por reintegrar</h3></div>
+						{% include 'table.twig.html' with {'Tipo':'filaPapeletasReintegradas.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Nº de papeletas','Columna4':'Acción','Datos':papeletasReintegrar} %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="panel panel-default containerTable">
+				<div class="panel-heading"><h3>Estadisticas</h3></div>
+				<div style="padding:0px 30px 0px 10px">
+					<h2>{{recaudacion.cantidad}} €</h2>
+					<h2>{{papeletas.numPapeletas}} <span class="glyphicon glyphicon-tags"></span></h2>
+					<h2>{{numUsuarios.cantidad}} <span class="glyphicon glyphicon-user"></span></h2>
+				</div>
+			</div>
+		</div>
+	</div>	
 	
-							<center><h1>{% if fecha is empty%}
-											¡NO HAY SORTEOS ACTUALMENTE!
-										{% else %}
-											{{fecha.final_date|date("d/m/Y")}}
-										{% endif %}</h1></center> 
-						</div>
-					</div>
-				</div>
-				<!-- Tercera fila del panel -->
-				<div class="row">
-					<div class="col-md-6">
-					  	<div class="panel panel-default containerTable">
-							<div class="panel-heading"><h3>Usuarios</h3></div>
-
-							{% include 'table.twig.html' with {'Tipo':'filaUsuario.twig.html','Columna1':'Usuario', 'Columna2':'Fecha registro', 'Columna3':'Status','Datos':usuarios} %}
-						</div>
-					</div>
-					<div class="col-md-6">
-					  	<div class="panel panel-default containerTable">
-							<div class="panel-heading"><h3>Papeletas por reintegrar</h3></div>
-
-							{% include 'table.twig.html' with {'Tipo':'filaPapeletasReintegradas.twig.html','Columna1':'Usuario', 'Columna2':'Sorteo', 'Columna3':'Nº de papeletas','Columna4':'Acción','Datos':papeletasReintegrar} %}
-						</div>
-					</div>
-				</div>
-			</div>
-						
-			
-			<div class="col-md-2">
-				<div class="panel panel-default containerTable">
-					<div class="panel-heading"><h3>Estadisticas</h3></div>
-					<div style="padding:0px 30px 0px 10px">
-						<h2>{{recaudacion.cantidad}} €</h2>
-						
-						<h2>{{papeletas.numPapeletas}} <span class="glyphicon glyphicon-tags"></span></h2>
-						<h2>{{numUsuarios.cantidad}} <span class="glyphicon glyphicon-user"></span></h2>
-					</div>
-				</div>
-			</div>
-		</div>	
-	</div>
 {% endblock %}

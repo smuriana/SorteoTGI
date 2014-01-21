@@ -4,60 +4,62 @@
 <div class="container" style="margin-top:50px;padding-top:15px;background-color:rgba(255,255,255,0.5);">
 	<div class="row">
 		<div class="col-md-8">
-			<div style="margin-bottom:1em;"><h1 style="display:inline;">{{ ruffle.getTitle }}</h1>{% block adminSorteo %}{% endblock %}</div>
+			{% block adminSorteo %}{% endblock %}
+			<div class="panel panel-default panel-body">
+			<center><h1 style="margin-top:0px; margin-bottom:1em;">{{ ruffle.getTitle }}</h1></center>
 			
 			<div id="carousel-descripcion-sorteo" class="carousel slide">
 				<!-- Indicators -->
+				{% set imagenDefecto = 'http://sommelierexpress.com/wp-content/themes/juiced/img/thumbnail-default.jpg' %}
 				<ol class="carousel-indicators">
-				{% if ruffle.getPicture1 is not empty %}
-				<li data-target="#carousel-descripcion-sorteo" data-slide-to="0" class="active"></li>
-				{% endif %}
-				{% if ruffle.getPicture2 is not empty %}
-				<li data-target="#carousel-descripcion-sorteo" data-slide-to="1"></li>
-				{% endif %}
-				{% if ruffle.getPicture3 is not empty %}
-				<li data-target="#carousel-descripcion-sorteo" data-slide-to="2"></li>
-				{% endif %}
+					<li data-target="#carousel-descripcion-sorteo" data-slide-to="0" class="active"></li>
+					{% if imagenDefecto != ruffle.getPicture2 %}
+					<li data-target="#carousel-descripcion-sorteo" data-slide-to="1"></li>
+					{% endif %}
+					{% if imagenDefecto != ruffle.getPicture3 %}
+					<li data-target="#carousel-descripcion-sorteo" data-slide-to="2"></li>
+					{% endif %}
 				</ol>
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner">
-				{% if ruffle.getPicture1 is not empty %}
-				<div class="item active">
-				  <img src="{{ruffle.getPicture1}}" alt="">
-				</div>
-				{% endif %}
-				{% if ruffle.getPicture2 is not empty %}
-				<div class="item">
-				  <img src="{{ruffle.getPicture2}}" alt="">
-				</div>
-				{% endif %}
-				{% if ruffle.getPicture3 is not empty %}
-				<div class="item">
-				  <img src="{{ruffle.getPicture3}}" alt="">
-				</div>
-				{% endif %}
-				
-				
+					<div class="item active">
+					  <img src="{{ruffle.getPicture1}}" alt="">
+					</div>
+					{% if imagenDefecto != ruffle.getPicture2 %}
+					<div class="item">
+					  <img src="{{ruffle.getPicture2}}" alt="">
+					</div>
+					{% endif %}
+					{% if imagenDefecto != ruffle.getPicture3 %}
+					<div class="item">
+					  <img src="{{ruffle.getPicture3}}" alt="">
+					</div>
+					{% endif %}
 				</div>
 
 				<!-- Controls -->
+				{% if imagenDefecto != ruffle.getPicture2 %}
 				<a class="left carousel-control" href="#carousel-descripcion-sorteo" data-slide="prev">
-				<span class="icon-prev"></span>
+					<span class="icon-prev"></span>
 				</a>
 				<a class="right carousel-control" href="#carousel-descripcion-sorteo" data-slide="next">
-				<span class="icon-next"></span>
+					<span class="icon-next"></span>
 				</a>
-				</div>
-
-			<div class="panel panel-default panel-body"> {{ ruffle.getDescription }} </div>
+				{% endif %}
+			</div>
+				
+			 {{ ruffle.getDescription }} 
+			</div>
 			{% include 'rating.twig.html' with {'userSorteo':userSorteo} %}
 		</div>
 			
   
-	
+		
 		<div class="col-md-4">
 			<div class="panel panel-default panel-body">
+				{% if ruffle.visible != 2 %}
+				
 				<div class="row">
 					<span class="btn-lg label label-success pull-right" style="padding:10px">Quedan {{ruffle.getBallots-ruffle.getSoldBallots}} tickets</span>
 					{%  if  ruffle.visible == 2 %}
@@ -107,19 +109,58 @@
 					
 				  </table>
 				</div>
-
-								<button type="button" class="demo-confirm btn btn-success btn-block" id="buy" disabled>Comprar ticket</button>
-
-								<p class="text-muted"></p>
-				{%  if ruffle.visible == 2 %}
-				<h2>Sorteo terminado</h2>
-				{% endif %}
+				<button type="button" class="demo-confirm btn btn-success btn-block" id="buy" disabled>Comprar ticket</button>
+				<p class="text-muted"></p>
 			</div>
-
+			{% elseif ruffle.visible == 2 %}
+				<center><h1 style="margin-top:0px;">Sorteo terminado</h1></center>
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h4>Número de la ONCE del {{ ruffle.getFinalDate|date("d-m-Y") }}</h4>
+					</div>
+				  	<div class="panel-body">
+					    <center><a class="crearA" href="{{ urlONCE }}" ><h1>{{ ruffle.winnerNumber }}</h1></a></center>
+				  	</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<center><h4>¡Enhorabuena!</h4></center>
+					</div>
+				  	<div class="panel-body">
+				  		 <center><a href="{{ app.request.basepath }}/perfil/{{userPremiado.nick}}"><img class="img-circle" src="{{userPremiado.picture}}" alt="Imagen de perfil" style="width: 6em; height: 6em; border:2px solid gray;"></a>
+					    	<h3><a class="clearA" href="{{ app.request.basepath }}/perfil/{{userPremiado.nick}}">@{{userSorteo.nick}}</a></h3>
+                        {% if userPremiado.rango == 0 %}
+                            <h4>Nuevo en Sortilandia</h4>
+                        {% elseif userPremiado.rango == 1 %}
+                            <h4>Enterao</h4>
+                        {% elseif userPremiado.rango == 2 %}
+                            <h4>Asiduo de Sortilandia</h4>
+                        {% elseif userPremiado.rango == 3 %}
+                            <h4>Profesional de Sortilandia</h4>
+                        {% elseif userPremiado.rango == 4 %}
+                            <h4>Jefazo de Sortilandia</h4>
+                        {% elseif userPremiado.rango == 5 %}
+                            <h4>Capaz de sortear a su madre</h4>
+                        {% elseif userPremiado.rango == 6 %}
+                            Kenny is sick.
+                        {% elseif userPremiado.rango == 7 %}
+                            You killed Kenny! You bastard!!!
+                        {% elseif userPremiado.rango == 8 %}
+                            Kenny is sick.
+                        {% elseif userPremiado.rango == 9 %}
+                            You killed Kenny! You bastard!!!
+                        {% endif %}
+                        <h1>{{ ruffle.winnerNumber|slice(3,5) }}</h1></center>
+				  	</div>
+				</div>
+			{% endif %}
 		</div>
 	</div>
 </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d7f44c... Close: Issue #6
 <form style="display: hidden" action="{{ path('mensajePrivado') }}" method="POST" id="mensajePrivado">
   <input type="hidden" id="idUser" name="idUser" value="{{user.getId}}"/>
   <input type="hidden" id="idUserTo" name="idUserto" value="{{userSorteo.id}}"/>
@@ -132,6 +173,7 @@
   <input type="hidden" id="RuffleName" name="name" value="{{ruffle.getTitle}}"/>
 </form>
 
+
 <script type="text/javascript" >
 	$(document).ready(function() {        
 		$('.carousel').carousel()
@@ -141,29 +183,56 @@
 <script src="{{ app.request.basepath }}/js/jquery.countdown-es.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
 <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex.css">
-<script src="{{ app.request.basepath }}/js/vex.js"></script>
-<script src="{{ app.request.basepath }}/js/vex.dialog.js"></script>
-<script type="text/javascript">
+ <script src="{{ app.request.basepath }}/js/vex.js"></script>
 
-$(function () {
-	var austDay = new Date();
-	austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
-	$('#year').text(austDay.getFullYear());
-	$('#noSeconds').countdown({until: austDay, format: 'dHMs'});
+ <script src="{{ app.request.basepath }}/js/vex.dialog.js"></script>
+
+ <script type="text/javascript">
+ $(function () {
+   var austDay = new Date();
+   austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
+   $('#year').text(austDay.getFullYear());
+   $('#noSeconds').countdown({until: austDay, format: 'dHMs'});
+ });
+
+ $('.demo-confirm').click(function(){
+     vex.dialog.confirm({
+         message: '¡Estás a un sólo paso de comprar la/s papeleta/s!. ¿Quieres confirmar la compra?',
+         className: 'vex-theme-default',
+         callback: function(value) {
+           if(value==true){
+             $("#form").submit();;
+           }
+         }
+     });
+ });
+
+ 
+$('.open').click(function(){
+  vex.dialog.open({
+  message: '<h4>Envíale un mensaje a @{{userSorteo.nick}}',
+  input: "<textarea rows=\"7\" cols=\"90\" name=\"mensaje\" style=\"resize:none;border-color: black;border-style: solid;border-width: thin;padding: 3px;\" placeholder=\"Escribe aquí lo que quieras decirle a @{{userSorteo.nick}} \" required />",
+  className: 'vex-theme-default',
+  buttons: [
+    $.extend({}, vex.dialog.buttons.YES, {
+      text: 'Enviar'
+    }), $.extend({}, vex.dialog.buttons.NO, {
+      text: 'Cancelar'
+    })
+  ],
+  callback: function(data) {
+    if (data === false) {
+      return console.log('Cancelled');
+    }
+    $(".mensaje").val(data.mensaje);
+    var elem = document.getElementById("mensaje");
+  elem.value = data.mensaje;
+    $("#mensajePrivado").submit();
+  }
+});
 });
 
-$('.demo-confirm').click(function(){
-    vex.dialog.confirm({
-        message: '¡Estás a un sólo paso de comprar la/s papeleta/s!. ¿Quieres confirmar la compra?',
-        className: 'vex-theme-default',
-        callback: function(value) {
-        	if(value==true){
-        		$("#form").submit();;
-        	}
-        }
-    });
-});
-
+<<<<<<< HEAD
 $('.open').click(function(){
 	vex.dialog.open({
   message: '<h4>Envíale un mensaje a @{{userSorteo.nick}}',
@@ -190,6 +259,11 @@ $('.open').click(function(){
 
 
 </script>
+=======
+
+
+ </script>
+>>>>>>> 0d7f44c... Close: Issue #6
 <!-- Tiempo restante -->
 <script type="text/javascript">
 	$(function () {
