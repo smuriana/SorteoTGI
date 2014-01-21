@@ -60,7 +60,7 @@
 			<div class="panel panel-default panel-body">
 				<div class="row">
 					<span class="btn-lg label label-success pull-right" style="padding:10px">Quedan {{ruffle.getBallots-ruffle.getSoldBallots}} tickets</span>
-					{%  if  (date(ruffle.getFinalDate) < date()) %}
+					{%  if  ruffle.visible == 2 %}
 					<span class="btn-lg label label-primary pull-right" style="padding:10px"> Finalizado </span>
 					{% else %}
 					<span class="btn-lg label label-primary pull-right" style="padding:10px">{{ ruffle.getFinalDate|date("d/m/y") - "now"|date("d/m/y")  }} dias para finalizar</span>
@@ -78,7 +78,7 @@
 				  <table class="table">
 					<tr>
 					{% set arrayBallots = ruffle.getArrayBallots %}
-					{%  if  (date(ruffle.getFinalDate) < date()) %}
+					{%  if  ruffle.visible == 2 %}
 						{% for i in 0..ruffle.getBallots-1 %}
 							{% if (i % 10)==0 %}
 								</tr>
@@ -111,13 +111,9 @@
 								<button type="button" class="demo-confirm btn btn-success btn-block" id="buy" disabled>Comprar ticket</button>
 
 								<p class="text-muted"></p>
-				{%  if  (date(ruffle.getFinalDate) < date()) %}
+				{%  if ruffle.visible == 2 %}
 				<h2>Sorteo terminado</h2>
-				{% else %}
-				<span id="noSeconds" class="countdown"></span>
 				{% endif %}
-
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 			</div>
 
 		</div>
