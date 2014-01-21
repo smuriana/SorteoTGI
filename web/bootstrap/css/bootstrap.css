@@ -7357,3 +7357,7 @@ table>tr.enlace:hover{
   background: #428BCA;
   color: white;
 }
+.clearA:link{text-decoration:none;background-color:inherit;color: inherit;}
+.clearA:visited{text-decoration: none;background-color:inherit;color: inherit;}
+.clearA:hover{text-decoration: none;background-color:inherit;color: inherit;}
+.clearA:active{text-decoration: none;background-color:inherit;color: inherit;}

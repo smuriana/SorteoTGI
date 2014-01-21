@@ -156,26 +156,15 @@ $app->get('/index', function() use ($app){
 
 	$user = $app['security']->getToken()->getUser();
 	// Devuelve todos los sorteos comenzados y los guarda en un array los sortos inicializados
-	$hoy = date("Y-m-d H:i:s");
-	$sql = "SELECT id FROM ruffle WHERE final_date > '".$hoy."' AND init_date < '".$hoy."'";
+	$sql = "SELECT * FROM ruffle WHERE visible = 1";
     $ruffles = $app['db']->fetchAll($sql);
-    
-    $allRuffles= array();
-    foreach ($ruffles as $sorteo) {
-    	$allRuffles[]=new Ruffle($sorteo['id'], $app['db']);
-    }
-    // <----------------------------------->
-    //return new Response();
-
-    //$myRuffle = new Ruffle($ruffles[0]["id"], $ruffles[0]["create_date"], $ruffles[0]["user_id"], $ruffles[0]["short_description"], $ruffles[0]["description"], $ruffles[0]["status"],$ruffles[0]["bill"], $ruffles[0]["guarantee"], $ruffles[0]["init_date"], $ruffles[0]["final_date"], $ruffles[0]["ballots"], $ruffles[0]["price"], $ruffles[0]["picture1"], $ruffles[0]["picture2"], $ruffles[0]["picture3"], $ruffles[0]["tags"],$ruffles[0]["sold_ballots"],$ruffles[0]["title"]);
-	$myRuffle = new Ruffle(1, $app['db']);
-    
+        
 	if(!is_object($user)){
 		return $app['twig']->render('index.twig.html', array(
 		'notifications' => null,
 		'debug' => true,
 		'name' => null,
-		'ruffles' => $allRuffles,
+		'ruffles' => $ruffles,
 		'menu_selected' => 'index'
 		));
 	}
@@ -186,7 +175,7 @@ $app->get('/index', function() use ($app){
 	return $app['twig']->render('index.twig.html', array(
 		'notifications' => $notifications,
 		'user' => $user,
-		'ruffles' => $allRuffles,
+		'ruffles' => $ruffles,
 		'menu_selected' => 'index'
 		));
 })
@@ -463,7 +452,7 @@ $app->get('/sorteosTerminados', function(Request $request) use ($app){
 $user = $app['security']->getToken()->getUser();
 	// Devuelve todos los sorteos comenzados y los guarda en un array los sortos inicializados
 	$hoy = date("Y-m-d H:i:s");
-	$sql = "SELECT id FROM ruffle WHERE final_date < '".$hoy."'";
+	$sql = "SELECT id FROM ruffle WHERE visible = 2";
     $ruffles = $app['db']->fetchAll($sql);
     
     $allRuffles= array();
@@ -503,7 +492,7 @@ $app->get('/perfil', function(Request $request) use($app){
 	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
     $notifications = $app['db']->fetchAll($sql);
     
-    $sorteosCreados = $app['db']->fetchAll('SELECT ruffle.title, ruffle.ballots, ruffle.sold_ballots, ruffle.short_description, ruffle.final_date, ruffle.picture1, ruffle.id FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($user->getNick()));
+    $sorteosCreados = $app['db']->fetchAll('SELECT ruffle.* FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($user->getNick()));
 
     $usuario = $app['db']->fetchAssoc('SELECT * FROM user WHERE user.nick = ?', array($user->getNick()));
 
@@ -559,7 +548,7 @@ $app->get('/perfil/{nick}', function($nick) use($app){
 
     $id = $app['db']->fetchAssoc('SELECT id from user WHERE nick = ?', array($nick));
     
-    $ruffles = $app['db']->fetchAll('SELECT ruffle.title, ruffle.ballots, ruffle.sold_ballots, ruffle.short_description, ruffle.final_date, ruffle.picture1, ruffle.id FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($nick));
+    $ruffles = $app['db']->fetchAll('SELECT ruffle.* FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($nick));
 
     $usuario = $app['db']->fetchAssoc('SELECT user.nick, user.picture, user.rango FROM user WHERE user.nick = ?', array($nick));
 

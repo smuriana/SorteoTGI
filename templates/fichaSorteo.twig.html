@@ -1,11 +1,11 @@
 <div class="col-sm-4 col-md-4">
     <div class="thumbnail">
     	<div class="panel-body">
-        <h3>{{ ficha.title }}</h3>
-      		<img src="{{ app.request.basepath }}{{ ficha.picture1 }}" alt="..." style="width: 100%; max-height: 225px; border:2px solid gray;">
-          {% if menu_selected == 'index' %}
+        <a class="clearA" href="{{ path('descripcion', {'id': ficha.id, 'title': ficha.title}) }}"><h3>{{ ficha.title }}</h3></a>
+      		<a class="clearA" href="{{ path('descripcion', {'id': ficha.id, 'title': ficha.title}) }}"><img src="{{ficha.picture1}}" alt="..." role="button" style="width: 100%; max-height: 225px; border:2px solid gray;"></a>
+          {% if ficha.visible != 2 %}
           <div class="progress progress-striped active">
-            <span>Quedan {{ ficha.Ballots-ficha.SoldBallots }} papeletas</span>
+            <span>Quedan {{ ficha.ballots-ficha.sold_ballots }} papeletas</span>
             <div class="progress-bar progress-bar-success" role="progressbar" style="width: {% if ficha.ballots < 11 %}{{ ficha.sold_ballots * 10 }}{% else %}{{ ficha.sold_ballots }}{% endif %}%">
               
           </div>
@@ -18,11 +18,11 @@
  
         
         <p>{{ ficha.short_description }}</p>
-        <p><a href="{{ path('descripcion', {'id': ficha.id, 'title': ficha.title}) }}" class="btn btn-primary" role="button">Quiero saber más</a> </p>
+        
         </div>  
       
         <div class="panel-footer">
-        <span class="glyphicon glyphicon-time" style="margin-right:20%;"></span>{% if menu_selected == 'index' %} Quedan {{ ficha.final_date|date("d/m/y") - "now"|date("d/m/y")  }} dias 
+        <span class="glyphicon glyphicon-time" style="margin-right:20%;"></span>{% if ficha.visible != 2 %} Quedan {{ ficha.final_date|date("d/m/y") - "now"|date("d/m/y")  }} dias 
         {% else %}
         El sorteo ha finalizado
         {% endif %}

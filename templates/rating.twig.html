@@ -15,7 +15,7 @@
                 <div class="row">
                 <div class="col-xs-12 col-md-4 text-center" style="padding-top:1%;">
                         <a href="{{ app.request.basepath }}/perfil/{{userSorteo.nick}}"><img class="img-circle" src="{{userSorteo.picture}}" alt="Imagen de perfil" style="width: 6em; height: 6em; border:2px solid gray;"></a>
-                        <h3><a href="{{ app.request.basepath }}/perfil/{{userSorteo.nick}}">@{{userSorteo.nick}}</a></h3>
+                        <h3><a class="clearA" href="{{ app.request.basepath }}/perfil/{{userSorteo.nick}}">@{{userSorteo.nick}}</a></h3>
                         {% if userSorteo.rango == 0 %}
                             <h4>Nuevo en Sortilandia</h4>
                         {% elseif userSorteo.rango == 1 %}
