@@ -691,11 +691,7 @@ $app->post('/creaSorteo', function(Request $request) use ($app){
 ;
 
 $app->post('/mensajePrivado', function(Request $request) use ($app){
-<<<<<<< HEAD
-	return new Response("Mensaje recibido: ".$request->get('mensaje'));
-=======
   return new Response("Mensaje recibido: ".$request->get('mensaje'));
->>>>>>> 0d7f44c... Close: Issue #6
 })
 ->bind('mensajePrivado')
 ;

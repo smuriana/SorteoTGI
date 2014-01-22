@@ -157,10 +157,6 @@
 		</div>
 	</div>
 </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 0d7f44c... Close: Issue #6
 <form style="display: hidden" action="{{ path('mensajePrivado') }}" method="POST" id="mensajePrivado">
   <input type="hidden" id="idUser" name="idUser" value="{{user.getId}}"/>
   <input type="hidden" id="idUserTo" name="idUserto" value="{{userSorteo.id}}"/>
@@ -232,38 +228,9 @@ $('.open').click(function(){
 });
 });
 
-<<<<<<< HEAD
-$('.open').click(function(){
-	vex.dialog.open({
-  message: '<h4>Envíale un mensaje a @{{userSorteo.nick}}',
-  input: "<textarea rows=\"7\" cols=\"90\" name=\"mensaje\" style=\"resize:none;border-color: black;border-style: solid;border-width: thin;padding: 3px;\" placeholder=\"Escribe aquí lo que quieras decirle a @{{userSorteo.nick}} \" required />",
-  className: 'vex-theme-default',
-  buttons: [
-    $.extend({}, vex.dialog.buttons.YES, {
-      text: 'Enviar'
-    }), $.extend({}, vex.dialog.buttons.NO, {
-      text: 'Cancelar'
-    })
-  ],
-  callback: function(data) {
-    if (data === false) {
-      return console.log('Cancelled');
-    }
-    $(".mensaje").val(data.mensaje);
-    var elem = document.getElementById("mensaje");
-	elem.value = data.mensaje;
-    $("#mensajePrivado").submit();
-  }
-});
-});
-
-
-</script>
-=======
 
 
  </script>
->>>>>>> 0d7f44c... Close: Issue #6
 <!-- Tiempo restante -->
 <script type="text/javascript">
 	$(function () {
