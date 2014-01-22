@@ -52,7 +52,7 @@
           <ul class="nav navbar-nav navbar-right">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               <li>
-                <a href="{%if notifications|length == 0%}{{ path('perfil') }}#notificaciones{% else %}#{% endif %}"><span class="glyphicon glyphicon-bell"></span>  <span class="badge">{{notifications|length}}</span></a>
+                <a href="{%if notifications|length == 0%}{{ path('perfil') }}#notificaciones{% else %}#{% endif %}"><span class="glyphicon glyphicon-envelope"></span>  <span class="badge">{{notifications|length}}</span></a>
 
 
                 {% if is_granted('ROLE_ADMIN') %}

@@ -661,6 +661,12 @@ $app->post('/creaSorteo', function(Request $request) use ($app){
 ->bind('creaSorteo')
 ;
 
+$app->post('/mensajePrivado', function(Request $request) use ($app){
+	return new Response("Mensaje recibido: ".$request->get('mensaje'));
+})
+->bind('mensajePrivado')
+;
+
 $app->get('/getuser', function () use ($app){
 	$token = $app['security']->getToken();
 	return new Response(var_dump($token->getUser()));
