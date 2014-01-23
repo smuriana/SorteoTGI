@@ -230,7 +230,7 @@ final class Ruffle
     /**
      * {@inheritdoc}
      */
-    public function getWinnerNumber()
+     public function getWinnerNumber()
     {
         return $this->winnerNumber;
     }

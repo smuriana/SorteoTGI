@@ -42,7 +42,6 @@
 			    <div class="page-header row" style="margin:0px;">
 			      <h1 id="informacion-personal">Información personal</h1>
 			    </div>
-
 				{% include "perfilInfoPersonal.twig.html" %}
 		            <!-- Opiniones
 		  ================================================== -->
@@ -83,7 +82,7 @@
 						</div>
 			    {% endif %}
 			{% else %}
-				<center><h3>Aún no ha publicado ningún sorteo</h3></center>
+				<center><h3>AÃºn no ha publicado ningÃºn sorteo</h3></center>
 			{% endfor %}
 
 
@@ -93,7 +92,7 @@
 			<div class="page-header row">
 		      <h3 id="sorteos-participo">En los que participo</h3>
 		    </div>
-			<div class="row">
+			<div class="row" style="margin-top:2%">
 				{% set numRuffles = 0 %}
 				{% for ficha in sorteosParticipa %}
 					{% if numRuffles == 0 %}
@@ -108,7 +107,7 @@
 							</div>
 				    {% endif %}
 				{% else %}
-					<center><h3>Aún no ha participado en ningún sorteo</h3></center>
+					<center><h3>AÃºn no ha participado en ningÃºn sorteo</h3></center>
 				{% endfor %}
 			</div>
 

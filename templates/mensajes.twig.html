@@ -1,0 +1,23 @@
+{% extends 'layout_.twig.html' %}
+
+{% block content %}
+
+	<div class="container" style="margin-top:50px;padding-top:15px;background-color:rgba(255,255,255,0.5);">
+			<div class="col-md-12">
+						
+				<div class="panel panel-default containerTable">
+				  <div class="panel-heading"><center><h1>Mensajes privados</h1></center></div>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				{% set contador = 0 %}
+				{% for conversation in conversations %}
+					{% include 'conversacion.twig.html' with {'conversation':conversation, 'mensajes': mensajes[contador]} %}
+					{% set contador = contador +1 %}
+				{% endfor %}
+			</div>
+	<div class="col-md-12"><br></div>
+
+	</div>
+{% endblock %}

@@ -16,7 +16,8 @@
           {% endif %}
           </div>
  
-        {% if ficha.short_description is defined %}
+        
+         {% if ficha.short_description is defined %}
           <p>{{ ficha.short_description }}</p>
         {% else %}
           <p>{{ ficha.getShortDescription() }}</p>

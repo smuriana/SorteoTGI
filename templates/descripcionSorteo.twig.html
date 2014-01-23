@@ -7,7 +7,6 @@
 			{% block adminSorteo %}{% endblock %}
 			<div class="panel panel-default panel-body">
 			<center><h1 style="margin-top:0px; margin-bottom:1em;">{{ ruffle.getTitle }}</h1></center>
-			
 			<div id="carousel-descripcion-sorteo" class="carousel slide">
 				<!-- Indicators -->
 				{% set imagenDefecto = 'http://sommelierexpress.com/wp-content/themes/juiced/img/thumbnail-default.jpg' %}
@@ -55,11 +54,11 @@
 		</div>
 			
   
-		
+	
 		<div class="col-md-4">
 			<div class="panel panel-default panel-body">
 				{% if ruffle.visible != 2 %}
-				
+
 				<div class="row">
 					<span class="btn-lg label label-success pull-right" style="padding:10px">Quedan {{ruffle.getBallots-ruffle.getSoldBallots}} tickets</span>
 					{%  if  ruffle.visible == 2 %}
@@ -109,14 +108,15 @@
 					
 				  </table>
 				</div>
-				<button type="button" class="demo-confirm btn btn-success btn-block" id="buy" disabled>Comprar ticket</button>
+
+								<button type="button" class="demo-confirm btn btn-success btn-block" id="buy" disabled>Comprar ticket</button>
 				<p class="text-muted"></p>
 			</div>
 			{% elseif ruffle.visible == 2 %}
 				<center><h1 style="margin-top:0px;">Sorteo terminado</h1></center>
 				<div class="panel panel-success">
 					<div class="panel-heading">
-						<h4>Número de la ONCE del {{ ruffle.getFinalDate|date("d-m-Y") }}</h4>
+						<h4>NÃºmero de la ONCE del {{ ruffle.getFinalDate|date("d-m-Y") }}</h4>
 					</div>
 				  	<div class="panel-body">
 					    <center><a class="crearA" href="{{ urlONCE }}" ><h1>{{ ruffle.winnerNumber }}</h1></a></center>
@@ -124,7 +124,7 @@
 				</div>
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<center><h4>¡Enhorabuena!</h4></center>
+						<center><h4>Â¡Enhorabuena!</h4></center>
 					</div>
 				  	<div class="panel-body">
 				  		 <center><a href="{{ app.request.basepath }}/perfil/{{userPremiado.nick}}"><img class="img-circle" src="{{userPremiado.picture}}" alt="Imagen de perfil" style="width: 6em; height: 6em; border:2px solid gray;"></a>
@@ -157,7 +157,7 @@
 		</div>
 	</div>
 </div>
-<form style="display: hidden" action="{{ path('mensajePrivado') }}" method="POST" id="mensajePrivado">
+<form style="display: hidden" action="{{ path('misMensajes') }}" method="POST" id="mensajePrivado">
   <input type="hidden" id="idUser" name="idUser" value="{{user.getId}}"/>
   <input type="hidden" id="idUserTo" name="idUserto" value="{{userSorteo.id}}"/>
   <input type="hidden" id="mensaje" name="mensaje" value=""/>
@@ -169,43 +169,32 @@
   <input type="hidden" id="RuffleName" name="name" value="{{ruffle.getTitle}}"/>
 </form>
 
-
 <script type="text/javascript" >
 	$(document).ready(function() {        
 		$('.carousel').carousel()
 	});
 </script>  
-<script src="{{ app.request.basepath }}/js/jquery.countdown.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="{{ app.request.basepath }}/js/jquery.countdown-es.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
+<link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-bottom-right-corner.css">
 <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex.css">
- <script src="{{ app.request.basepath }}/js/vex.js"></script>
+<script src="{{ app.request.basepath }}/js/vex.js"></script>
+<script src="{{ app.request.basepath }}/js/vex.dialog.js"></script>
+<script type="text/javascript">
 
- <script src="{{ app.request.basepath }}/js/vex.dialog.js"></script>
+$('.demo-confirm').click(function(){
+    vex.dialog.confirm({
+        message: '¡Estás a un sólo paso de comprar la/s papeleta/s!. ¿Quieres confirmar la compra?',
+        className: 'vex-theme-default',
+        callback: function(value) {
+        	if(value==true){
+        		$("#form").submit();;
+        	}
+        }
+    });
+});
 
- <script type="text/javascript">
- $(function () {
-   var austDay = new Date();
-   austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
-   $('#year').text(austDay.getFullYear());
-   $('#noSeconds').countdown({until: austDay, format: 'dHMs'});
- });
-
- $('.demo-confirm').click(function(){
-     vex.dialog.confirm({
-         message: '¡Estás a un sólo paso de comprar la/s papeleta/s!. ¿Quieres confirmar la compra?',
-         className: 'vex-theme-default',
-         callback: function(value) {
-           if(value==true){
-             $("#form").submit();;
-           }
-         }
-     });
- });
-
- 
 $('.open').click(function(){
-  vex.dialog.open({
+	vex.dialog.open({
   message: '<h4>Envíale un mensaje a @{{userSorteo.nick}}',
   input: "<textarea rows=\"7\" cols=\"90\" name=\"mensaje\" style=\"resize:none;border-color: black;border-style: solid;border-width: thin;padding: 3px;\" placeholder=\"Escribe aquí lo que quieras decirle a @{{userSorteo.nick}} \" required />",
   className: 'vex-theme-default',
@@ -221,25 +210,32 @@ $('.open').click(function(){
       return console.log('Cancelled');
     }
     $(".mensaje").val(data.mensaje);
-    var elem = document.getElementById("mensaje");
-  elem.value = data.mensaje;
-    $("#mensajePrivado").submit();
-  }
+	var xmlhttp;
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+	xmlhttp.onreadystatechange=function()
+	  {
+	  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+	    {
+	    vex.dialog.alert({message:'Tu mensaje se ha enviado correctamente a {{userSorteo.nick}}',className: 'vex-theme-bottom-right-corner'});
+	    }
+	  }
+	xmlhttp.open("POST","{{ path('crearConversacion') }}",true);
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlhttp.send("mensaje="+data.mensaje+"&id_user_to="+{{userSorteo.id}});
+	  }
 });
 });
 
 
-
- </script>
-<!-- Tiempo restante -->
-<script type="text/javascript">
-	$(function () {
-		var austDay = new Date();
-		austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
-		$('#year').text(austDay.getFullYear());
-		$('#noSeconds').countdown({until: austDay, format: 'dHMs'});
-	});
 </script>
+
 <!-- Marcado de papeletas -->
 <script type="text/javascript">
 	$("[name='papeleta']").on("click",function(){  

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container" style="margin-top:50px; padding-top:15px; background-color: rgba(255,255,255,0.5);">
 	<div class="row" style="margin-top:-13px">
-		{% include "ratingHeader.twig.html" %}
+		{% include "ratingHeaderPublic.twig.html" %}
 	</div>
 	<div class="row">
 		{% include "opinionCarrusel.twig.html" with{'opiniones':opiniones} %}
@@ -18,4 +18,52 @@
 			{% endfor %}
 	</div>
 </div>
+
+<link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
+<link rel="stylesheet" href="{{ app.request.basepath }}/css/vex.css">
+
+<script type="text/javascript">
+
+	$('.open').click(function(){
+		vex.dialog.open({
+	  message: '<h4>Envíale un mensaje a @{{userPerfil.nick}}',
+	  input: "<textarea rows=\"7\" cols=\"90\" name=\"mensaje\" style=\"resize:none;border-color: black;border-style: solid;border-width: thin;padding: 3px;\" placeholder=\"Escribe aquí lo que quieras decirle a @{{userPerfil.nick}} \" required />",
+	  className: 'vex-theme-default',
+	  buttons: [
+	    $.extend({}, vex.dialog.buttons.YES, {
+	      text: 'Enviar'
+	    }), $.extend({}, vex.dialog.buttons.NO, {
+	      text: 'Cancelar'
+	    })
+	  ],
+	  callback: function(data) {
+	    if (data === false) {
+	      return console.log('Cancelled');
+	    }
+	    $(".mensaje").val(data.mensaje);
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+		  {// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
+		  }
+		else
+		  {// code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		xmlhttp.onreadystatechange=function()
+		  {
+		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		    {
+		    vex.dialog.alert({message:'Tu mensaje se ha enviado correctamente a {{userPerfil.nick}}',className: 'vex-theme-bottom-right-corner'});
+		    }
+		  }
+		xmlhttp.open("POST","{{ path('crearConversacion') }}",true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("mensaje="+data.mensaje+"&id_user_to="+{{userPerfil.id}});
+		  }
+	});
+	});
+
+
+</script>
 {% endblock %}

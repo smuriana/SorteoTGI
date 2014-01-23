@@ -5,6 +5,7 @@
     <div class="col-md-12 row" style="margin-left: auto; margin-right: auto;">
   {% set numRuffles = 0 %}
   {% for ruffle in ruffles %}
+
     {% if numRuffles == 0 %}
     
       <div class="row">
@@ -25,9 +26,9 @@
 
   {% endfor %}
   {% if numRuffles != 0 %}
-    </div>
-  {% endif %}
-    </div><!-- Este div cierra row -->
-</div>
+      </div>
+    {% endif %}
+      </div><!-- Este div cierra row -->
+  </div>
 
 {% endblock %}

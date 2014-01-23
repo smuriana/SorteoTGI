@@ -1,0 +1,20 @@
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#{{conversation.id}}">
+          {{conversation.nick}}&nbsp;-&nbsp;{{conversation.date}}
+        </a>
+      </h4>
+    </div>
+    <div id="{{conversation.id}}" class="panel-collapse collapse in">
+      <div class="panel-body">
+      	 <ul class="timeline">
+			{% for mensaje in mensajes %}
+				{% include 'mensaje.twig.html' with {'mensaje':mensaje} %}
+			{% endfor %}
+      	 </ul>
+      </div>
+    </div>
+  </div>
+ </div>

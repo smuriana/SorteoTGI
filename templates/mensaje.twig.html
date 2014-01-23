@@ -1,0 +1,13 @@
+<li {% if mensaje.nick != user.getNick %}class="timeline-inverted"{% endif %}>
+  <div class="timeline-badge"><i><img  style="width: 2.8em; height: 2.8em; border:2px solid gray;" src="{{mensaje.picture}}" alt="..." class="img-circle"></i></div>
+  <div class="timeline-panel">
+    <div class="timeline-heading">
+      <h4 class="timeline-title">{{mensaje.nick}}</h4>
+      <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>&nbsp;&nbsp;{{mensaje.time}}</small></p>
+    </div>
+    <div class="timeline-body">
+      <p>{{mensaje.text}}</p><br>
+      <button class="open btn-sm btn-success btn">Responder</button>
+    </div>
+  </div>
+</li>

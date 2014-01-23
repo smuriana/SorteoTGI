@@ -71,9 +71,11 @@
                         <div>
                             <span class="glyphicon glyphicon-user"></span>{{totalValoraciones.total}}&nbsp;total
                         </div>
-                        <div>
-                            <p class="open" style="cursor: pointer;"><span class="glyphicon glyphicon-edit"></span> Enviar mensaje privado</p>
-                        </div>
+                        {% if userSorteo.nick != user.getNick %}
+                            <div>
+                                <p class="open" style="cursor: pointer;"><span class="glyphicon glyphicon-edit"></span> Enviar mensaje privado</p>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="col-xs-12 col-md-4" style="padding-top:3%;">
                         <div class="row rating-desc">

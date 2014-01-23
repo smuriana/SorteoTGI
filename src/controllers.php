@@ -140,11 +140,12 @@ $app->get('/bbdd/{numTuplas}/{tabla}', function($numTuplas, $tabla) use ($app){
     	$allRuffles[]=new Ruffle($sorteo['id'], $app['db']);
     }
 
-	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
+	$sql = "SELECT COUNT(*) FROM notification WHERE id_user_to = ".$user->getId();
     $notifications = $app['db']->fetchAll($sql);
 	
 	return $app['twig']->render('index.twig.html', array(
 		'notifications' => $notifications,
+		'notificationsDialog' => $notificationsDialog,
 		'user' => $user,
 		'ruffles' => $allRuffles,
 		'menu_selected' => 'index'
@@ -162,18 +163,21 @@ $app->get('/index', function() use ($app){
 	if(!is_object($user)){
 		return $app['twig']->render('index.twig.html', array(
 		'notifications' => null,
-		'debug' => true,
+		'notificationsDialog' =>null,
 		'name' => null,
 		'ruffles' => $ruffles,
 		'menu_selected' => 'index'
 		));
 	}
 
-	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sql);
+	$notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+	$notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
+    
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
 	
 	return $app['twig']->render('index.twig.html', array(
 		'notifications' => $notifications,
+		'notificationsDialog' => $notificationsDialog,
 		'user' => $user,
 		'ruffles' => $ruffles,
 		'menu_selected' => 'index'
@@ -205,9 +209,9 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
     $totalValoraciones1 = $app['db']->fetchAssoc('SELECT Count(general) as total FROM opinion WHERE id_user = ? AND general = 1', array($userSorteo['id']));
 
     $opiniones = $app['db']->fetchAll('SELECT user.picture, user.nick, opinion.comentario FROM user, opinion WHERE user.id = opinion.id_user_opina AND opinion.id_user = ?', array($userSorteo['id']));
-	
-	
-	// date(N) Representación numérica del día de la semana, 1 (para lunes) hasta 7 (para domingo)
+
+
+    // date(N) RepresentaciÃ³n numÃ©rica del dÃ­a de la semana, 1 (para lunes) hasta 7 (para domingo)
 	$diaSemanal = date("N", strtotime($myRuffle->getFinalDate()));
 	
 	// De lunes a jueves es el cupon diario
@@ -231,10 +235,12 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
     $idPremiado = $app['db']->fetchAssoc('SELECT id_user FROM ballot WHERE number = ? AND id_ruffle = ? AND status = 2', array($papeletaPremiada,$myRuffle->getID()));
 
     $userPremiado = $app['db']->fetchAssoc('SELECT * FROM user WHERE user.id = ?', array($idPremiado['id_user']));
-   
+
 	if(!is_object($user)){
 		return $app['twig']->render('descripcionSorteo.twig.html', array(
 		'notifications' => null,
+		'notificationsDialog' =>null,
+		'notificationsDialog' =>null,
 		'name' => null,
 		'ruffle' => $myRuffle,
 		'userSorteo' => $userSorteo,
@@ -252,21 +258,16 @@ $app->get('/descripcion/{id}/{title}', function($id, $title) use ($app){
 		));
 	}
 
-	$app['db']->update('notification',array(	
-			'visible' => false
-		),
-		array(
-			'id_user'	=> $user->getId(),
-			'url'	 	=> '/descripcion/'.$id.'/'.$title
-		));
-
-	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sql);
+	$notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+	$notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
+    
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
 
 
 
 	return $app['twig']->render('descripcionSorteo.twig.html', array(
 		'notifications' => $notifications,
+		'notificationsDialog' => $notificationsDialog,
 		'user' => $user,
 		'ruffle' => $myRuffle,
 		'userSorteo' => $userSorteo,
@@ -292,16 +293,10 @@ $app->get('/admin/descripcion/{id}/{title}', function($id, $title) use($app){
 	
     $myRuffle = new Ruffle($id,$app['db']);//Esto no creemos que este demasiado bien
 
-	$app['db']->update('notification',array(	
-			'visible' => false
-		),
-		array(
-			'id_user'	=> $user->getId(),
-			'url'	 	=> '/descripcion/'.$id.'/'.$title
-		));
-
-	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sql);
+	$notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+	$notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
+    
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
 
     $userSorteo = $app['db']->fetchAssoc('SELECT user.* FROM user, ruffle WHERE user.id = ruffle.user_id AND ruffle.id = ?', array($id));
 
@@ -321,6 +316,7 @@ $app->get('/admin/descripcion/{id}/{title}', function($id, $title) use($app){
 
 	return $app['twig']->render('descripcionAdminSorteo.twig.html', array(
 		'notifications' => $notifications,
+		'notificationsDialog' => $notificationsDialog,
 		'user' => $user,
 		'ruffle' => $myRuffle,
 		'userSorteo' => $userSorteo,
@@ -377,9 +373,11 @@ $app->get('/admin/reintegrar/{idUser}/{idSorteo}', function($idUser, $idSorteo) 
 $app->get('/admin', function(Request $request) use ($app){
 	$user = $app['security']->getToken()->getUser();
 
-	$sqlNotifications = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sqlNotifications);
+    $notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+    $notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
     
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
+
     $sqlSorteosPorValidar = "SELECT ruffle.id, ruffle.title, ruffle.price, user.nick FROM ruffle, user WHERE ruffle.visible = 0 AND ruffle.user_id=user.id";
     $sorteosPorValidar = $app['db']->fetchAll($sqlSorteosPorValidar);
     
@@ -409,6 +407,8 @@ $app->get('/admin', function(Request $request) use ($app){
     
 	return $app['twig']->render('dashboardAdmin.twig.html', array(
 		'notifications' => $notifications,
+		'notificationsDialog' => $notificationsDialog,
+		'notificationsDialog' => $notificationsDialog,
 		'sorteosPorValidar' => $sorteosPorValidar,
 		'sorteosTerminados' => $sorteosTerminados,
 		'sorteosDisponibles' => $sorteosDisponibles,
@@ -457,13 +457,16 @@ $app->match('/login', function (Request $request) use ($app) {
 $app->get('/nuevoSorteo', function(Request $request) use ($app){
 	$user = $app['security']->getToken()->getUser();
 
-    $sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sql);
+    $notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+    $notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
+    
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
 
 
 	if(!is_object($user)){
 		return $app['twig']->render('sorteoNuevo.twig.html', array(
 		'notifications' => null,
+		'notificationsDialog' =>null,
 		'name' => null,
 		'menu_selected' => 'nuevoSorteo'
 		));
@@ -471,6 +474,7 @@ $app->get('/nuevoSorteo', function(Request $request) use ($app){
 
 	return $app['twig']->render('sorteoNuevo.twig.html', array(
 		'notifications' => $notifications,
+		'notificationsDialog' => $notificationsDialog,
 		'user' => $user,
 		'menu_selected' => 'nuevoSorteo'
 		));
@@ -488,11 +492,12 @@ $user = $app['security']->getToken()->getUser();
     foreach ($ruffles as $sorteo) {
     	$allRuffles[]=new Ruffle($sorteo['id'], $app['db']);
     }
-    
+    $myRuffle = new Ruffle(1, $app['db']);
     
 	if(!is_object($user)){
 		return $app['twig']->render('index.twig.html', array(
 		'notifications' => null,
+		'notificationsDialog' =>null,
 		'debug' => true,
 		'name' => null,
 		'ruffles' => $allRuffles,
@@ -500,11 +505,14 @@ $user = $app['security']->getToken()->getUser();
 		));
 	}
 
-	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sql);
+	$notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+	$notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
+    
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
 	
 	return $app['twig']->render('index.twig.html', array(
 		'notifications' => $notifications,
+		'notificationsDialog' => $notificationsDialog,
 		'user' => $user,
 		'ruffles' => $allRuffles,
 		'menu_selected' => 'sorteosTerminados'
@@ -518,8 +526,10 @@ $app->get('/perfil', function(Request $request) use($app){
 	
 	$user = $app['security']->getToken()->getUser();
 
-	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sql);
+	$notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+	$notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
+    
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
     
     $sorteosCreados = $app['db']->fetchAll('SELECT ruffle.* FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($user->getNick()));
 
@@ -545,6 +555,7 @@ $app->get('/perfil', function(Request $request) use($app){
 
     return $app['twig']->render('profile.twig.html', array(
     	'notifications' => $notifications,
+    	'notificationsDialog' => $notificationsDialog,
     	'userPerfil' => $usuario,
     	'user' => $user,
     	'email'=> $user->getUsername(),
@@ -572,14 +583,16 @@ $app->get('/perfil/{nick}', function($nick) use($app){
             return $app->redirect('../perfil');
     }
 
-	$sql = "SELECT * FROM notification WHERE id_user = ".$user->getId()." AND visible = true ORDER BY time DESC";
-    $notifications = $app['db']->fetchAll($sql);
+	$notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+	$notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
+    
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
 
     $id = $app['db']->fetchAssoc('SELECT id from user WHERE nick = ?', array($nick));
     
     $ruffles = $app['db']->fetchAll('SELECT ruffle.* FROM ruffle, user WHERE ruffle.user_id = user.id AND user.nick = ?', array($nick));
 
-    $usuario = $app['db']->fetchAssoc('SELECT user.nick, user.picture, user.rango FROM user WHERE user.nick = ?', array($nick));
+    $usuario = $app['db']->fetchAssoc('SELECT user.nick, user.picture, user.rango, user.id FROM user WHERE user.nick = ?', array($nick));
 
     $valoracionMedia = $app['db']->fetchAssoc('SELECT AVG(general) as media FROM opinion WHERE id_user = ?', array($id['id']));
 
@@ -599,6 +612,7 @@ $app->get('/perfil/{nick}', function($nick) use($app){
 
     return $app['twig']->render('perfilPublico.twig.html', array(
     	'notifications' => $notifications,
+    	'notificationsDialog' => $notificationsDialog,
     	'user' => $user,
     	'email'=> $user->getUsername(),
     	'menu_selected' => 'perfil',
@@ -654,6 +668,45 @@ $app->post('/register', function(Request $request) use ($app){
 ->bind('register')
 ;
 
+$app->get('/misMensajes', function() use ($app){
+
+	$user = $app['security']->getToken()->getUser();
+    $app['db']->update('notification',array('visible' => 0), array('visible' => 1, 'id_user_to' => $user->getId()));
+    $app['db']->update('notification',array('dialog' => 1), array('dialog' => 0, 'id_user_to' => $user->getId()));
+	if(!is_object($user)){
+		return $app['twig']->render('mensajes.twig.html', array(
+		'notifications' => null,
+		'notificationsDialog' =>null,
+		'name' => null,
+		'menu_selected' => 'null'
+		));
+	}
+
+	$notifications = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE visible = 1 AND id_user_to =?", array($user->getId()));
+	$notificationsDialog = $app['db']->fetchAssoc("SELECT COUNT(*) as total FROM notification WHERE dialog = 0 AND id_user_to =?", array($user->getId()));
+    
+    $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
+
+    $conversations = $app['db']->fetchAll('SELECT conversation.id, conversation.date, user.nick FROM conversation, user WHERE (conversation.id_user = ? OR conversation.id_user_to = ?) AND ((user.id <> ?) AND (user.id = conversation.id_user_to OR user.id = conversation.id_user)) ORDER BY date DESC', array($user->getId(), $user->getId(), $user->getId()));
+    $mensajes = array();
+    foreach ($conversations as $conversation) {
+    	$mensajesAux = $app['db']->fetchAll('SELECT user.nick, user.picture, user.id, notification.text, notification.time, notification.id as notificationid FROM notification, user WHERE notification.id_conversation = ? AND user.id = notification.id_user ORDER BY notification.time DESC', array($conversation['id']));
+    	array_push($mensajes, $mensajesAux);
+    }
+
+	return $app['twig']->render('mensajes.twig.html', array(
+		'notifications' => $notifications,
+		'notificationsDialog' => $notificationsDialog,
+		'conversations' => $conversations,
+		'mensajes' => $mensajes,
+		'user' => $user,
+		'menu_selected' => 'null'
+		));
+
+})
+->bind('misMensajes')
+;
+
 $app->post('/creaSorteo', function(Request $request) use ($app){
 
 	$user = $app['security']->getToken()->getUser();
@@ -690,12 +743,24 @@ $app->post('/creaSorteo', function(Request $request) use ($app){
 ->bind('creaSorteo')
 ;
 
-$app->post('/mensajePrivado', function(Request $request) use ($app){
-  return new Response("Mensaje recibido: ".$request->get('mensaje'));
-})
-->bind('mensajePrivado')
-;
+$app->post('/crearConversacion', function(Request $request) use ($app){
 
+	$user = $app['security']->getToken()->getUser();
+
+	$app['db']->insert('conversation', array('id_user' => $user->getID(), 'id_user_to' => $request->get('id_user_to')));
+	$id_conversation = $app['db']->lastInsertId();
+
+	$app['db']->insert('notification', array('id_user' => $user->getID(), 'id_user_to' => $request->get('id_user_to'), 'text' => $request->get('mensaje'), 'id_conversation' => $id_conversation));
+
+	return new Response();
+})
+->bind('crearConversacion')
+;
+$app->post('/crearMensaje', function(Request $request) use($app){
+	return new Response();
+})
+->bind('crearMensaje')
+;
 $app->get('/getuser', function () use ($app){
 	$token = $app['security']->getToken();
 	return new Response(var_dump($token->getUser()));
