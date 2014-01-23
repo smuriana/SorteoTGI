@@ -9,13 +9,13 @@
     </div>
     <div id="{{conversation.id}}" class="panel-collapse collapse in">
       <div class="panel-body">
-      	 <ul class="timeline">
+      	 <ul class="timeline" id="{{conversation.id}}">
+            {% include 'mensaje.twig.html' with {'mensaje':mensajes[0], 'button':1} %}
             {% if mensajes|length > 1%}
-        			{% for i in 0..mensajes|length - 2 %}
-        				{% include 'mensaje.twig.html' with {'mensaje':mensajes[i]} %}
+        			{% for i in 1..mensajes|length - 1 %}
+        				{% include 'mensaje.twig.html' with {'mensaje':mensajes[i], 'button':0} %}
         			{% endfor %}
             {% endif %}
-            {% include 'mensaje.twig.html' with {'mensaje':mensajes[mensajes|length - 1]} %}
       	 </ul>
       </div>
     </div>

@@ -121,22 +121,65 @@
       $(this).addClass("active");
    });
 });
+    
     </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{{ app.request.basepath }}/js/jquery.js"></script>
 <script src="{{ app.request.basepath }}/js/jquery.easing.min.js" type="text/javascript"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ app.request.basepath }}/bootstrap/js/bootstrap.min.js"></script>
-  
-    <div class="wrapper">
+
       {% block content %}{% endblock %}
-    </div>
-    {% include "footer.twig.html"%}
+
+      <div id="prueba"></div>
+
       <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-default.css">
       <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex-theme-bottom-right-corner.css">
+      <link rel="stylesheet" href="{{ app.request.basepath }}/css/vex.css">
       <script src="{{ app.request.basepath }}/js/vex.js"></script>
       <script src="{{ app.request.basepath }}/js/vex.dialog.js"></script>
-      
+      <script type="text/javascript">
+        function responder(id_conversacion, id_user_to, nick){
+         vex.dialog.open({
+                  message: '<h4>Responde a @'+nick+'</h4>',
+                  className: 'vex-theme-default',
+                  input: "<textarea rows=\"7\" cols=\"90\" name=\"mensaje\" style=\"resize:none;border-color: black;border-style: solid;border-width: thin;padding: 3px;\" placeholder=\"Escribe aquí lo que quieras decirle a "+nick+id_conversacion+id_user_to+"\" required />",
+                  className: 'vex-theme-default',
+                  buttons: [
+                    $.extend({}, vex.dialog.buttons.YES, {
+                      text: 'Envíar'
+                    }),
+                    $.extend({}, vex.dialog.buttons.NO, {
+                      text: 'Cancelar'
+                    })
+                  ],
+                  callback: function(data) {
+                    if (data === false) {
+                      return console.log('Cancelled');
+                    }
+                    var xmlhttp;
+                    if (window.XMLHttpRequest)
+                      {// code for IE7+, Firefox, Chrome, Opera, Safari
+                      xmlhttp=new XMLHttpRequest();
+                      }
+                    else
+                      {// code for IE6, IE5
+                      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                      }
+                    xmlhttp.onreadystatechange=function()
+                      {
+                      if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                        {
+                          window.location.href = "{{path('misMensajes')}}";
+                        }
+                      }
+                    xmlhttp.open("POST","{{ path('crearMensaje') }}",true);
+                    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xmlhttp.send("mensaje="+data.mensaje+"&id_user_to="+id_user_to+"&id_conversacion="+id_conversacion);
+                      }
+                });
+        };
+      </script>
       {% if is_granted('IS_AUTHENTICATED_FULLY') %}
           <script type="text/javascript">
             window.onload=function(){

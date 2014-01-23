@@ -693,7 +693,6 @@ $app->get('/misMensajes', function() use ($app){
     	$mensajesAux = $app['db']->fetchAll('SELECT user.nick, user.picture, user.id, notification.text, notification.time, notification.id as notificationid FROM notification, user WHERE notification.id_conversation = ? AND user.id = notification.id_user ORDER BY notification.time DESC', array($conversation['id']));
     	array_push($mensajes, $mensajesAux);
     }
-
 	return $app['twig']->render('mensajes.twig.html', array(
 		'notifications' => $notifications,
 		'notificationsDialog' => $notificationsDialog,
@@ -757,7 +756,14 @@ $app->post('/crearConversacion', function(Request $request) use ($app){
 ->bind('crearConversacion')
 ;
 $app->post('/crearMensaje', function(Request $request) use($app){
+	$user = $app['security']->getToken()->getUser();
+
+	$app['db']->insert('notification', array('id_user' => $user->getID(), 'id_user_to' => $request->get('id_user_to'), 'text' => $request->get('mensaje'), 'id_conversation' => $request->get('id_conversacion')));
+	$id_notification = $app['db']->lastInsertId();
+	$mensaje = $app['db']->fetchAssoc("SELECT * from notification WHERE id = ?", array($id_notification));
+	$app['db']->update('conversation',array('date' => $mensaje['time']), array('id' => $request->get('id_conversacion')));
 	return new Response();
+
 })
 ->bind('crearMensaje')
 ;
