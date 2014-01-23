@@ -687,7 +687,7 @@ $app->get('/misMensajes', function() use ($app){
     
     $app['db']->update('notification',array('dialog' => 1),	array('id_user_to'	=> $user->getId(),'dialog' => 0	));
 
-    $conversations = $app['db']->fetchAll('SELECT conversation.id, conversation.date, user.nick FROM conversation, user WHERE (conversation.id_user = ? OR conversation.id_user_to = ?) AND ((user.id <> ?) AND (user.id = conversation.id_user_to OR user.id = conversation.id_user)) ORDER BY date DESC', array($user->getId(), $user->getId(), $user->getId()));
+    $conversations = $app['db']->fetchAll('SELECT conversation.id, conversation.date, user.nick, user.id as id_user_to FROM conversation, user WHERE (conversation.id_user = ? OR conversation.id_user_to = ?) AND ((user.id <> ?) AND (user.id = conversation.id_user_to OR user.id = conversation.id_user)) ORDER BY date DESC', array($user->getId(), $user->getId(), $user->getId()));
     $mensajes = array();
     foreach ($conversations as $conversation) {
     	$mensajesAux = $app['db']->fetchAll('SELECT user.nick, user.picture, user.id, notification.text, notification.time, notification.id as notificationid FROM notification, user WHERE notification.id_conversation = ? AND user.id = notification.id_user ORDER BY notification.time DESC', array($conversation['id']));
