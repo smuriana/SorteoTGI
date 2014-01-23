@@ -10,9 +10,12 @@
     <div id="{{conversation.id}}" class="panel-collapse collapse in">
       <div class="panel-body">
       	 <ul class="timeline">
-			{% for mensaje in mensajes %}
-				{% include 'mensaje.twig.html' with {'mensaje':mensaje} %}
-			{% endfor %}
+            {% if mensajes|length > 1%}
+        			{% for i in 0..mensajes|length - 2 %}
+        				{% include 'mensaje.twig.html' with {'mensaje':mensajes[i]} %}
+        			{% endfor %}
+            {% endif %}
+            {% include 'mensaje.twig.html' with {'mensaje':mensajes[mensajes|length - 1]} %}
       	 </ul>
       </div>
     </div>
