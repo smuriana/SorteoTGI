@@ -427,8 +427,15 @@ $app->get('/admin', function(Request $request) use ($app){
 $app->post('/buyTicket', function(Request $request) use($app){
 
 	$user = $app['security']->getToken()->getUser();
+	$sqlIdSistema = "SELECT id FROM user WHERE nick="."'Sistema"."'";
+    $idSistema = $app['db']->fetchAssoc($sqlIdSistema);
 	$app['db']->insert('ballot', array('id_user' => $user->getID(), 'id_ruffle' => $request->get('RuffleID'), 'number' => $request->get('number')));
-	$app['db']->insert('notification', array('id_user' => $user->getID(), 'url' => '/descripcion/'.$request->get('RuffleID').'/'.$request->get('name'), 'text' => 'Has comprado la papeleta número '.$request->get('number').' para el sorteo de '.$request->get('name'), 'visible' => true));
+	$app['db']->insert('conversation', array('id_user' => $idSistema["id"], 'id_user_to' => $user->getID()));
+	$id_conversation = $app['db']->lastInsertId();
+	$text="Se ha procesado a compra de la papeleta correctamente";
+	$app['db']->insert('notification', array('id_user' => $idSistema["id"], 'id_user_to' => $user->getID(), 'text' => $text, 'id_conversation' => $id_conversation));
+
+	//$app['db']->insert('notification', array('id_user' => $user->getID(), 'url' => '/descripcion/'.$request->get('RuffleID').'/'.$request->get('name'), 'text' => 'Has comprado la papeleta número '.$request->get('number').' para el sorteo de '.$request->get('name'), 'visible' => true));
 	return $app->redirect('index');
 })
 ->bind('buyTicket');
