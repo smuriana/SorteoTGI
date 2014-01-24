@@ -18,7 +18,7 @@
                         <h3><a class="clearA" href="{{ app.request.basepath }}/perfil/{{userSorteo.nick}}">@{{userSorteo.nick}}</a></h3>
                         {% if userSorteo.rango == 0 %}
                             <h4>Nuevo en Sortilandia</h4>
-                        {% elseif userSorteo.rango == 1 %}
+                        {% elseif userSorteo.rango == 1 %}glyphicon glyphicon-wrench
                             <h4>Enterao</h4>
                         {% elseif userSorteo.rango == 2 %}
                             <h4>Asiduo de Sortilandia</h4>
@@ -29,13 +29,13 @@
                         {% elseif userSorteo.rango == 5 %}
                             <h4>Capaz de sortear a su madre</h4>
                         {% elseif userSorteo.rango == 6 %}
-                            Kenny is sick.
+                            <h4>Capaz de sortear a su madre</h4>
                         {% elseif userSorteo.rango == 7 %}
-                            You killed Kenny! You bastard!!!
+                            <h4>Developer <span class="glyphicon glyphicon-wrench"></span></h4>
                         {% elseif userSorteo.rango == 8 %}
-                            Kenny is sick.
+                            <h4>Capaz de sortear a su madre</h4>
                         {% elseif userSorteo.rango == 9 %}
-                            You killed Kenny! You bastard!!!
+                            <h4>Capaz de sortear a su madre</h4>
                         {% endif %}
                     </div>
                     <div class="col-xs-12 col-md-4 text-center" style="padding-top:2%;">
@@ -73,7 +73,7 @@
                         </div>
                         {% if userSorteo.nick != user.getNick %}
                             <div>
-                                <p class="open" style="cursor: pointer;"><span class="glyphicon glyphicon-edit"></span> Enviar mensaje privado</p>
+                                <p class="open" style="cursor: pointer;"><span class="glyphicon glyphicon-comment"></span> Enviar mensaje privado</p>
                             </div>
                         {% endif %}
                     </div>
